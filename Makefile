@@ -1,8 +1,11 @@
-all: dist/wl_installed
+all: dist/wl_installed reports
 	@echo "Done."
 
 # Convenience targets
-.PHONY: all
+.PHONY: all reports
+
+reports:
+	$(MAKE) -C $@
 
 dist:
 	mkdir -p dist
