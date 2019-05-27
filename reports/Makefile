@@ -4,7 +4,7 @@ all: $(REPORTS) output
 
 .PHONY: $(REPORTS)
 
-$(REPORTS): output
+$(REPORTS): | output
 	$(MAKE) -C $@
 
 output:

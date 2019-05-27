@@ -10,7 +10,7 @@ reports:
 dist:
 	mkdir -p dist
 
-dist/wl_installed: dist src/wl/namConductivity.wl
+dist/wl_installed: src/wl/namConductivity.wl | dist
 	@$(eval MATHEMATICA_INSTALL_LOCATION=$(shell wolframscript -c 'FileNameJoin[{StringReplace[$$UserBaseDirectory, "\\" -> "/"], "Applications", "namConductivity"}, OperatingSystem -> "Unix"]'))
 	mkdir -p $(MATHEMATICA_INSTALL_LOCATION)
 	cp src/wl/namConductivity.wl $(MATHEMATICA_INSTALL_LOCATION)
