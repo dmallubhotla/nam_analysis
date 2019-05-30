@@ -65,6 +65,10 @@ Here we dropped the second leading term in $\kappa^3$ before simplifying, to fin
 \section{Graphing the conductivity} \label{sec:NamForm.Graph}
 
 One way we can verify that our code behaves as desired is to check that graphs of the conductivity show features that we would expect.
+For all of our graphs, the easiest to visualise is the impurity parameter.
+For a longer mean free path, we can see a higher conductivity, as expected.
+Like was mentioned above, for graphs of $\Sigma$ we won't see the full dependence on the collision frequency, because normal conductivity depends on the scattering time as well.
+To keep the visualisations cleaner, we'll fix the collision frequency here and see how $\nu = .1$ compares to $\nu = 10$ at most.\todo{Include a couple graphs showing that $\nu$ isn't actually important}
 
 \subsection{$\xi$ dependence} \label{subsec:NamForm.Graph.OmegaDep}
 To begin with, we can look at the simplest case for $\kappa = 0$ and $t = 0$. \todo{Include t = 0 frequency = 0 graphs, real and imaginary}
@@ -81,5 +85,9 @@ As expected, we can see that the behaviour as a function of $\kappa$ is as expec
 \subsection{$t$ dependence} \label{subsec:NamForm.Graph.TDep}
 Similarly, we can show the graph here as a function of $t$. \todo{Show graphs vs reduced temp}
 Because we are making things dimensionless as a function of $\Delta$, which itself depends on temperature, it may also be helpful to write $\Delta = f(T, T_c)$\todo{get real equation} and graph with the actual temperature dependence induced by $\Delta$. \todo{Include those graphs with actual temp dependence of energy gap and temperature dependent scale}
+
+\section{Signs of conductivity real and imaginary part} \label{sec:NamForm.Signs}
+From the graphs above, we can see the signs obtained for real and imaginary parts of $\Sigma$. \todo{Find some nice arguments showing exactly what sign the conductivity needs to have in particular regions and make sure that graph replicates them. And make sure to work out explicitly what Nam predicts for sign.}
+There are some places where the sign must be handled carefully; the code used to generate the plots above differ from Nam in a couple places \todo{include notation and notes that show where and how they differ}.
 
 \end{document}
