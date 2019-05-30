@@ -61,5 +61,20 @@ Plugging the first two terms into~\eqref{eq:NamForm:FPreLnExpand} gives us
 \end{align}
 Here we dropped the second leading term in $\kappa^3$ before simplifying, to find that $F$ does indeed approximate a constant value.
 
+\todo{Everything onwards needs serious editing}
+\section{Graphing the conductivity} \label{sec:NamForm.Graph}
+
+One way we can verify that our code behaves as desired is to check that graphs of the conductivity show features that we would expect.
+
+\subsection{$\xi$ dependence} \label{subsec:NamForm.Graph.OmegaDep}
+To begin with, we can look at the simplest case for $\kappa = 0$ and $t = 0$. \todo{Include t = 0 frequency = 0 graphs, real and imaginary}
+As expected, we see that for $\xi < 2$ that there is no real conductivity. This makes sense; there are no available states in the gap for conductivity to occur. \todo{maybe explicitly show where this comes from in the Nam equation?}
+For non-zero temperatures, we see that there are low energy excitations, leading to a cusp in the graph and a non-zero real part in the gap. \todo{Include nonzero T vs frequency graphs}
+
+Also, for $\kappa \rightarrow 0$ we expect that we should be in the local limit.
+This was explored in the Zimmermann paper, and we can compare that our graphs here for $\kappa = 0$ have the right form. \todo{Include ref to zimmermann paper and make sure graphs match}
+
+\subsection{$\kappa$ dependence} \label{subsec:NamForm.Graph.KDep}
+As expected, we can see that the behaviour as a function of $\kappa$ is as expected, with the conductivity becoming real as $\kappa \rightarrow 0$, but going as $\frac{1}{\kappa}$ for large $\kappa$. \todo{Include graphs against kappa both for small frequency high temp and high frequency low temp (and I guess high frequency high temp if desired}
 
 \end{document}
