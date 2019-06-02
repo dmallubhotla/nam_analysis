@@ -114,8 +114,31 @@ Also, for $\kappa \rightarrow 0$ we expect that we should be in the local limit.
 This was explored in the Zimmermann paper, and we can compare that our graphs here for $\kappa = 0$ have the right form. \todo{Include ref to zimmermann paper and make sure graphs match}
 
 \subsection{$\kappa$ dependence} \label{subsec:NamForm.Graph.KDep}
-As expected, we can see that the behaviour as a function of $\kappa$ is as expected, with the conductivity becoming real as $\kappa \rightarrow 0$, but going as $\frac{1}{\kappa}$ for large $\kappa$. \todo{Include graphs against kappa both for small frequency high temp and high frequency low temp (and I guess high frequency high temp if desired}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ReT0V1vsKmultW}
+	\caption{$\Re[\Sigma(\xi, \kappa)],$ at $t = 0$} \label{fig:ReT0V1vsKmultW}
+\end{figure}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ImT0V1vsKmultW}
+	\caption{$\Im[\Sigma(\xi, \kappa)],$ at $t = 0$} \label{fig:ImT0V1vsKmultW}
+\end{figure}
 
+As expected, we can see that the behaviour as a function of $\kappa$ is as expected, with the conductivity becoming real as $\kappa \rightarrow 0$, but going as $\frac{1}{\kappa}$ for large $\kappa$.
+In \fref{fig:ReT0V1vsKmultW} we see the expected result that the conductivity is zero for $\xi < 2$.
+However, in \fref{fig:ReT1V1vsKmultW}, with a non-zero temperature there are now non-zero conductivities for all $\xi$.
+The Nam form has a peak depending on $\xi$, which is something not captured by the $\flatfrac{L_{imp}}{1 + \kappa L_{imp}}$ approximation.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ReT1V1vsKmultW}
+	\caption{$\Re[\Sigma(\xi, \kappa)],$ at $t = 1$} \label{fig:ReT1V1vsKmultW}
+\end{figure}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ImT1V1vsKmultW}
+	\caption{$\Im[\Sigma(\xi, \kappa)],$ at $t = 1$} \label{fig:ImT1V1vsKmultW}
+\end{figure}
 
 \subsection{$t$ dependence} \label{subsec:NamForm.Graph.TDep}
 Similarly, we can show the graph here as a function of $t$. \todo{Show graphs vs reduced temp}

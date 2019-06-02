@@ -17,6 +17,7 @@ clean:
 figures:
 	mkdir -p figures
 
+USED_FIGS = figures/ReT0K1vsWmultV.jpg figures/ReT0V1vsWmultK.jpg figures/ImT0V1vsWmultK.jpg figures/ReT1V1vsWmultK.jpg figures/ImT1V1vsWmultK.jpg figures/ReT0V1vsKmultW.jpg figures/ImT0V1vsKmultW.jpg figures/ReT1V1vsKmultW.jpg figures/ImT1V1vsKmultW.jpg
 #Figures after here
 figures/ReT0K1vsWmultV.jpg: scripts/ConductivityRe_T0K1vsWmultV.wls | figures
 	$(WS) scripts/ConductivityRe_T0K1vsWmultV.wls
@@ -33,6 +34,17 @@ figures/ReT1V1vsWmultK.jpg: scripts/ConductivityRe_T1V1vsWmultK.wls | figures
 figures/ImT1V1vsWmultK.jpg: scripts/ConductivityIm_T1V1vsWmultK.wls | figures
 	$(WS) scripts/ConductivityIm_T1V1vsWmultK.wls
 
+figures/ReT0V1vsKmultW.jpg: scripts/ConductivityRe_T0V1vsKmultW.wls | figures
+	$(WS) scripts/ConductivityRe_T0V1vsKmultW.wls
 
-initial_notes.pdf: initial_notes.tex figures/ReT0K1vsWmultV.jpg figures/ReT0V1vsWmultK.jpg figures/ImT0V1vsWmultK.jpg figures/ReT1V1vsWmultK.jpg figures/ImT1V1vsWmultK.jpg
+figures/ImT0V1vsKmultW.jpg: scripts/ConductivityIm_T0V1vsKmultW.wls | figures
+	$(WS) scripts/ConductivityIm_T0V1vsKmultW.wls
+
+figures/ReT1V1vsKmultW.jpg: scripts/ConductivityRe_T1V1vsKmultW.wls | figures
+	$(WS) scripts/ConductivityRe_T1V1vsKmultW.wls
+
+figures/ImT1V1vsKmultW.jpg: scripts/ConductivityIm_T1V1vsKmultW.wls | figures
+	$(WS) scripts/ConductivityIm_T1V1vsKmultW.wls
+
+initial_notes.pdf: initial_notes.tex $(USED_FIGS)
 	$(LATEXMK) initial_notes.tex
