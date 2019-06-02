@@ -4,6 +4,7 @@ dist
 *.aux
 *.fdb_latexmk
 *.fls
+*.tdo
 *.log
 *.pdf
 *.jpg
