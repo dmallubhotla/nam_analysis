@@ -8,6 +8,8 @@
 \usepackage{todonotes}
 \usepackage{graphicx}
 \usepackage[plain]{fancyref}
+\usepackage[style=phys]{biblatex}
+\addbibresource{initial_notes.bib}
 
 % Document
 \begin{document}
@@ -16,7 +18,7 @@
 
 \section{Nam form of conductivity} \label{sec:NamForm}
 
-Notes on the Nam conductivity function.
+Notes on the Nam conductivity function.\supercite{Nam1967}
 We'll want to do the calculations dimensionlessly.
 To remove units, we'll want to represent all the various quantities in terms of $\Delta$:
 \begin{align}
@@ -111,7 +113,7 @@ there are no available states in the gap for conductivity to occur. \todo{maybe 
 For non-zero temperatures, we see in \fref{fig:ReT1V1vsWmultK} that there are low energy excitations, leading to a cusp in the graph and a non-zero real part in the gap.
 
 Also, for $\kappa \rightarrow 0$ we expect that we should be in the local limit.
-This was explored in the Zimmermann paper, and we can compare that our graphs here for $\kappa = 0$ have the right form. \todo{Include ref to zimmermann paper and make sure graphs match}
+This was explored in the Zimmermann paper\supercite{Zimmermann1991}, and we can compare that our graphs here for $\kappa = 0$ have the right form. \todo{Include ref to zimmermann paper and make sure graphs match}
 
 \subsection{$\kappa$ dependence} \label{subsec:NamForm.Graph.KDep}
 \begin{figure}[htp]
@@ -152,5 +154,7 @@ The Nam form has a peak depending on $\xi$, which is something not captured by t
 
 \newpage
 \listoftodos
+\newpage
+\printbibliography
 
 \end{document}
