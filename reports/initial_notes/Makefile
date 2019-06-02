@@ -46,5 +46,5 @@ figures/ReT1V1vsKmultW.jpg: scripts/ConductivityRe_T1V1vsKmultW.wls | figures
 figures/ImT1V1vsKmultW.jpg: scripts/ConductivityIm_T1V1vsKmultW.wls | figures
 	$(WS) scripts/ConductivityIm_T1V1vsKmultW.wls
 
-initial_notes.pdf: initial_notes.tex $(USED_FIGS)
+initial_notes.pdf: initial_notes.tex initial_notes.bib $(USED_FIGS)
 	$(LATEXMK) initial_notes.tex
