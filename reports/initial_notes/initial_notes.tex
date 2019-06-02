@@ -3,13 +3,22 @@
 
 % Packages
 \usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{physics}
+\usepackage{todonotes}
+\usepackage{graphicx}
+\usepackage[plain]{fancyref}
+\usepackage[style=phys]{biblatex}
+\addbibresource{initial_notes.bib}
 
 % Document
 \begin{document}
 
+\graphicspath{{figures/}}
+
 \section{Nam form of conductivity} \label{sec:NamForm}
 
-Notes on the Nam conductivity function.
+Notes on the Nam conductivity function.\supercite{Nam1967}
 We'll want to do the calculations dimensionlessly.
 To remove units, we'll want to represent all the various quantities in terms of $\Delta$:
 \begin{align}
@@ -61,5 +70,90 @@ Plugging the first two terms into~\eqref{eq:NamForm:FPreLnExpand} gives us
 \end{align}
 Here we dropped the second leading term in $\kappa^3$ before simplifying, to find that $F$ does indeed approximate a constant value.
 
+\section{Graphing the conductivity} \label{sec:NamForm.Graph}
+
+One way we can verify that our code behaves as desired is to check that graphs of the conductivity show features that we would expect.
+For all of our graphs, the easiest to visualise is the impurity parameter.
+For a longer mean free path, we can see a higher conductivity, as expected.
+As mentioned above, because both the superconducting and the normal conductivity depend on scattering time, graphs of $\Sigma$ will reflect both dependencies.
+This can be seen in \fref{fig:ReT0K1vsWmultV}, which shows for instance that the large frequency dependence of $\Sigma$ appears proportional to $\nu$, which reflects a $\nu^{-1}$ dependence in the normal conductivity.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ReT0K1vsWmultV}
+	\caption{$\Re[\Sigma(\xi, \kappa =1)],$ at $t = 0$, showing the gap for $\xi < 2$.} \label{fig:ReT0K1vsWmultV}
+\end{figure}
+All other figures are at $\nu = 1$.
+
+\subsection{$\xi$ dependence} \label{subsec:NamForm.Graph.OmegaDep}
+To begin with, we can look at the simplest case for $\kappa = 0$ and $t = 0$, as graphed in \fref{fig:ReT0V1vsWmultK} and \fref{fig:ImT0V1vsWmultK}.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ReT0V1vsWmultK}
+	\caption{$\Re[\Sigma(\xi, \kappa)],$ at $t = 0$} \label{fig:ReT0V1vsWmultK}
+\end{figure}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ImT0V1vsWmultK}
+	\caption{$\Im[\Sigma(\xi, \kappa)],$ at $t = 0$} \label{fig:ImT0V1vsWmultK}
+\end{figure}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ReT1V1vsWmultK}
+	\caption{$\Re[\Sigma(\xi, \kappa)],$ at $t = 1$, showing conductivity in forbidden zone} \label{fig:ReT1V1vsWmultK}
+\end{figure}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ImT1V1vsWmultK}
+	\caption{$\Im[\Sigma(\xi, \kappa)],$ at $t = 1$} \label{fig:ImT1V1vsWmultK}
+\end{figure}
+As expected, we see that for $\xi < 2$ that there is no real conductivity.
+This makes sense;
+there are no available states in the gap for conductivity to occur. \todo{maybe explicitly show where this comes from in the Nam equation?}
+For non-zero temperatures, we see in \fref{fig:ReT1V1vsWmultK} that there are low energy excitations, leading to a cusp in the graph and a non-zero real part in the gap.
+
+Also, for $\kappa \rightarrow 0$ we expect that we should be in the local limit.
+This was explored in the Zimmermann paper\supercite{Zimmermann1991}, and we can compare that our graphs here for $\kappa = 0$ have the right form. \todo{Include ref to zimmermann paper and make sure graphs match}
+
+\subsection{$\kappa$ dependence} \label{subsec:NamForm.Graph.KDep}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ReT0V1vsKmultW}
+	\caption{$\Re[\Sigma(\xi, \kappa)],$ at $t = 0$} \label{fig:ReT0V1vsKmultW}
+\end{figure}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ImT0V1vsKmultW}
+	\caption{$\Im[\Sigma(\xi, \kappa)],$ at $t = 0$} \label{fig:ImT0V1vsKmultW}
+\end{figure}
+
+As expected, we can see that the behaviour as a function of $\kappa$ is as expected, with the conductivity becoming real as $\kappa \rightarrow 0$, but going as $\frac{1}{\kappa}$ for large $\kappa$.
+In \fref{fig:ReT0V1vsKmultW} we see the expected result that the conductivity is zero for $\xi < 2$.
+However, in \fref{fig:ReT1V1vsKmultW}, with a non-zero temperature there are now non-zero conductivities for all $\xi$.
+The Nam form has a peak depending on $\xi$, which is something not captured by the $\flatfrac{L_{imp}}{1 + \kappa L_{imp}}$ approximation.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ReT1V1vsKmultW}
+	\caption{$\Re[\Sigma(\xi, \kappa)],$ at $t = 1$} \label{fig:ReT1V1vsKmultW}
+\end{figure}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ImT1V1vsKmultW}
+	\caption{$\Im[\Sigma(\xi, \kappa)],$ at $t = 1$} \label{fig:ImT1V1vsKmultW}
+\end{figure}
+
+%\subsection{$t$ dependence} \label{subsec:NamForm.Graph.TDep}
+%Similarly, we can show the graph here as a function of $t$. \todo{Show graphs vs reduced temp}
+%Because we are making things dimensionless as a function of $\Delta$, which itself depends on temperature, it may also be helpful to write $\Delta = f(T, T_c)$\todo{get real equation} and graph with the actual temperature dependence induced by $\Delta$. \todo{Include those graphs with actual temp dependence of energy gap and temperature dependent scale}
+
+%\section{Signs of conductivity real and imaginary part} \label{sec:NamForm.Signs}
+%From the graphs above, we can see the signs obtained for real and imaginary parts of $\Sigma$. \todo{Find some nice arguments showing exactly what sign the conductivity needs to have in particular regions and make sure that graph replicates them.
+%And make sure to work out explicitly what Nam predicts for sign.}
+%There are some places where the sign must be handled carefully;
+%the code used to generate the plots above differ from Nam in a couple places \todo{include notation and notes that show where and how they differ}.
+
+\newpage
+\listoftodos
+\newpage
+\printbibliography
 
 \end{document}
