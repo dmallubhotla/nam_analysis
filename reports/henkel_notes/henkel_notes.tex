@@ -8,18 +8,23 @@
 \usepackage{todonotes}
 \usepackage{graphicx}
 \usepackage[plain]{fancyref}
-\usepackage[style=phys]{biblatex}
+\usepackage[
+	style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pageranges=false
+]{biblatex}
 \addbibresource{henkel_notes.bib}
 
 % Document
 \begin{document}
 
-% \graphicspath{{figures/}}
+	% \graphicspath{{figures/}}
 
 	\section{Notes on noise calculation} \label{sec:NoiseCalc}
-\newpage
-\listoftodos
-\newpage
-\printbibliography
+	An excellent review of the calculation of relaxation rates is available in~\cite{Henkel1999}.
+	The theory behind the noise calculations comes in large part from~\cite{Agarwal1975}.
+
+	\newpage
+	\listoftodos
+	\newpage
+	\printbibliography
 
 \end{document}
