@@ -19,11 +19,11 @@
 
 	% \graphicspath{{figures/}}
 
-	\section{Notes on noise calculation} \label{sec:NoiseCalc}
+	\section{Henkel notes} \label{sec:NoiseCalc}
 	An excellent review of the calculation of relaxation rates is available in~\cite{Henkel1999}.
 	The theory behind the noise calculations comes in large part from~\cite{Agarwal1975}.
 
-	\subsection{Results} \label{subsec:NoiseCalcResults}
+	\subsection{Noise calc results} \label{subsec:NoiseCalcResults}
 	In~\cite{Henkel1999}, the authors find that the noise depends on the spectral field density.
 	They consider a system with an infinite conducting plane a distance $z$ away from a trap;
 	the geometry here affects the Green functions that they use, so these results are specific to that geometry.
@@ -49,6 +49,16 @@
 		h_\parallel = \frac34 \Re \int_0^{+\infty} \dd{u} \frac{u}{v} e^{2i \lambda v} \left(r_p(u) + \left(u^2 - 1\right) r_s(u) \right) \\
 		h_\perp = \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i \lambda v} r_s(u)
 	\end{gather}
+
+	\subsection{Reflection coefficients} \label{subsec:ReflectionCoeffs}
+	This shows that the only dependence on the properties of the conducting material comes in through the reflection coefficients $r_p$ and $r_s$.
+	The standard Fresnel coefficients defined by
+	\begin{align}
+		r_p(u) = \frac{\epsilon v - \sqrt{\epsilon - u^2}}{\epsilon v + \sqrt{\epsilon - u^2}} \\
+		r_s(u) = \frac{v - \sqrt{\epsilon - u^2}}{v + \sqrt{\epsilon - u^2}}
+	\end{align}
+	can serve as a local equation \todo{add plots showing what the actual graphs of the noise look like with the Fresnel reflection coefficients};
+	they can, however, be extended by calculating the surface impedances as described by~\cite{Ford1984}.
 
 	\newpage
 	\listoftodos
