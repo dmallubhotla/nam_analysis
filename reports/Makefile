@@ -1,4 +1,4 @@
-REPORTS = initial_notes
+REPORTS = initial_notes henkel_notes
 
 all: $(REPORTS) output
 
