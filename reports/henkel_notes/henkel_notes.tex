@@ -4,6 +4,7 @@
 % Packages
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{siunitx}
 \usepackage{physics}
 \usepackage{todonotes}
 \usepackage{graphicx}
@@ -17,7 +18,7 @@
 % Document
 \begin{document}
 
-	% \graphicspath{{figures/}}
+	\graphicspath{{figures/}}
 
 	\section{Henkel notes} \label{sec:NoiseCalc}
 	An excellent review of the calculation of relaxation rates is available in~\cite{Henkel1999}.
@@ -71,7 +72,7 @@
 
 	\section{Sample calculations} \label{sec:SampleCalcs}
 
-	\subsection{Perfect conductor Fresnel noise} \label{subsec:sample:fresnelperfect}
+	\subsection{Good conductor Fresnel noise} \label{subsec:sample:fresnelperfect}
 
 	As a sanity check we can look at the case of a perfect conductor, with $\epsilon = + i \infty$ (or $\epsilon = 1 + i \infty$, the $1$ doesn't matter).
 	This gives us $r_p(u) = 1 + 0 i$ and $r_p(u) = -1 + 0 i$.
@@ -80,6 +81,17 @@
 		g_{\parallel} &= \frac{3}{4} \left(\frac{\sin{2 \lambda}}{4 \lambda^3} - \frac{\cos{2 \lambda}}{2 \lambda^2} - \frac{\sin{2 \lambda}}{\lambda}\right) \\
 		g_{\perp} &= \frac32 \left( \frac{\sin{2 \lambda}}{4 \lambda^3} - \frac{\cos{2 \lambda}}{2 \lambda^2} \right)
 	\end{align}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=14cm]{SampleElectricNoiseFresnelPerfectConductor}
+		\caption{graphs for $\epsilon - 1$, analytic case is $i \infty$} \label{fig:SampleElectricNoiseFresnelPerfect}
+	\end{figure}
+
+	To get a sense of what this looks like, \fref{fig:SampleElectricNoiseFresnelPerfect} shows $g_{\parallel}(\lambda)$, comparing values for good conductors (with large imaginary part of $\epsilon$).
+	We can see that as the conductivity gets larger, the graph more closely represents the analytic solution, but for all finite conductivities the graph diverges for small $\lambda$.
+	Typically, the $\lambda$ range of interest is very small: for $z = \SI{1}{\micro\meter}$ and gigahertz frequencies, $\lambda \sim 10^{-5}$.
+	This divergent region is unsuitable for the Fresnel equation \todo{Because it diverges, maybe need to clarify?}.
 
 	\newpage
 	\listoftodos

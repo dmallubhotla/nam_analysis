@@ -1,4 +1,4 @@
-LATEXMK = latexmk -use-make -g -lualatex
+LATEXMK = latexmk -g -lualatex
 WS = wolframscript -f
 
 all: ../output/henkel_notes.pdf
@@ -17,5 +17,11 @@ clean:
 figures:
 	mkdir -p figures
 
-henkel_notes.pdf: henkel_notes.tex henkel_notes.bib
+USED_FIGS = figures/SampleElectricNoiseFresnelPerfectConductor.jpg
+
+figures/SampleElectricNoiseFresnelPerfectConductor.jpg: scripts/SampleElectricNoiseFresnelPerfectConductor.wls | figures
+	$(WS) scripts/SampleElectricNoiseFresnelPerfectConductor.wls
+
+henkel_notes.pdf: henkel_notes.tex henkel_notes.bib $(USED_FIGS)
 	$(LATEXMK) henkel_notes.tex
+
