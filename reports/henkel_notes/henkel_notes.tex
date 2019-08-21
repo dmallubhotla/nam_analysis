@@ -69,6 +69,18 @@
 	\end{align}
 	To calculate this for SCs, we can calculate the conductivity $\sigma$ and use (noting that the arguments of these functions are no longer dimensionless) $\epsilon(k, \omega) = 1 + i \frac{4 \pi}{\omega} \sigma(k, \omega)$\todo{is this actually true in this context, or do we need to show that it's actually true in the case here for SCs where we have a nonlocal response?}.
 
+	\section{Sample calculations} \label{sec:SampleCalcs}
+
+	\subsection{Perfect conductor Fresnel noise} \label{subsec:sample:fresnelperfect}
+
+	As a sanity check we can look at the case of a perfect conductor, with $\epsilon = + i \infty$ (or $\epsilon = 1 + i \infty$, the $1$ doesn't matter).
+	This gives us $r_p(u) = 1 + 0 i$ and $r_p(u) = -1 + 0 i$.
+	It turns out that the noise integral can be done analytically in that case, giving
+	\begin{align}
+		g_{\parallel} &= \frac{3}{4} \left(\frac{\sin{2 \lambda}}{4 \lambda^3} - \frac{\cos{2 \lambda}}{2 \lambda^2} - \frac{\sin{2 \lambda}}{\lambda}\right) \\
+		g_{\perp} &= \frac32 \left( \frac{\sin{2 \lambda}}{4 \lambda^3} - \frac{\cos{2 \lambda}}{2 \lambda^2} \right)
+	\end{align}
+
 	\newpage
 	\listoftodos
 	\newpage
