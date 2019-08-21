@@ -16,6 +16,7 @@
 \addbibresource{henkel_notes.bib}
 
 % Document
+% !TeX spellcheck = en_GB
 \begin{document}
 
 	\graphicspath{{figures/}}
@@ -88,10 +89,20 @@
 		\caption{graphs for $\epsilon - 1$, analytic case is $i \infty$} \label{fig:SampleElectricNoiseFresnelPerfect}
 	\end{figure}
 
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=14cm]{SampleElectricNoiseZetaPerfectConductor}
+		\caption{Using $\zeta$ formulation, graphs for $\epsilon - 1$, analytic case is $i \infty$} \label{fig:SampleElectricNoiseZetaPerfect}
+	\end{figure}
+
 	To get a sense of what this looks like, \fref{fig:SampleElectricNoiseFresnelPerfect} shows $g_{\parallel}(\lambda)$, calculated using the Fresnel coefficients with $\epsilon$ with large imaginary parts to represent good conductors.
 	We can see that as the conductivity gets larger, the graph more closely represents the analytic solution, but for all finite conductivities the graph diverges for small $\lambda$.
 	Typically, the $\lambda$ range of interest is very small: for $z = \SI{1}{\micro\meter}$ and gigahertz frequencies, $\lambda \sim 10^{-5}$.
 	This divergent region is unsuitable for the Fresnel equation \todo{Because it diverges, maybe need to clarify?}.
+
+	In \fref{fig:SampleElectricNoiseZetaPerfect} we can see that using the surface impedance forms displays the same relationships for constant $\epsilon$, which is a good sanity check.
+	We do run into issues now with nested integrals, which is why it's quicker to create list plots which can be easily parallelised.
+	That graph is generated with a Mathematica ListPlot which is then joined\todo{Show mesh or something?}.
 
 	\newpage
 	\listoftodos
