@@ -69,7 +69,7 @@
 		\zeta_s(u) &= 2i \int_0^\infty \dd{y} \frac{1}{\epsilon_t(\frac{\omega}{c}\kappa, \omega) - \kappa^2} \\
 		\kappa^2 &= u^2 + y^2
 	\end{align}
-	To calculate this for SCs, we can calculate the conductivity $\sigma$ and use (noting that the arguments of these functions are no longer dimensionless) $\epsilon(k, \omega) = 1 + i \frac{4 \pi}{\omega} \sigma(k, \omega)$\todo{is this actually true in this context, or do we need to show that it's actually true in the case here for SCs where we have a nonlocal response?}.
+	To calculate this for SCs, we can calculate the conductivity $\sigma$ and use (noting that the arguments of these functions are no longer dimensionless) $\epsilon(k, \omega) = 1 + i \frac{4 \pi}{\omega} \sigma(k, \omega)$%\todo{is this actually true in this context, or do we need to show that it's actually true in the case here for SCs where we have a nonlocal response?}.
 
 	\section{Sample calculations} \label{sec:SampleCalcs}
 
@@ -103,6 +103,29 @@
 	In \fref{fig:SampleElectricNoiseZetaPerfect} we can see that using the surface impedance forms displays the same relationships for constant $\epsilon$, which is a good sanity check.
 	We do run into issues now with nested integrals, which is why it's quicker to create list plots which can be easily parallelised.
 	That graph is generated with a Mathematica ListPlot which is then joined\todo{Show mesh or something?}.
+
+	\subsection{Conductivity in region of interest} \label{subsec:sample:namresult}
+	We can look at \fref{fig:ConductivityRe} and \fref{fig:ConductivityIm} to try to get an understanding of what $\Sigma$ actually does for physical values.
+	Some typical values for the noise calculation look like $\xi = .01$, $\nu = 700$ and $\kappa ~ .0005$.
+	This is a fairly extreme value range for the frequency and momentum, and this leads to some noisiness in the results.
+	Comparing this to the other conductivity graphs, we can see that the actual values for $\Sigma$ are very large here, which potentially explains to some extent where the noise actually comes from.
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=14cm]{ReT1V700vsKmultW}
+		\caption{Real part of Nam conductivity vs $\kappa$, with $\nu = 700$, roughly corresponding to a range for $u$ between $0$ and $10$.} \label{fig:ConductivityRe}
+	\end{figure}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=14cm]{ImT1V700vsKmultW}
+		\caption{Imaginary part of Nam conductivity vs $\kappa$, with $\nu = 700$, roughly corresponding to a range for $u$ between $0$ and $10$.} \label{fig:ConductivityIm}
+	\end{figure}
+
+	There are potentially different strategies for dealing with these results.
+	Perhaps the quickest is to note that the values for conductivity drop off quickly, and so some of our integrals can be cut off quickly.\todo{Implement, and see how it looks}
+	This could potentially reduce the integral from $u = 0$ to $\infty$ down to a range of $u$ from $0$ to $10$.
+	We can also get a sense of the shape of the drop and approximate it with a similarly shaped easily integrable function, and then scale out the large magnitude factor.
 
 	\newpage
 	\listoftodos
