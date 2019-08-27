@@ -17,13 +17,16 @@ clean:
 figures:
 	mkdir -p figures
 
-USED_FIGS = figures/SampleElectricNoiseFresnelPerfectConductor.jpg figures/SampleElectricNoiseZetaPerfectConductor.jpg figures/ReT1V700vsKmultW.jpg figures/ImT1V700vsKmultW.jpg
+USED_FIGS = figures/SampleElectricNoiseFresnelPerfectConductor.jpg figures/SampleElectricNoiseZetaPerfectConductor.jpg figures/ReT1V700vsKmultW.jpg figures/ImT1V700vsKmultW.jpg figures/SampleElectricNoiseNamZerothOrder.jpg
 
 figures/SampleElectricNoiseFresnelPerfectConductor.jpg: scripts/SampleElectricNoiseFresnelPerfectConductor.wls | figures
 	$(WS) scripts/SampleElectricNoiseFresnelPerfectConductor.wls
 
 figures/SampleElectricNoiseZetaPerfectConductor.jpg: scripts/SampleElectricNoiseZetaPerfectConductor.wls | figures
 	$(WS) scripts/SampleElectricNoiseZetaPerfectConductor.wls
+
+figures/SampleElectricNoiseNamZerothOrder.jpg: scripts/SampleElectricNoiseNamZerothOrder.wls | figures
+	$(WS) scripts/SampleElectricNoiseNamZerothOrder.wls
 
 figures/ReT1V700vsKmultW.jpg: scripts/ConductivityRe_T1V700vsKmultW.wls | figures
 	$(WS) scripts/ConductivityRe_T1V700vsKmultW.wls
