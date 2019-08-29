@@ -1,12 +1,12 @@
 LATEXMK = latexmk -g -lualatex
 WS = wolframscript -f
 
-all: ../output/henkel_notes.pdf
+all: ../output/noise_notes.pdf
 
 .PHONY: all clean
 
-../output/henkel_notes.pdf: henkel_notes.pdf | ../output
-	cp henkel_notes.pdf ../output/
+../output/noise_notes.pdf: noise_notes.pdf | ../output
+	cp noise_notes.pdf ../output/
 
 clean:
 	latexmk -C
@@ -37,6 +37,6 @@ figures/ReT1V700vsKmultW.jpg: scripts/ConductivityRe_T1V700vsKmultW.wls | figure
 figures/ImT1V700vsKmultW.jpg: scripts/ConductivityIm_T1V700vsKmultW.wls | figures
 	$(WS) scripts/ConductivityIm_T1V700vsKmultW.wls
 
-henkel_notes.pdf: henkel_notes.tex henkel_notes.bib $(USED_FIGS)
-	$(LATEXMK) henkel_notes.tex
+noise_notes.pdf: noise_notes.tex noise_notes.bib $(USED_FIGS)
+	$(LATEXMK) noise_notes.tex
 
