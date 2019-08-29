@@ -17,7 +17,7 @@ clean:
 figures:
 	mkdir -p figures
 
-USED_FIGS = figures/SampleElectricNoiseFresnelPerfectConductor.jpg figures/SampleElectricNoiseZetaPerfectConductor.jpg figures/ReT1V700vsKmultW.jpg figures/ImT1V700vsKmultW.jpg figures/SampleElectricNoiseNamZerothOrder.jpg
+USED_FIGS = figures/SampleElectricNoiseFresnelPerfectConductor.jpg figures/SampleElectricNoiseZetaPerfectConductor.jpg figures/ReT1V700vsKmultW.jpg figures/ImT1V700vsKmultW.jpg figures/SampleElectricNoiseNamZerothOrder.jpg figures/SampleElectricNoiseNamZerothOrderGs.jpg
 
 figures/SampleElectricNoiseFresnelPerfectConductor.jpg: scripts/SampleElectricNoiseFresnelPerfectConductor.wls | figures
 	$(WS) scripts/SampleElectricNoiseFresnelPerfectConductor.wls
@@ -27,6 +27,9 @@ figures/SampleElectricNoiseZetaPerfectConductor.jpg: scripts/SampleElectricNoise
 
 figures/SampleElectricNoiseNamZerothOrder.jpg: scripts/SampleElectricNoiseNamZerothOrder.wls | figures
 	$(WS) scripts/SampleElectricNoiseNamZerothOrder.wls
+
+figures/SampleElectricNoiseNamZerothOrderGs.jpg: scripts/SampleElectricNoiseNamZerothOrderGs.wls | figures
+	$(WS) scripts/SampleElectricNoiseNamZerothOrderGs.wls
 
 figures/ReT1V700vsKmultW.jpg: scripts/ConductivityRe_T1V700vsKmultW.wls | figures
 	$(WS) scripts/ConductivityRe_T1V700vsKmultW.wls

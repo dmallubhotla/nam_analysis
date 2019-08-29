@@ -38,18 +38,18 @@ rp[u_?NumericQ, e_?NumericQ] := With[
 ];
 
 (* gp args lambda and relative dielectric constant *)
-gp[l_, e_] := (3/4) * NIntegrate[
+gs[l_, e_] := (3/2) * NIntegrate[
 	Re[
-		(u / v[u]) * E^(2 * I * l * v[u]) * (rs[u, e] + (u^2 - 1 ) * rp[u, e])
+		(u^3 / v[u]) * E^(2 * I * l * v[u]) * (rp[u, e])
 	]
 	, {u, 0, 1*^7}
 ];
 
 
 plot1 = ListPlot[{
-	ParallelTable[{l, Quiet[gp[l, -10^14 + 10^13 * I]]}, {l, 0, 1*^-4, 1*^-6}]
-}, ImageSize->Large, PlotLegends -> {"\[Epsilon] = -1e14 + I e13"}, AxesLabel -> {"\[Lambda]", "g\[DoubleVerticalBar](\[Lambda])"}];
-Export[figure["SampleElectricNoiseNamZerothOrder.jpg"], plot1, ImageResolution -> 1600];
+	ParallelTable[{l, Quiet[gs[l, -10^14 + 10^13 * I]]}, {l, 0, 1*^-4, 1*^-6}]
+}, ImageSize->Large, PlotLegends -> {"\[Epsilon] = -1e14 + I e13"}, AxesLabel -> {"\[Lambda]", "g\[Perpendicular](\[Lambda])"}];
+Export[figure["SampleElectricNoiseNamZerothOrderGs.jpg"], plot1, ImageResolution -> 1600];
 
 (*
 plot1 = Plot[{
