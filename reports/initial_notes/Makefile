@@ -1,12 +1,12 @@
 LATEXMK = latexmk -use-make -g -lualatex
 WS = wolframscript -f
 
-all: ../output/initial_notes.pdf
+all: ../output/conductivity_notes.pdf
 
 .PHONY: all clean
 
-../output/initial_notes.pdf: initial_notes.pdf | ../output
-	cp initial_notes.pdf ../output/
+../output/conductivity_notes.pdf: initial_notes.pdf | ../output
+	cp initial_notes.pdf ../output/conductivity_notes.pdf
 
 clean:
 	latexmk -C
