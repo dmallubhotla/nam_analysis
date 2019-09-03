@@ -12,3 +12,4 @@ dist
 *.bcf
 *.blg
 *.run.xml
+*.csv
