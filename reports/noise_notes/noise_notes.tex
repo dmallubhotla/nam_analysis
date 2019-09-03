@@ -35,21 +35,21 @@
 	\end{equation}
 	They then relate this to the near field noise expression:
 	\begin{equation}
-		S^{(nf)ij}_E(z, \omega) = S^{(bb)}_E(\omega) g_{ij}(\lambda),
+		S^{(nf)ij}_E(z, \omega) = S^{(bb)}_E(\omega) g_{ij}(z),
 	\end{equation}
-	where $\lambda = \frac{\omega z}{c}$ and $g_{ij}$ is a dimensionless noise tensor with components in the directions parallel ($g_{xx}$ and $g_{yy}$) and perpendicular ($g_{zz}$) to the surface as follows:
+	where $z$ is in units of the vacuum wavelength $\frac{c}{omega}$ $$and $g_{ij}$ is a dimensionless noise tensor with components in the directions parallel ($g_{xx}$ and $g_{yy}$) and perpendicular ($g_{zz}$) to the surface as follows:
 	\begin{gather}
-		g_\parallel = \frac34 \Re \int_0^{+\infty} \dd{u} \frac{u}{v} e^{2i \lambda v} \left(r_s(u) + \left(u^2 - 1\right) r_p(u) \right) \\
-		g_\perp = \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i \lambda v} r_p(u)
+		g_\parallel = \frac34 \Re \int_0^{+\infty} \dd{u} \frac{u}{v} e^{2i z v} \left(r_s(u) + \left(u^2 - 1\right) r_p(u) \right) \\
+		g_\perp = \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i z v} r_p(u)
 	\end{gather}
 	Here $v = \sqrt{1 - u^2}$, and we take the root $v = i \sqrt{u^2 - 1}$ for $u \geq 1$.
-	This notation seems preferable over incorporating factors of $\frac{\omega}{c}$, because we can keep everything dimensionless, and it emphasises that the only dependence on $z$ or $\omega$ is via $\lambda$.
+	This notation seems preferable over incorporating factors of $\frac{\omega}{c}$, because we can keep everything dimensionless, and it emphasises that the only dependence on $z$ or $\omega$ is via $z$.
 
 	The magnetic noise tensors $h_\parallel$ and $h_\perp$ are exactly the same, except swapping $r_s \leftrightarrow r_p$ and with an extra factor of $\frac{1}{c^2}$:
 	\begin{gather}
-		S^{(nf)ij}_B(z, \omega) = \frac{S^{(bb)}_E(\omega)}{c^2} h_{ij}(\lambda) \\
-		h_\parallel = \frac34 \Re \int_0^{+\infty} \dd{u} \frac{u}{v} e^{2i \lambda v} \left(r_p(u) + \left(u^2 - 1\right) r_s(u) \right) \\
-		h_\perp = \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i \lambda v} r_s(u)
+		S^{(nf)ij}_B(z, \omega) = \frac{S^{(bb)}_E(\omega)}{c^2} h_{ij}(z) \\
+		h_\parallel = \frac34 \Re \int_0^{+\infty} \dd{u} \frac{u}{v} e^{2i z v} \left(r_p(u) + \left(u^2 - 1\right) r_s(u) \right) \\
+		h_\perp = \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i z v} r_s(u)
 	\end{gather}
 
 	\subsection{Reflection coefficients} \label{subsec:ReflectionCoeffs}
@@ -79,8 +79,8 @@
 	This gives us $r_p(u) = 1 + 0 i$ and $r_p(u) = -1 + 0 i$.
 	It turns out that the noise integral can be done analytically in that case, giving
 	\begin{align}
-		g_{\parallel} &= \frac{3}{4} \left(\frac{\sin{2 \lambda}}{4 \lambda^3} - \frac{\cos{2 \lambda}}{2 \lambda^2} - \frac{\sin{2 \lambda}}{\lambda}\right) \\
-		g_{\perp} &= \frac32 \left( \frac{\sin{2 \lambda}}{4 \lambda^3} - \frac{\cos{2 \lambda}}{2 \lambda^2} \right)
+		g_{\parallel} &= \frac{3}{4} \left(\frac{\sin{2 z}}{4 z^3} - \frac{\cos{2 z}}{2 z^2} - \frac{\sin{2 z}}{z}\right) \\
+		g_{\perp} &= \frac32 \left( \frac{\sin{2 z}}{4 z^3} - \frac{\cos{2 z}}{2 z^2} \right)
 	\end{align}
 
 	\begin{figure}[htp]
@@ -95,9 +95,9 @@
 		\caption{Using $\zeta$ formulation, graphs for $\epsilon - 1$, analytic case is $i \infty$} \label{fig:SampleElectricNoiseZetaPerfect}
 	\end{figure}
 
-	To get a sense of what this looks like, \fref{fig:SampleElectricNoiseFresnelPerfect} shows $g_{\parallel}(\lambda)$, calculated using the Fresnel coefficients with $\epsilon$ with large imaginary parts to represent good conductors.
-	We can see that as the conductivity gets larger, the graph more closely represents the analytic solution, but for all finite conductivities the graph diverges for small $\lambda$.
-	Typically, the $\lambda$ range of interest is very small: for $z = \SI{1}{\micro\meter}$ and gigahertz frequencies, $\lambda \sim 10^{-5}$.
+	To get a sense of what this looks like, \fref{fig:SampleElectricNoiseFresnelPerfect} shows $g_{\parallel}(z)$, calculated using the Fresnel coefficients with $\epsilon$ with large imaginary parts to represent good conductors.
+	We can see that as the conductivity gets larger, the graph more closely represents the analytic solution, but for all finite conductivities the graph diverges for small $z$.
+	Typically, the $z$ range of interest is very small: for $z = \SI{1}{\micro\meter}$ and gigahertz frequencies, $z \sim 10^{-5}$.
 	This divergent region is unsuitable for the Fresnel equation \todo{Because it diverges, maybe need to clarify?}.
 
 	In \fref{fig:SampleElectricNoiseZetaPerfect} we can see that using the surface impedance forms displays the same relationships for constant $\epsilon$, which is a good sanity check.
@@ -141,7 +141,7 @@
 
 	In \fref{fig:NamZerothOrder}, we have an example of the quick and dirty approximation where we sample one point from the conductivity values above and assume that over some $u$ range of interest (here $0$ to $3$), the $\epsilon$ stays constant.
 	Because $\sigma$ is so large, we essentially are in the limit where the delta function peak is extremely far to the left.
-	The values for $\omega$ and $c$ mean that $\lambda ~ 10 z$, which means \fref{fig:NamZerothOrder} is graphing noise at about micrometer range.
+	The values for $\omega$ and $c$ mean that $z ~ 10 z$, which means \fref{fig:NamZerothOrder} is graphing noise at about micrometer range.
 
 	\newpage
 	\listoftodos
