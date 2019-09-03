@@ -17,6 +17,15 @@ clean:
 figures:
 	mkdir -p figures
 
+calc:
+	mkdir -p calc
+
+calc/epsDataZone1.csv: scripts/epsZone1Calc.wls | calc
+	$(WS) scripts/epsZone1Calc.wls
+
+calc/epsAsymptoticLowKDataZone1.csv: scripts/epsALowKZone1Calc.wls | calc
+	$(WS) scripts/epsALowKZone1Calc.wls
+
 USED_FIGS = figures/SampleElectricNoiseFresnelPerfectConductor.jpg figures/SampleElectricNoiseZetaPerfectConductor.jpg figures/ReT1V700vsKmultW.jpg figures/ImT1V700vsKmultW.jpg figures/SampleElectricNoiseNamZerothOrder.jpg figures/SampleElectricNoiseNamZerothOrderGs.jpg
 
 figures/SampleElectricNoiseFresnelPerfectConductor.jpg: scripts/SampleElectricNoiseFresnelPerfectConductor.wls | figures
