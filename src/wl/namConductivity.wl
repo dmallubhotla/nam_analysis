@@ -31,7 +31,7 @@ I1[w_, wp_, k_, v_] := With[
 		gv = g[w, wp],
 		e1 = Sqrt[(w + wp)^2 - 1],
 		e2 = Sqrt[wp^2 - 1]
-	}, (F[k, Re[e1 - e2], Im[e1 + e2] + v] * (gv + 1)) + (F[k, Re[-e1 - e2], Im[e1 + e2]  + v] * (gv - 1))
+	}, (F[k, Re[e1 - e2], Im[e1 + e2] + 2 * v] * (gv + 1)) + (F[k, Re[-e1 - e2], Im[e1 + e2]  + 2 * v] * (gv - 1))
 ];
 
 I2[w_, wp_, k_, v_] := With[
@@ -39,7 +39,7 @@ I2[w_, wp_, k_, v_] := With[
 		gv = g[w, wp],
 		e1 = Sqrt[(w + wp)^2 - 1],
 		e2 = Sqrt[wp^2 - 1]
-	}, (F[k, Re[e1 - e2], Im[e1 + e2]  + v] * (gv + 1)) + (F[k, Re[e1 + e2], Im[e1 + e2]  + v] * (gv - 1))
+	}, (F[k, Re[e1 - e2], Im[e1 + e2]  + 2 * v] * (gv + 1)) + (F[k, Re[e1 + e2], Im[e1 + e2]  + 2 * v] * (gv - 1))
 ];
 
 A[w_, k_, v_, t_] := NIntegrate[
