@@ -6,7 +6,7 @@ BeginPackage["namAsymptoticLowKConductivity`"];
 Begin["`Private`"];
 
 g[w_, wp_] := (wp*(w + wp) + 1) / (Sqrt[wp^2 - 1] * Sqrt[(w + wp)^2 - 1]);
-F[k_, e_, v_] := ((4 / 3) * 1 / (e - I * 2 * v)) + (4/ 15) * (1 / ((e - I * 2 * v)^2)) * k^2;
+F[k_, e_, v_] := ((4 / 3) * 1 / (e - I * 2 * v)) + (4/ 15) * (1 / ((e - I * 2 * v)^3)) * k^2;
 
 
 I1[w_, wp_, k_, v_] := With[
