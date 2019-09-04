@@ -104,24 +104,41 @@
 	We do run into issues now with nested integrals, which is why it's quicker to create list plots which can be easily parallelised.
 	That graph is generated with a Mathematica ListPlot which is then joined\todo{Show mesh or something?}.
 
-	\subsection{Conductivity in region of interest} \label{subsec:sample:namresult}
-	We can look at \fref{fig:ConductivityRe} and \fref{fig:ConductivityIm} to try to get an understanding of what $\Sigma$ actually does for physical values.
-	Some typical values for the conductivity calculation for a gigahertz device near lead look like $\sigma_N = 10^{16}$, $\xi = .0073$, $\nu = 730$ and $\kappa ~ .0005$.
+	\subsection{Non-local calculations for lead} \label{subsec:sample:namresult}
+
+	For realistic values, we'll start by looking at the slightly simpler $g_\perp = \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i z v} r_p(u)$.
+
+	We can look at how this calculation can be done for constants where $\sigma_N = \SI{e16}{\per\second}$, $\omega = \SI{e9}{\per\second}$, $\tau = \SI{e-14}{\per\second}$, $T = \SI{.8e11}{\per\second}$, $T_C = \SI{1e11}{\per\second}$ and $v_F = \SI{2e6}{\m\per\s}$.
+	Using $\Delta \approx 3.06 \sqrt{Tc(Tc - T)}$, we get $\Delta \approx \SI{1.36e11}{\per\second}$.
+
+	In the reduced units we'll use to calculate (notes on conductivity have definitions)0 $\Sigma$, we get $\xi = .0073$, $\nu = 730$, and $t = 0.58$.
+	We will eventually be integrating over $u$, which involves a calculation like $\sigma\left(q = u \frac{\omega}{c}\right)$, which then involves $\Sigma\left(\kappa = q \frac{v_F}{\Delta}\right))$.
+	Effectively, we'll be finding $\Sigma\left(\frac{\omega v_F}{c \Delta} u\right)$, or $\Sigma\left(\left( 4.87 \times 10^{-5} \right) u \right)$.
+	For distances of about a micron, we'll be looking at $10^{-7} < z < 10^{-4}$.
+	The $u$- and $z$-dependence will be important for letting us know what approximations we can take later.
+
+	\subsubsection{Small-$u$ Conductivity} \label{subsubsec:smallucond}
+
+	As we'll mention below, we effectively need to characterise the integrand for $g_\perp$ for $u$ between $0$ and something larger than $10^7$.
+
+	We can start by noticing that $\kappa$ is very small for almost all of the range of $u$, which means we can use the small-$\kappa$ approximation.
+	We can look at \fref{fig:ConductivityRe} and \fref{fig:ConductivityIm} to compare the asymptotic approximation with the full Nam form.
+	As we might expect, the two correspond until around $u = 10^4$, which is where $\kappa$ is no longer much less than $1$.
+	The difference between the two for $u < 10^4$ is most likely because of issues with the numerical integral in the Nam form, where the cancellations are potentially trickier for Mathematica to handle.
+	This tells us where our crossover point for switching to the asymptotic form.
 
 	\begin{figure}[htp]
 		\centering
 		\includegraphics[width=14cm]{ConductivityZone3Real}
-		\caption{TODO} \label{fig:ConductivityRe}
+		\caption{Real part of $\Sigma$(u)} \label{fig:ConductivityRe}
 	\end{figure}
 
 	\begin{figure}[htp]
 		\centering
 		\includegraphics[width=14cm]{ConductivityZone3Imag}
-		\caption{TODO INSERT DESCRIPTION} \label{fig:ConductivityIm}
+		\caption{Imaginary part of $\Sigma$(u)} \label{fig:ConductivityIm}
 	\end{figure}
 
-	There are potentially different strategies for dealing with these results.
-	Perhaps the quickest is to note that the values for conductivity drop off quickly, and so some of our integrals can be cut off quickly.\todo{Implement, and see how it looks}
 
 	\newpage
 	\listoftodos
