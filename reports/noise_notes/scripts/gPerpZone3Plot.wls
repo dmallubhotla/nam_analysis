@@ -34,7 +34,9 @@ gs[l_?NumericQ] := (3/2) * NIntegrate[
 	, {u, 10, 10^7}
 ];
 
+data = ParallelTable[{l, Quiet[gs[l]]}, {l, 0, 1*^-4, 25*^-7}, DistributedContexts -> All];
+Print[data];
 plot1 = ListPlot[{
-	ParallelTable[{l, Quiet[gs[l]]}, {l, 0, 1*^-4, 5*^-6}, DistributedContexts -> All]
+	data
 	}, ImageSize->Large, AxesLabel -> {"z/\[Lambda]", "g\[Perpendicular],z3(z/\[Lambda])"}, AxesOrigin -> {0, 0}];
 Export[figure["gPerpZone3Plot.jpg"], plot1, ImageResolution -> 1600];
