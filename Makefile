@@ -1,4 +1,4 @@
-all: dist/wl_installed dist/lowk_installed reports
+all: dist/wl_installed dist/alowk_installed reports
 	@echo "Done."
 
 # Convenience targets
