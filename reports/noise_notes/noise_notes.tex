@@ -106,42 +106,22 @@
 
 	\subsection{Conductivity in region of interest} \label{subsec:sample:namresult}
 	We can look at \fref{fig:ConductivityRe} and \fref{fig:ConductivityIm} to try to get an understanding of what $\Sigma$ actually does for physical values.
-	Some typical values for the conductivity calculation for a gigahertz device near lead look like $\sigma_0 = 10^7$, $\xi = .01$, $\nu = 700$ and $\kappa ~ .0005$.
-	This is a fairly extreme value range for the frequency and momentum, and this leads to some noisiness in the results.
-	Comparing this to the other conductivity graphs, we can see that the actual values for $\Sigma$ are very large here, which potentially explains to some extent where the noise actually comes from.
+	Some typical values for the conductivity calculation for a gigahertz device near lead look like $\sigma_N = 10^{16}$, $\xi = .0073$, $\nu = 730$ and $\kappa ~ .0005$.
 
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=14cm]{ReT1V700vsKmultW}
-		\caption{Real part of Nam conductivity vs $\kappa$, with $\nu = 700$, roughly corresponding to a range for $u$ between $0$ and $10$.} \label{fig:ConductivityRe}
+		\includegraphics[width=14cm]{ConductivityZone3Real}
+		\caption{TODO} \label{fig:ConductivityRe}
 	\end{figure}
 
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=14cm]{ImT1V700vsKmultW}
-		\caption{Imaginary part of Nam conductivity vs $\kappa$, with $\nu = 700$, roughly corresponding to a range for $u$ between $0$ and $10$.} \label{fig:ConductivityIm}
+		\includegraphics[width=14cm]{ConductivityZone3Imag}
+		\caption{TODO INSERT DESCRIPTION} \label{fig:ConductivityIm}
 	\end{figure}
 
 	There are potentially different strategies for dealing with these results.
 	Perhaps the quickest is to note that the values for conductivity drop off quickly, and so some of our integrals can be cut off quickly.\todo{Implement, and see how it looks}
-	This could potentially reduce the integral from $u = 0$ to $\infty$ down to a range of $u$ from $0$ to $10$.
-	We can also get a sense of the shape of the drop and approximate it with a similarly shaped easily integrable function, and then scale out the large magnitude factor.
-
-	\begin{figure}[htp]
-		\centering
-		\includegraphics[width=14cm]{SampleElectricNoiseNamZerothOrder}
-		\caption{0th order approximation integrating over a constant large $\epsilon$ with $u$-cutoff} \label{fig:NamZerothOrder}
-	\end{figure}
-
-	\begin{figure}[htp]
-		\centering
-		\includegraphics[width=14cm]{SampleElectricNoiseNamZerothOrderGs}
-		\caption{0th order approximation for $g_\perp$ integrating over a constant large $\epsilon$ with $u$-cutoff} \label{fig:NamZerothOrderGs}
-	\end{figure}
-
-	In \fref{fig:NamZerothOrder}, we have an example of the quick and dirty approximation where we sample one point from the conductivity values above and assume that over some $u$ range of interest (here $0$ to $3$), the $\epsilon$ stays constant.
-	Because $\sigma$ is so large, we essentially are in the limit where the delta function peak is extremely far to the left.
-	The values for $\omega$ and $c$ mean that $z ~ 10 z$, which means \fref{fig:NamZerothOrder} is graphing noise at about micrometer range.
 
 	\newpage
 	\listoftodos
