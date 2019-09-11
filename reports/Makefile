@@ -1,4 +1,4 @@
-REPORTS = initial_notes noise_notes
+REPORTS = initial_notes noise_notes convergence
 
 all: $(REPORTS) output
 

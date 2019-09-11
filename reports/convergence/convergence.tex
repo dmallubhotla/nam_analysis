@@ -1,0 +1,59 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx}
+\usepackage{physics}
+\usepackage{todonotes}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[plain]{fancyref}
+\usepackage[
+	style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pageranges=false, url=true
+]{biblatex}
+\addbibresource{convergence.bib}
+
+% Document
+% !TeX spellcheck = en_GB
+\begin{document}
+
+	\section{Noise convergence} \label{sec:convergence}
+
+	We want to make sure that the noise convergences to some finite value as $z \rightarrow 0$.
+
+	To start with, let's look at $g_\perp$, defined as
+	\begin{equation}
+		g_\perp = \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i z v} r_p(u).
+	\end{equation}
+
+	We can focus in on the the large $u$ limit, so for this section we'll assume we're looking at the portion of the integral
+	for some $u_{lower} \geq 1$ up to $\infty$.
+	In this region, $v = i \sqrt{u^2 - 1}$, so we're interested in (using the fact that $u \geq 1$)
+	\begin{align}
+		g_{\perp,partial} &= \frac32 \Re \int_{u_{min}}^{+\infty} \dd{u} \frac{u^3}{i \sqrt{u^2 - 1}} e^{2 i z i \sqrt{u^2 - 1}} r_p(u) \\
+		&= \frac32 \Re \int_{u_{lower}}^{+\infty} \dd{u} \frac{u^3}{i u} e^{-2 z u} r_p(u) \\
+		&= - \frac32 \Re \int_{u_{lower}}^{+\infty} \dd{u} u^2 e^{-2 z u} i r_p(u) \\
+		&= - \frac32 \int_{u_{lower}}^{+\infty} \dd{u} u^2 e^{-2 z u} \Re{i r_p(u)} \\
+		&= \frac32 \int_{u_{lower}}^{+\infty} \dd{u} u^2 e^{-2 z u} \Im r_p(u)
+	\end{align}
+
+	Now, because we want the integral to converge all the way to $z = 0$, we should expect that if we take
+	\begin{align}
+		g_\perp(z) &= \frac32 \int_{u_{min}}^{+\infty} \dd{u} u^2 e^{-2 z u} \Im r_p(u) \\
+		g_\perp(z = 0) &= \frac32 \int_{u_{min}}^{+\infty} \dd{u} u^2 \Im r_p(u) \label{eq:gperpsimplest}
+	\end{align}
+
+	The convergence here then depends on whether \fref{eq:gperpsimplest} converges.
+
+	\subsection{$r_p$ large-$u$ behaviour} \label{subsec:largeurpbehav}
+
+	So, we now need to see what $r_p$ does at
+
+	\newpage
+	\listoftodos
+	\newpage
+	\printbibliography
+
+\end{document}
