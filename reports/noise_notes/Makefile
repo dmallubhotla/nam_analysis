@@ -26,10 +26,10 @@ calc/epsDataZone1.csv: scripts/epsZone1Calc.wls | calc
 calc/epsAsymptoticLowKDataZone1.csv: scripts/epsALowKZone1Calc.wls | calc
 	$(WS) scripts/epsALowKZone1Calc.wls
 
-calc/ConductivityZone3AsymptoticForm.csv calc/ConductivityZone3Normal.csv: scripts/ConductivityZone3SmallKVsFullCalc.wls | calc
+calc/ConductivityZone3AsymptoticForm.csv calc/ConductivityZone3Normal.csv calc/ConductivityZone3AsymptoticHighForm.csv: scripts/ConductivityZone3SmallKVsFullCalc.wls | calc
 	$(WS) scripts/ConductivityZone3SmallKVsFullCalc.wls
 
-figures/ConductivityZone3Real.jpg figures/ConductivityZone3Imag.jpg: scripts/ConductivityZone3SmallKVsFullPlots.wls calc/ConductivityZone3AsymptoticForm.csv calc/ConductivityZone3Normal.csv | figures
+figures/ConductivityZone3Real.jpg figures/ConductivityZone3Imag.jpg: scripts/ConductivityZone3SmallKVsFullPlots.wls calc/ConductivityZone3AsymptoticForm.csv calc/ConductivityZone3Normal.csv calc/ConductivityZone3AsymptoticHighForm.csv | figures
 	$(WS) scripts/ConductivityZone3SmallKVsFullPlots.wls
 
 USED_FIGS = figures/SampleElectricNoiseFresnelPerfectConductor.jpg figures/SampleElectricNoiseZetaPerfectConductor.jpg figures/ConductivityZone3Real.jpg figures/ConductivityZone3Imag.jpg

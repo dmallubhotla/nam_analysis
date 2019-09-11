@@ -1,5 +1,6 @@
 Needs["namAsymptoticLowKConductivity`"];
 Needs["namConductivity`"];
+Needs["namAsymptoticHighKConductivity`"];
 
 calculatedDirectory = FileNameJoin[{
 	ParentDirectory[
@@ -21,3 +22,7 @@ Export[calc["ConductivityZone3AsymptoticForm.csv"], dataAsymptoticLowK];
 dataNormal = ParallelTable[{10^j, Quiet[\[CapitalSigma][.0073, 10^j * .0000487161, 730, 0.58]]}, {j, 1, 9, .5}, DistributedContexts -> All];
 Print[dataNormal];
 Export[calc["ConductivityZone3Normal.csv"], dataNormal];
+
+dataAsymptoticHighK = ParallelTable[{10^j, Quiet[\[CapitalSigma]ahk[.0073, 10^j * .0000487161, 730, 0.58]]}, {j, 1, 9, .5}, DistributedContexts -> All];
+Print[dataAsymptoticHighK];
+Export[calc["ConductivityZone3AsymptoticHighForm.csv"], dataAsymptoticHighK];

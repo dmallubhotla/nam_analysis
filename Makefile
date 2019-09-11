@@ -1,4 +1,4 @@
-all: dist/wl_installed dist/alowk_installed reports
+all: dist/wl_installed dist/alowk_installed dist/ahighk_installed reports
 	@echo "Done."
 
 # Convenience targets
@@ -20,4 +20,10 @@ dist/alowk_installed: src/wl/namAsymptoticLowKConductivity.wl | dist
 	@$(eval MATHEMATICA_INSTALL_LOCATION=$(shell wolframscript -c 'FileNameJoin[{StringReplace[$$UserBaseDirectory, "\\" -> "/"], "Applications", "namAsymptoticLowKConductivity"}, OperatingSystem -> "Unix"]'))
 	mkdir -p $(MATHEMATICA_INSTALL_LOCATION)
 	cp src/wl/namAsymptoticLowKConductivity.wl $(MATHEMATICA_INSTALL_LOCATION)
-	touch dist/lowk_installed
+	touch dist/alowk_installed
+
+dist/ahighk_installed: src/wl/namAsymptoticHighKConductivity.wl | dist
+	@$(eval MATHEMATICA_INSTALL_LOCATION=$(shell wolframscript -c 'FileNameJoin[{StringReplace[$$UserBaseDirectory, "\\" -> "/"], "Applications", "namAsymptoticHighKConductivity"}, OperatingSystem -> "Unix"]'))
+	mkdir -p $(MATHEMATICA_INSTALL_LOCATION)
+	cp src/wl/namAsymptoticHighKConductivity.wl $(MATHEMATICA_INSTALL_LOCATION)
+	touch dist/ahighk_installed
