@@ -31,7 +31,7 @@ I1[w_, wp_, k_, v_] := With[
 		gv = g[w, wp],
 		e1 = Sqrt[(w + wp)^2 - 1],
 		e2 = Sqrt[wp^2 - 1]
-	}, (F[k, Re[e1 - e2], Im[e1 + e2] + v] * (gv + 1)) + (F[k, Re[-e1 - e2], Im[e1 + e2]  + v] * (gv - 1))
+	}, (F[k, Re[e1 - e2], Im[e1 + e2] + 2 * v] * (gv + 1)) + (F[k, Re[-e1 - e2], Im[e1 + e2]  + 2 * v] * (gv - 1))
 ];
 
 I2[w_, wp_, k_, v_] := With[
@@ -39,12 +39,12 @@ I2[w_, wp_, k_, v_] := With[
 		gv = g[w, wp],
 		e1 = Sqrt[(w + wp)^2 - 1],
 		e2 = Sqrt[wp^2 - 1]
-	}, (F[k, Re[e1 - e2], Im[e1 + e2]  + v] * (gv + 1)) + (F[k, Re[e1 + e2], Im[e1 + e2]  + v] * (gv - 1))
+	}, (F[k, Re[e1 - e2], Im[e1 + e2]  + 2 * v] * (gv + 1)) + (F[k, Re[e1 + e2], Im[e1 + e2]  + 2 * v] * (gv - 1))
 ];
 
 A[w_, k_, v_, t_] := NIntegrate[
 	Tanh[(w + wp) / (2 t)] * I1[w, wp, k, v],
-	{wp, 1 - w, 1}
+	{wp, 1 - w, 1}, MaxRecursion -> 15
 ];
 
 Bint[w_, wp_, k_, v_, t_] := Tanh[(w + wp) / (2 t)] * I1[w, wp, k, v] - Tanh[(wp) / (2 t)] * I2[w, wp, k, v];
@@ -90,7 +90,7 @@ B[w_, k_, v_, t_, max_] := NIntegrate[Bint[w, wp, k, v, t], {wp, 1, max}, MaxRec
 (* Zero Temp variants *)
 AZeroTemp[w_, k_, v_] := NIntegrate[
 	I1[w, wp, k, v],
-	{wp, 1 - w, 1}
+	{wp, 1 - w, 1}, MaxRecursion -> 15
 ];
 
 BintZeroTemp[w_, wp_, k_, v_] := I1[w, wp, k, v] - I2[w, wp, k, v];

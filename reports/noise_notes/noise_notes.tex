@@ -1,0 +1,157 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx}
+\usepackage{physics}
+\usepackage{todonotes}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[plain]{fancyref}
+\usepackage[
+	style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pageranges=false, url=true
+]{biblatex}
+\addbibresource{noise_notes.bib}
+
+% Document
+% !TeX spellcheck = en_GB
+\begin{document}
+
+	\graphicspath{{figures/}}
+
+	\section{Noise notes} \label{sec:NoiseCalc}
+	An excellent review of the calculation of relaxation rates is available in~\cite{Henkel1999}.
+	The theory behind the noise calculations comes in large part from~\cite{Agarwal1975}.
+
+	\subsection{Noise calc results} \label{subsec:NoiseCalcResults}
+	In~\cite{Henkel1999}, the authors find that the noise depends on the spectral field density.
+	They consider a system with an infinite conducting plane a distance $z$ away from a trap;
+	the geometry here affects the Green functions that they use, so these results are specific to that geometry.
+	Starting with the spectral density of a blackbody field, $S^{bb}_E(\omega)$, they have
+	\begin{equation}
+		S^{(bb)}_E(\omega) = \frac{\hbar \omega^3}{3 \pi \epsilon_0 c^3 (1 - e^{-\flatfrac{\hbar \omega}{T}})}
+	\end{equation}
+	They then relate this to the near field noise expression:
+	\begin{equation}
+		S^{(nf)ij}_E(z, \omega) = S^{(bb)}_E(\omega) g_{ij}(z),
+	\end{equation}
+	where $z$ is in units of the vacuum wavelength $\frac{c}{omega}$ and $g_{ij}$ is a dimensionless noise tensor with components in the directions parallel ($g_{xx}$ and $g_{yy}$) and perpendicular ($g_{zz}$) to the surface as follows:
+	\begin{gather}
+		g_\parallel = \frac34 \Re \int_0^{+\infty} \dd{u} \frac{u}{v} e^{2i z v} \left(r_s(u) + \left(u^2 - 1\right) r_p(u) \right) \\
+		g_\perp = \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i z v} r_p(u)
+	\end{gather}
+	Here $v = \sqrt{1 - u^2}$, and we take the root $v = i \sqrt{u^2 - 1}$ for $u \geq 1$.
+	This notation seems preferable over incorporating factors of $\frac{\omega}{c}$, because we can keep everything dimensionless, and it emphasises that the only dependence on $z$ or $\omega$ is via $z$.
+
+	The magnetic noise tensors $h_\parallel$ and $h_\perp$ are exactly the same, except swapping $r_s \leftrightarrow r_p$ and with an extra factor of $\frac{1}{c^2}$:
+	\begin{gather}
+		S^{(nf)ij}_B(z, \omega) = \frac{S^{(bb)}_E(\omega)}{c^2} h_{ij}(z) \\
+		h_\parallel = \frac34 \Re \int_0^{+\infty} \dd{u} \frac{u}{v} e^{2i z v} \left(r_p(u) + \left(u^2 - 1\right) r_s(u) \right) \\
+		h_\perp = \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i z v} r_s(u)
+	\end{gather}
+
+	\subsection{Reflection coefficients} \label{subsec:ReflectionCoeffs}
+	This shows that the only dependence on the properties of the conducting material comes in through the reflection coefficients $r_p$ and $r_s$.
+	The standard Fresnel coefficients defined by
+	\begin{align}
+		r_p(u) = \frac{\epsilon v - \sqrt{\epsilon - u^2}}{\epsilon v + \sqrt{\epsilon - u^2}} \\
+		r_s(u) = \frac{v - \sqrt{\epsilon - u^2}}{v + \sqrt{\epsilon - u^2}}
+	\end{align}
+	(with relative dielectric constant $\epsilon$) can serve as a local equation\todo{add plots showing what the actual graphs of the noise look like with the Fresnel reflection coefficients};
+	they can, however, be extended by calculating the surface impedances as described by~\cite{Ford1984} (with similar results appearing in~\cite{Nam1967_Part2}).
+	They have, for cases where the initial medium has a response with $\epsilon = 1$\todo{rephrase},
+	\begin{align}
+		r_p(u) &= \frac{\pi v - \zeta_p(u)}{\pi v + \zeta_p(u)} \\
+		r_s(u) &= \frac{\zeta_s(u) - \frac{\pi}{v}}{\zeta_s(u) + \frac{\pi}{v}} \\
+		\zeta_p(u) &= 2i \int_0^\infty \dd{y} \frac{1}{\kappa^2} \left( \frac{y^2}{\epsilon_t(\frac{\omega}{c}\kappa, \omega) - \kappa^2} + \frac{u^2}{\epsilon_\ell(\frac{\omega}{c}\kappa, \omega)} \right) \\
+		\zeta_s(u) &= 2i \int_0^\infty \dd{y} \frac{1}{\epsilon_t(\frac{\omega}{c}\kappa, \omega) - \kappa^2} \\
+		\kappa^2 &= u^2 + y^2
+	\end{align}
+	To calculate this for SCs, we can calculate the conductivity $\sigma$ and use (noting that the arguments of these functions are no longer dimensionless) $\epsilon(k, \omega) = 1 + i \frac{4 \pi}{\omega} \sigma(k, \omega)$%\todo{is this actually true in this context, or do we need to show that it's actually true in the case here for SCs where we have a nonlocal response?}.
+
+	\section{Sample calculations} \label{sec:SampleCalcs}
+
+	\subsection{Good conductor Fresnel noise} \label{subsec:sample:fresnelperfect}
+
+	As a sanity check we can look at the case of a perfect conductor, with $\epsilon = + i \infty$ (or $\epsilon = 1 + i \infty$, the $1$ doesn't matter).
+	This gives us $r_p(u) = 1 + 0 i$ and $r_p(u) = -1 + 0 i$.
+	It turns out that the noise integral can be done analytically in that case, giving
+	\begin{align}
+		g_{\parallel} &= \frac{3}{4} \left(\frac{\sin{2 z}}{4 z^3} - \frac{\cos{2 z}}{2 z^2} - \frac{\sin{2 z}}{z}\right) \\
+		g_{\perp} &= \frac32 \left( \frac{\sin{2 z}}{4 z^3} - \frac{\cos{2 z}}{2 z^2} \right)
+	\end{align}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=14cm]{SampleElectricNoiseFresnelPerfectConductor}
+		\caption{graphs for $\epsilon - 1$, analytic case is $i \infty$} \label{fig:SampleElectricNoiseFresnelPerfect}
+	\end{figure}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=14cm]{SampleElectricNoiseZetaPerfectConductor}
+		\caption{Using $\zeta$ formulation, graphs for $\epsilon - 1$, analytic case is $i \infty$} \label{fig:SampleElectricNoiseZetaPerfect}
+	\end{figure}
+
+	To get a sense of what this looks like, \fref{fig:SampleElectricNoiseFresnelPerfect} shows $g_{\parallel}(z)$, calculated using the Fresnel coefficients with $\epsilon$ with large imaginary parts to represent good conductors.
+	We can see that as the conductivity gets larger, the graph more closely represents the analytic solution, but for all finite conductivities the graph diverges for small $z$.
+	Typically, the $z$ range of interest is very small: for $z = \SI{1}{\micro\meter}$ and gigahertz frequencies, $z \sim 10^{-5}$.
+	This divergent region is unsuitable for the Fresnel equation \todo{Because it diverges, maybe need to clarify?}.
+
+	In \fref{fig:SampleElectricNoiseZetaPerfect} we can see that using the surface impedance forms displays the same relationships for constant $\epsilon$, which is a good sanity check.
+	We do run into issues now with nested integrals, which is why it's quicker to create list plots which can be easily parallelised.
+	That graph is generated with a Mathematica ListPlot which is then joined\todo{Show mesh or something?}.
+
+	\subsection{Non-local calculations for lead} \label{subsec:sample:namresult}
+
+	For realistic values, we'll start by looking at the slightly simpler $g_\perp = \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i z v} r_p(u)$.
+
+	We can look at how this calculation can be done for constants where $\sigma_N = \SI{e16}{\per\second}$, $\omega = \SI{e9}{\per\second}$, $\tau = \SI{e-14}{\per\second}$, $T = \SI{.8e11}{\per\second}$, $T_C = \SI{1e11}{\per\second}$ and $v_F = \SI{2e6}{\m\per\s}$.
+	Using $\Delta \approx 3.06 \sqrt{Tc(Tc - T)}$, we get $\Delta \approx \SI{1.36e11}{\per\second}$.
+
+	In the reduced units we'll use to calculate (notes on conductivity have definitions) $\Sigma$, we get $\xi = .0073$, $\nu = 730$, and $t = 0.58$.
+	We will eventually be integrating over $u$, which involves a calculation like $\sigma\left(q = u \frac{\omega}{c}\right)$, which then involves $\Sigma\left(\kappa = q \frac{v_F}{\Delta}\right))$.
+	Effectively, we'll be finding $\Sigma\left(\frac{\omega v_F}{c \Delta} u\right)$, or $\Sigma\left(\left( 4.87 \times 10^{-5} \right) u \right)$.
+	For distances of about a micron, we'll be looking at $10^{-7} < z < 10^{-4}$.
+	The $u$- and $z$-dependence will be important for letting us know what approximations we can take later.
+
+	\subsubsection{Small-$u$ Conductivity} \label{subsubsec:smallucond}
+
+	As we'll mention below, we effectively need to characterise the integrand for $g_\perp$ for $u$ between $0$ and something larger than $10^7$.
+
+	We can start by noticing that $\kappa$ is very small for almost all of the range of $u$, which means we can use the small-$\kappa$ approximation.
+	We can look at \fref{fig:ConductivityRe} and \fref{fig:ConductivityIm} to compare the asymptotic approximation with the full Nam form.
+	As we might expect, the two correspond until around $u = 10^4$, which is where $\kappa$ is no longer much less than $1$.
+	The difference between the two for $u < 10^4$ is most likely because of issues with the numerical integral in the Nam form, where the cancellations are potentially trickier for Mathematica to handle.
+	This tells us where our crossover point for switching to the asymptotic form.\todo{show derivation for where the high-u asymptotic form comes from}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=14cm]{ConductivityZone3Real}
+		\caption{Real part of $\Sigma$(u)} \label{fig:ConductivityRe}
+	\end{figure}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=14cm]{ConductivityZone3Imag}
+		\caption{Imaginary part of $\Sigma$(u)} \label{fig:ConductivityIm}
+	\end{figure}
+
+	\subsubsection{Breaking noise integral into regions} \label{subsubsec:noiseregions}
+	We can get the most mileage out of our asymptotic forms by looking at different regions of the $g_\perp$ integral:
+
+	To start with, we can look at the region from $0 < u < 1$.
+	Here, $v = \sqrt{1 - u^2}$, and
+	\begin{align}
+		g_{\perp, u < 1} &= \frac32 \Re \int_0^{1} \dd{u} \frac{u^3}{\sqrt{1 - u^2}} e^{2 i z \sqrt{1 - u^2}} r_p(u) \\
+			&= \frac32 \Re \int_0^{1} \dd{u} \frac{u^3}{\sqrt{1 - u^2}} r_p(u)
+	\end{align}
+
+	\newpage
+	\listoftodos
+	\newpage
+	\printbibliography
+
+\end{document}
