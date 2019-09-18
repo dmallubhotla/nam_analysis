@@ -111,7 +111,7 @@
 	We can look at how this calculation can be done for constants where $\sigma_N = \SI{e16}{\per\second}$, $\omega = \SI{e9}{\per\second}$, $\tau = \SI{e-14}{\per\second}$, $T = \SI{.8e11}{\per\second}$, $T_C = \SI{1e11}{\per\second}$ and $v_F = \SI{2e6}{\m\per\s}$.
 	Using $\Delta \approx 3.06 \sqrt{Tc(Tc - T)}$, we get $\Delta \approx \SI{1.36e11}{\per\second}$.
 
-	In the reduced units we'll use to calculate (notes on conductivity have definitions)0 $\Sigma$, we get $\xi = .0073$, $\nu = 730$, and $t = 0.58$.
+	In the reduced units we'll use to calculate (notes on conductivity have definitions) $\Sigma$, we get $\xi = .0073$, $\nu = 730$, and $t = 0.58$.
 	We will eventually be integrating over $u$, which involves a calculation like $\sigma\left(q = u \frac{\omega}{c}\right)$, which then involves $\Sigma\left(\kappa = q \frac{v_F}{\Delta}\right))$.
 	Effectively, we'll be finding $\Sigma\left(\frac{\omega v_F}{c \Delta} u\right)$, or $\Sigma\left(\left( 4.87 \times 10^{-5} \right) u \right)$.
 	For distances of about a micron, we'll be looking at $10^{-7} < z < 10^{-4}$.
@@ -125,7 +125,7 @@
 	We can look at \fref{fig:ConductivityRe} and \fref{fig:ConductivityIm} to compare the asymptotic approximation with the full Nam form.
 	As we might expect, the two correspond until around $u = 10^4$, which is where $\kappa$ is no longer much less than $1$.
 	The difference between the two for $u < 10^4$ is most likely because of issues with the numerical integral in the Nam form, where the cancellations are potentially trickier for Mathematica to handle.
-	This tells us where our crossover point for switching to the asymptotic form.
+	This tells us where our crossover point for switching to the asymptotic form.\todo{show derivation for where the high-u asymptotic form comes from}
 
 	\begin{figure}[htp]
 		\centering

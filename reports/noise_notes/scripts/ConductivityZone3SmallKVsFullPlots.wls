@@ -44,4 +44,4 @@ realPlot = ListLogLogPlot[{realPoints1, realPoints2, realPoints3}, ImageSize->La
 Export[figure["ConductivityZone3Real.jpg"], realPlot, ImageResolution -> 1200];
 
 imPlot = ListLogLogPlot[{imagPoints1, imagPoints2, imagPoints3}, ImageSize->Large, AxesLabel -> {"u", "Im[\[CapitalSigma]]"}, PlotLabels -> {"small k approx", "Nam form", "high k approx"}];
-Export[figure["ConductivityZhone3Imag.jpg"], imPlot, ImageResolution -> 1200];
+Export[figure["ConductivityZone3Imag.jpg"], imPlot, ImageResolution -> 1200];
