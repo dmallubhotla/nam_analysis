@@ -1,4 +1,4 @@
-REPORTS = initial_notes noise_notes convergence
+REPORTS = initial_notes noise_notes convergence imrpasymptotic
 
 all: $(REPORTS) output
 
