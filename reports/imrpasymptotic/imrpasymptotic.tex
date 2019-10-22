@@ -23,8 +23,102 @@
 
 	We can start by looking at our description of $\epsilon(u)$.
 	Unlike for the standard metal case, $\epsilon$ decays as $\frac{1}{u}$, rather than $\frac{1}{u^2}$, which changes the convergence characteristics of $\zeta_p$ and $r_p$.
-	From \cite{Churchill2016}, we would hope that we could avoid deliberately cutting off any integrals at a particular lattice constant, so we can start by assuming the integrals are all to $\infty$.
+	From~\cite{Churchill2016}, we would hope that we could avoid deliberately cutting off any integrals at a particular lattice constant, so we can start by assuming the integrals are all to $\infty$.
 
+	As mentioned by Nam\cite{Nam1967} and as seen in the simpler conductivity equation in~\cite{AGD}, for the SC case $\sigma$ goes as $\frac1u$.
+	We can, for sufficiently large $u$ (using the values I used for lead earlier, this means $u > 10^7$) write
+	\begin{equation}
+		\epsilon = 1 + \frac{c + i d}{u} \label{eq:epsansatz}
+	\end{equation}
+	for real $c$ and $d$.
+	Numerically, we can find the values for $c$ and $d$ from the actual $\epsilon$ values using the full expressions in~\cite{Nam1967}.
+	Doing so, we get
+	\begin{align}
+		c &= -2.67 \times 10^{19} \\
+		d &= 2.29 \times 10^{17}
+	\end{align}
+	The actual integrals in Nam make this a bit awful to derive, but effectively the $F$ function defined in the conductivity notes can be replaced by $\frac{i \pi}{\kappa}$, (which is easy to derive).
+	In order to do it, we can break up the integrals depending on whether that approximation holds, then show that the part where it doesn't hold is small, which lets us pull the $\kappa$ from outside of the integral and carry out the integrals to relate $c$ and $d$ to the actual physical parameters.
+	Note here that $\kappa = \frac{\omega v_F}{c \Delta} u$, it's convenient to think of the actual epsilon dependence as being in terms of $\kappa$, but for the reflection coefficient integral $u$ is more useful.
+	The units here affect the large numerical values for $c$ and $d$ naturally, (which is one reason they look so unnatural).\todo{actually do this integral}
+
+	\subsection{$\zeta_p$} \label{subsec:zetap}
+
+	We defined $\zeta_p$ as
+	\begin{equation}
+		\zeta_p(u) = 2i \int_0^\infty \dd{y} \frac{1}{\kappa^2} \left( \frac{y^2}{\epsilon(\frac{\omega}{c}\kappa, \omega) - \kappa^2} + \frac{u^2}{\epsilon(\frac{\omega}{c}\kappa, \omega)} \right)
+	\end{equation}
+
+	Here $\kappa^2 = u^2 + y^2$ (not the same $\kappa$ as I just defined.)
+	Note that only the second term matters for large $u$.
+
+	We can plug in the form \fref{eq:epsansatz}, and drop the first term, giving us:
+	\begin{align}
+		\zeta_p(u) &= 2i \int_0^\infty \dd{y} \frac{1}{\kappa^2} \left( \frac{y^2}{\epsilon(\frac{\omega}{c}\kappa, \omega) - \kappa^2} + \frac{u^2}{\epsilon(\frac{\omega}{c}\kappa, \omega)} \right) \\
+		\zeta_p(u) &= 2i \int_0^\infty \dd{y} \frac{1}{\kappa^2} \frac{u^2}{\epsilon(\frac{\omega}{c}\kappa, \omega)} \\
+		\zeta_p(u) &= 2i \int_0^\infty \dd{y} \frac{1}{\kappa^2} \frac{u^2}{1 + \frac{c + i d}{\kappa}} \\
+		\zeta_p(u) &= 2i \int_0^\infty \dd{y} \frac{u^2}{\kappa^2 + (c + id)\kappa} \\
+		\zeta_p(u) &= 2i \int_0^\infty \dd{y} \frac{u^2}{u^2 + y^2 + (c + id)\sqrt{u^2 + y^2}} \label{eq:zetaPreZ}
+	\end{align}
+
+	Before we look at this integral, we can jump over to the reflection coefficient.
+
+	Our reflection coefficient looks like
+	\begin{equation}
+		r_p(u) = \frac{\pi v - \zeta_p(u)}{\pi v + \zeta_p(u)}
+	\end{equation}
+	When $u \geq 1$, $v = i u$, so this becomes
+	\begin{equation}
+		r_p(u) = \frac{i pi u - \zeta_p(u)}{i pi u + \zeta_p(p)}
+	\end{equation}
+	This suggests that what we're really interested in is $z = \frac{\zeta_p}{i pi u}$,
+	\begin{equation}
+		r_p(u) = \frac{1 - z}{1 + z} \label{eq:rpdef}
+	\end{equation}
+	This changes \fref{eq:zetaPreZ} to
+	\begin{equation}
+		z = \frac{2}{\pi} \int_{y_l}^\infty \dd{y} \frac{u}{u^2 + y^2 + (c + id)\sqrt{u^2 + y^2}}
+	\end{equation}
+	The $y_l$ here lets us cut the bottom off this integral, so we can guarantee ourselves that we're in the domain that $\epsilon$ is actually represented by \fref{eq:epsansatz}.
+	We might expect that the large-$u$ behaviour shouldn't depend on $y_l$ (and we'll find that that's indeed the case).
+	This is an awful integral, which for the parameter values we have we can actually do analytically.
+	As long as $u > -c$ (which we can impose because we're interested in $u \rightarrow \infty$),
+	\begin{align}
+		z &= \frac{u}{{\pi  \sqrt{-c^2-2 i c d+d^2+u^2}}} A\\
+		A &= 2 \tan ^{-1}\left(\frac{y_l (c+i d)}{\sqrt{\left(u^2+y_l^2\right) \left(-c^2-2 i c d+d^2+u^2\right)}}\right)\\
+		&-2 \tan ^{-1}\left(\frac{y_l}{\sqrt{-c^2-2 i c d+d^2+u^2}}\right) \\
+		&+ \pi \\
+		&+i \log \left(\frac{\sqrt{-c^2-2 i c d+d^2+u^2}+i c-d}{\sqrt{-c^2-2 i c d+d^2+u^2}}\right) \\
+		&-i \log \left(\frac{\sqrt{-c^2-2 i c d+d^2+u^2}+(-i) c+d}{\sqrt{-c^2-2 i c d+d^2+u^2}}\right)
+	\end{align}
+
+	We can then series expand this for large-$u$ (formally, I replaced $u$ by $\frac{1}{\ell}$, then expanded around $\ell = 0$, then swapped back to $u$.)
+	Doing so gives us
+	\begin{align}
+		z = 1 -\frac{2 (c+i d+y_l)}{\pi  u} + \frac{\pi  c^2+2 i \pi  c d+4 c y_l-\pi  d^2+4 i d y_l}{2 \pi  u^2}
+	\end{align}
+	To leading order, then, $z = 1 - i \flatfrac{b}{u}$, with $b = \flatfrac{2 d}{\pi}$.
+	This compares well to plots of the numerical integration of $\zeta$, as a sanity check. \todo{include those plots}
+
+	We can plug this into \fref{eq:rpdef},
+	\begin{align}
+		r_p(u) &= \frac{1 - z}{1 + z} \\
+		r_p(u) &= \frac{1 - (1 - i \frac{b}{u})}{1 + (1 - i \frac{b}{u})} \\
+		r_p(u) &= \frac{i \frac{b}{u}}{2 - i \frac{b}{u}} \\
+		r_p(u) &= \frac{i \frac{b}{u}}{2 - i \frac{b}{u}} \frac{2 + i \frac{b}{u}}{2 + i \frac{b}{u}} \\
+		r_p(u) &= \frac{i \frac{b}{u}(2 + i \frac{b}{u})}{4 + \frac{b^2}{u^2}} \\
+		r_p(u) &= \frac{- \frac{b^2}{u^2} + 2i \frac{b}{u}}{4 + \frac{b^2}{u^2}} \\
+		r_p(u) &= \frac{- b^2 + 2i b u}{4 u^2+ b^2} \label{eq:imrp}
+	\end{align}
+
+	The integral that we're interested in for the noise is
+	\begin{align}
+		g_\perp(z) &= \frac32 \int_{u_{min}}^{+\infty} \dd{u} u^2 e^{-2 z u} \Im r_p(u) \\
+		g_\perp(z = 0) &= \frac32 \int_{u_{min}}^{+\infty} \dd{u} u^2 \Im r_p(u) \label{eq:gperpsimplest}
+	\end{align}
+	Here, we can show that $\Im r_p(u)$ for sufficiently large $u$ is $\flatfrac{2 b u}{(4u^2 + b^2)}$.
+	Unfortunately, this is a problem, because \fref{eq:imrp} only goes as $\frac{1}{u}$, which is insufficient to make \fref{eq:gperpsimplest} converge.
+	This suggests that the next approach may be to both impose the lattice size cutoff and potentially revisit~\cite{Churchill2016} for other potential ways to incorporate the non-local behaviour (which I believe only helps if the problems here come from some boundary condition issue, but further analysis is probably required).
 
 	\newpage
 	\listoftodos
