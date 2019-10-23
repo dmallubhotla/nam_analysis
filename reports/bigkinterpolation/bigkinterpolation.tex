@@ -1,0 +1,72 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx}
+\usepackage{physics}
+\usepackage{todonotes}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[plain]{fancyref}
+\usepackage[
+	style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pageranges=false, url=true
+]{biblatex}
+\addbibresource{bigkinterpolation.bib}
+
+% Document
+% !TeX spellcheck = en_GB
+\begin{document}
+
+	\section{Interpolated dielectric constant} \label{sec:bigkinterpolation}
+
+	As we saw in the earlier notes on the noise values, the $k$ dependence of the response function $\epsilon_{AN}$(the Approximated Nam) in~\cite{Nam1967} are fairly well approximated with a piecewise function:
+	\begin{equation}
+		\epsilon_{AN}(u) =
+		\begin{cases}
+			-a + i b & u < u_c \\
+			1 + \frac{-c + i d}{u} & u \geq u_c
+		\end{cases},
+	\end{equation} \label{eq:epsAN}
+	where $a$, $b$, $c$ and $d$ are real and positive (and are determined by the frequency) and $u_c$ is a cutoff value on the order of the impurity spacing.
+	This approximates Nam's $\epsilon$ well for $u \ll u_c$ and $u \gg u_c$, and is somewhat less accurate very close to $u_c$.
+	For the values mentioned in the other notes for lead, fitting the numerical integration gives
+	\begin{align}
+		a &= 3.81 \times 10^{11} \\
+		b &= 3.24 \times 10^{9} \\
+		c &= 2.67 \times 10^{19} \\
+		d &= 2.29 \times 10^{17} \\
+		u_c &= 7 \times 10^{7}
+	\end{align}.
+
+	This is all well below the Fermi wave vector, which in these units is on the order of $u_F \sim 10^{15}$.
+	In order to incorporate that, we might consider forcing the dielectric constant to manually match the normal metal above some value.
+	For a normal metal, for sufficiently large $u$,
+	\begin{equation}
+		\epsilon_{TF} = 1 + \flatfrac{u_{TF}^2}{u^2} \label{eq:epsTF},
+	\end{equation} where $u_{TF}$ is of the same order as $u_F$.\todo{cite this}
+	We would expect~\eqref{eq:epsAN} to fail at some point approaching $u_F$, and at that scale it's numerically clear that we won't be able to smoothly join this with~\eqref{eq:epsTF}.
+	The salient features of this expansion are that above some critical $u$ the imaginary part of $\epsilon$ goes to zero, so we might consider forcing $\epsilon$ above $u_F$ to follow
+	\begin{equation}
+		\epsilon(u > u_F) = 1 + \frac{-c u_F}{u^2},
+	\end{equation}
+	which will smoothly join with~\eqref{eq:epsAN} and replicates the $u^{-2}$ dependence for the real part of $\epsilon$.
+	Alternatively, we can just use a piecewise form
+	\begin{equation}
+		\epsilon_f(u) =
+		\begin{cases}
+			-a + i b & u < u_c \\
+			1 + \frac{-c + i d}{u} &  u_F \geq u \geq u_c \\
+			1 + \frac{u_{TF}^2}{u} &  u \geq u_F
+		\end{cases},
+	\end{equation} \label{eq:epsForced}
+	It turns out that both options are reasonably similar when going through the surface impedance calculations, so I'll use~\eqref{eq:epsForced} for these notes.
+
+
+	\newpage
+	\listoftodos
+	\newpage
+	\printbibliography
+
+\end{document}

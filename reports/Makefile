@@ -1,4 +1,4 @@
-REPORTS = initial_notes noise_notes convergence imrpasymptotic
+REPORTS = initial_notes noise_notes convergence imrpasymptotic bigkinterpolation
 
 all: $(REPORTS) output
 
