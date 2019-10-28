@@ -31,7 +31,7 @@ figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
 
 
 
-label = AxesLabel -> {"u", "imrp(u)"};
+label = AxesLabel -> {"u", "u^2 * imrp(u)"};
 
 data = ParallelTable[{10^i, 10^(2 * i) * Quiet[imrp[10^i, 10^j]]}, {j, 15, 27, 3}, {i, 4, 30, .5}];
 
