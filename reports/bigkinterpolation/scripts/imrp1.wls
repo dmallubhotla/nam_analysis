@@ -35,5 +35,5 @@ label = AxesLabel -> {"u", "imrp(u)"};
 
 data = ParallelTable[{10^i, Quiet[imrp[10^i, 10^j]]}, {j, 15, 27, 3}, {i, 4, 25, .5}];
 
-plot1 = ListLogLogPlot[data, ImageSize->Large, PlotLegends -> Table[j, {j, 15, 27, 3}], label];
+plot1 = ListLogLogPlot[data, ImageSize->Large, PlotLegends -> PointLegend[Automatic, Table[Superscript[10, j], {j, 15, 27, 3}], LegendLabel -> "uF"], label];
 Export[figure["imrp1.jpg"], plot1, ImageResolution -> 1200];

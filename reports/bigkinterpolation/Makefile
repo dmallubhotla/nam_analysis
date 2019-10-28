@@ -17,7 +17,7 @@ clean:
 figures:
 	mkdir -p figures
 
-USED_FIGS =
+USED_FIGS = figures/imrp1.jpg figures/imrp2.jpg
 #Figures after here
 figures/imrp1.jpg: scripts/imrp1.wls | figures
 	$(WS) scripts/imrp1.wls

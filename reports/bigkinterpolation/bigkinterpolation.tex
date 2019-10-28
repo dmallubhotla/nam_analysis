@@ -19,6 +19,8 @@
 % !TeX spellcheck = en_GB
 \begin{document}
 
+	\graphicspath{{figures/}}
+
 	\section{Interpolated dielectric constant} \label{sec:bigkinterpolation}
 
 	As we saw in the earlier notes on the noise values, the $k$ dependence of the response function $\epsilon_{AN}$(the Approximated Nam) in~\cite{Nam1967} are fairly well approximated with a piecewise function:
@@ -63,6 +65,31 @@
 		\end{cases},
 	\end{equation} \label{eq:epsForced}
 	It turns out that both options are reasonably similar when going through the surface impedance calculations, so I'll use~\eqref{eq:epsForced} for these notes.
+
+	\section{Plots of noise integrand} \label{sec:plotsdiscussion}
+
+	For all of these values, above $u > u_F$ the value of $\Im r_p(u)$ becomes identically zero.
+	This does make the function converge, however, there isn't unfortunately a natural choice for $u_F$.
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=14cm]{imrp1}
+		\caption{$\Im[rp(u)]$ for different cutoff $u_F$} \label{fig:imrpVsCutoff}
+	\end{figure}
+
+	We see \fref{fig:imrpVsCutoff} the effect of various cutoff values.
+	We would expect that $u_F$, as suggested by its name, should be around the Fermi surface, but we see that even slight changes have a big impact in the actual integrand.
+	As discussed elsewhere, the noise should converge for $z\rightarrow 0$, and this corresponds to
+	\begin{equation}
+		\chi_{EE}(z = 0) \propto \int_0^\infty \dd{u} u^2 Im[r_p(u)].
+	\end{equation}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=14cm]{imrp1}
+		\caption{$u^2 \Im[rp(u)]$ for different cutoff $u_F$} \label{fig:u2imrpVsCutoff}
+	\end{figure}
+	The integrand, $\u^2 Im[r_p(u)]$, is plotted in \fref{fig:u2imrpVsCutoff}.
+	Unfortunately, it's clear that the value of the integral is strongly dependent on the specific value of the cutoff $u_F$, which makes it hard to find a natural value using heuristic arguments.
 
 
 	\newpage
