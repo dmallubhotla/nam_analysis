@@ -42,7 +42,7 @@
 		u_c &= 7 \times 10^{7}
 	\end{align}.
 
-	This is all well below the Fermi wave vector, which in these units is on the order of $u_F \sim 10^{15}$.
+	This is all well below the Fermi wave vector, which in these units is on the order of $u_F \sim 10^{15}$. \todo{pick a better name than $u_F$, no reason in SCs to be related to $k_F$}
 	In order to incorporate that, we might consider forcing the dielectric constant to manually match the normal metal above some value.
 	For a normal metal, for sufficiently large $u$,
 	\begin{equation}
@@ -114,6 +114,17 @@
 		\includegraphics[width=14cm]{imrpU2SmoothJoin}
 		\caption{$u^2 \Im[r_p(u)]$ for different cutoff $u_F$, using~\eqref{eq:epsSmoothJoin}.} \label{fig:u2imrpVsCutoffSmoothJoin}
 	\end{figure}
+
+	\section{Noise calculations} \label{sec:noise}
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=14cm]{chiZEsmallboi}
+		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different cutoffs} \label{fig:chiZRange}
+	\end{figure}
+	As we might expect from the shape of $\Im r_p$, this naive approach ends up with the noise strongly depending on the cutoff value.
+	We do see in \fref{fig:chiZRange} that the $\flatfrac{1}{z^3}$ dependence goes to a constant value for $z \lesssim \frac{1}{u_F}$.
+	This is unsurprising, because we engineered the form of $\epsilon$ to specifically manufacture that convergence.
+
 
 
 	\newpage
