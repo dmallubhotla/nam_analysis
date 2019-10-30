@@ -42,17 +42,18 @@
 		u_c &= 7 \times 10^{7}
 	\end{align}.
 
-	This is all well below the Fermi wave vector, which in these units is on the order of $u_F \sim 10^{15}$. \todo{pick a better name than $u_F$, no reason in SCs to be related to $k_F$}
+	This is all well below the Fermi wave vector, which in these units is on the order of $u_F \sim 10^{15}$.
+	We should expect that at some upper cutoff $u_{uc} \lesssim u_F$, the SC effects die out.
 	In order to incorporate that, we might consider forcing the dielectric constant to manually match the normal metal above some value.
 	For a normal metal, for sufficiently large $u$,
 	\begin{equation}
 		\epsilon_{TF} = 1 + \flatfrac{u_{TF}^2}{u^2} \label{eq:epsTF},
 	\end{equation}
 	where $u_{TF}$ is of the same order as $u_F$.\todo{cite this}
-	We would expect~\eqref{eq:epsAN} to fail at some point approaching $u_F$, and at that scale it's numerically clear that we won't be able to smoothly join this with~\eqref{eq:epsTF}.
-	The salient features of this expansion are that above some critical $u$ the imaginary part of $\epsilon$ goes to zero, so we might consider forcing $\epsilon$ above $u_F$ to follow
+	We would expect~\eqref{eq:epsAN} to fail at some point approaching $u_{uc}$, and at that scale it's numerically clear that we won't be able to smoothly join this with~\eqref{eq:epsTF}.
+	The salient features of this expansion are that above some critical $u$ the imaginary part of $\epsilon$ goes to zero, so we might consider forcing $\epsilon$ above $u_{uc}$ to follow
 	\begin{equation}
-		\epsilon(u > u_F) = 1 + \frac{-c u_F}{u^2}, \label{eq:epsSmoothJoin}
+		\epsilon(u > u_{uc}) = 1 + \frac{-c u_{uc}}{u^2}, \label{eq:epsSmoothJoin}
 	\end{equation}
 	which will smoothly join with~\eqref{eq:epsAN} and replicates the $u^{-2}$ dependence for the real part of $\epsilon$.
 	Alternatively, we can just use a piecewise form
@@ -60,36 +61,37 @@
 		\epsilon_f(u) =
 		\begin{cases}
 			-a + i b & u < u_c \\
-			1 + \frac{-c + i d}{u} &  u_F \geq u \geq u_c \\
-			1 + \frac{u_{TF}^2}{u} &  u \geq u_F
+			1 + \frac{-c + i d}{u} &  u_{uc} \geq u \geq u_c \\
+			1 + \frac{u_{TF}^2}{u} &  u \geq u_{uc}
 		\end{cases}. \label{eq:epsForced}
 	\end{equation}
 	It turns out that both options are reasonably similar when going through the surface impedance calculations, so I'll use~\eqref{eq:epsForced} for these notes.
 
 	\section{Plots of noise integrand} \label{sec:plotsdiscussion}
 
-	For all of these values, above $u > u_F$ the value of $\Im r_p(u)$ becomes identically zero.
-	This does make the function converge, however, there isn't unfortunately a natural choice for $u_F$.
+	For all of these values, above $u > u_{uc}$ the value of $\Im r_p(u)$ becomes identically zero.
+	This does make the function converge, however, there isn't unfortunately a natural choice for $u_{uc}$.
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=14cm]{imrp1}
-		\caption{$\Im[r_p(u)]$ for different cutoff $u_F$} \label{fig:imrpVsCutoff}
+		\includegraphics[width=12cm]{imrp1}
+		\caption{$\Im[r_p(u)]$ for different cutoff $u_{uc}$} \label{fig:imrpVsCutoff}
 	\end{figure}
 
 	We see \fref{fig:imrpVsCutoff} the effect of various cutoff values.
-	We would expect that $u_F$, as suggested by its name, should be around the Fermi surface, but we see that even slight changes have a big impact in the actual integrand.
-	As discussed elsewhere, the noise should converge for $z\rightarrow 0$, and this corresponds to
+	We would expect that $u_{uc}$, should be less than the Fermi momentum, but we see that even slight changes have a big impact in the actual integrand.
+	For an SC, it might make sense instead to put the limit based on the Debye momentum, which is much less than the Fermi momentum.
+	As discussed elsewhere, the noise should converge for $z \rightarrow 0$, and this corresponds to
 	\begin{equation}
 		\chi_{EE}(z = 0) \propto \int_0^\infty \dd{u} u^2 Im[r_p(u)].
 	\end{equation}
 
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=14cm]{imrp2}
-		\caption{$u^2 \Im[r_p(u)]$ for different cutoff $u_F$} \label{fig:u2imrpVsCutoff}
+		\includegraphics[width=12cm]{imrp2}
+		\caption{$u^2 \Im[r_p(u)]$ for different cutoff $u_{uc}$} \label{fig:u2imrpVsCutoff}
 	\end{figure}
 	The integrand, $u^2 \Im[r_p(u)]$, is plotted in \fref{fig:u2imrpVsCutoff}.
-	Unfortunately, it's clear that the value of the integral is strongly dependent on the specific value of the cutoff $u_F$, which makes it hard to find a natural value using heuristic arguments.
+	Unfortunately, it's clear that the value of the integral is strongly dependent on the specific value of the cutoff $u_{uc}$, which makes it hard to find a natural value using heuristic arguments.
 
 	As mentioned above, the specific form of the cutoff turns out to be unimportant, as the shape of $\Im r_p(u)$ is largely governed by the parameter $c$.
 	For example, using
@@ -97,32 +99,32 @@
 		\epsilon_f(u) =
 		\begin{cases}
 			-a + i b & u < u_c \\
-			1 + \frac{-c + i d}{u} &  u_F \geq u \geq u_c \\
-			1                      &  u \geq u_F
+			1 + \frac{-c + i d}{u} &  u_{uc} \geq u \geq u_c \\
+			1                      &  u \geq u_{uc}
 		\end{cases} \label{eq:epsForcedOne}
 	\end{equation}
 	instead of~\eqref{eq:epsForced} produces the plot shown in \fref{fig:u2imrpVsCutoffNoResponseAbove}, which is effectively the same as \fref{fig:u2imrpVsCutoff}.
 	Similarly, using \fref{eq:epsSmoothJoin} produces \fref{fig:u2imrpVsCutoffSmoothJoin}, which is again the same, justifying the assertion that the specific form above our cutoff is irrelevant as long as the imaginary part is zero.
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=14cm]{imrpU2NoResponseAboveCutoff}
-		\caption{$u^2 \Im[r_p(u)]$ for different cutoff $u_F$, using~\eqref{eq:epsForcedOne}.} \label{fig:u2imrpVsCutoffNoResponseAbove}
+		\includegraphics[width=12cm]{imrpU2NoResponseAboveCutoff}
+		\caption{$u^2 \Im[r_p(u)]$ for different cutoff $u_{uc}$, using~\eqref{eq:epsForcedOne}.} \label{fig:u2imrpVsCutoffNoResponseAbove}
 	\end{figure}
 
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=14cm]{imrpU2SmoothJoin}
-		\caption{$u^2 \Im[r_p(u)]$ for different cutoff $u_F$, using~\eqref{eq:epsSmoothJoin}.} \label{fig:u2imrpVsCutoffSmoothJoin}
+		\includegraphics[width=12cm]{imrpU2SmoothJoin}
+		\caption{$u^2 \Im[r_p(u)]$ for different cutoff $u_{uc}$, using~\eqref{eq:epsSmoothJoin}.} \label{fig:u2imrpVsCutoffSmoothJoin}
 	\end{figure}
 
 	\section{Noise calculations} \label{sec:noise}
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=14cm]{chiZEsmallboi}
+		\includegraphics[width=12cm]{chiZEsmallboi}
 		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different cutoffs} \label{fig:chiZRange}
 	\end{figure}
 	As we might expect from the shape of $\Im r_p$, this naive approach ends up with the noise strongly depending on the cutoff value.
-	We do see in \fref{fig:chiZRange} that the $\flatfrac{1}{z^3}$ dependence goes to a constant value for $z \lesssim \frac{1}{u_F}$.
+	We do see in \fref{fig:chiZRange} that the $\flatfrac{1}{z^3}$ dependence goes to a constant value for $z \lesssim \frac{1}{u_{uc}}$.
 	This is unsurprising, because we engineered the form of $\epsilon$ to specifically manufacture that convergence.
 
 

@@ -38,7 +38,7 @@ figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
 
 label = AxesLabel -> {"z", "chiZE(z)"};
 
-data = ParallelTable[{10^i, Quiet[chiZZEUnitLess[10^i, 10^j]]}, {j, 12, 21, 3}, {i, -15, -5, 1}];
+data = ParallelTable[{10^i, Quiet[chiZZEUnitLess[10^i, 10^j]]}, {j, 9, 18, 3}, {i, -10, -3, 1}];
 
-plot1 = ListLogLogPlot[data, ImageSize->Large, PlotLegends -> Table[j, {j, 12, 21, 3}], label];
-Export[figure["chizEmediumboi.jpg"], plot1, ImageResolution -> 1200];
+plot1 = ListLogLogPlot[data, ImageSize->Large, PlotLegends -> Table[j, {j, 9, 18, 3}], label];
+Export[figure["chiZEmediumboi.jpg"], plot1, ImageResolution -> 1200];
