@@ -29,8 +29,8 @@
 		\begin{cases}
 			-a + i b & u < u_c \\
 			1 + \frac{-c + i d}{u} & u \geq u_c
-		\end{cases},
-	\end{equation} \label{eq:epsAN}
+		\end{cases}, \label{eq:epsAN}
+	\end{equation}
 	where $a$, $b$, $c$ and $d$ are real and positive (and are determined by the frequency) and $u_c$ is a cutoff value on the order of the impurity spacing.
 	This approximates Nam's $\epsilon$ well for $u \ll u_c$ and $u \gg u_c$, and is somewhat less accurate very close to $u_c$.
 	For the values mentioned in the other notes for lead, fitting the numerical integration gives
@@ -52,7 +52,7 @@
 	We would expect~\eqref{eq:epsAN} to fail at some point approaching $u_F$, and at that scale it's numerically clear that we won't be able to smoothly join this with~\eqref{eq:epsTF}.
 	The salient features of this expansion are that above some critical $u$ the imaginary part of $\epsilon$ goes to zero, so we might consider forcing $\epsilon$ above $u_F$ to follow
 	\begin{equation}
-		\epsilon(u > u_F) = 1 + \frac{-c u_F}{u^2},
+		\epsilon(u > u_F) = 1 + \frac{-c u_F}{u^2}, \label{eq:epsSmoothJoin}
 	\end{equation}
 	which will smoothly join with~\eqref{eq:epsAN} and replicates the $u^{-2}$ dependence for the real part of $\epsilon$.
 	Alternatively, we can just use a piecewise form
@@ -62,8 +62,8 @@
 			-a + i b & u < u_c \\
 			1 + \frac{-c + i d}{u} &  u_F \geq u \geq u_c \\
 			1 + \frac{u_{TF}^2}{u} &  u \geq u_F
-		\end{cases},
-	\end{equation} \label{eq:epsForced}
+		\end{cases}. \label{eq:epsForced}
+	\end{equation}
 	It turns out that both options are reasonably similar when going through the surface impedance calculations, so I'll use~\eqref{eq:epsForced} for these notes.
 
 	\section{Plots of noise integrand} \label{sec:plotsdiscussion}
@@ -88,8 +88,32 @@
 		\includegraphics[width=14cm]{imrp2}
 		\caption{$u^2 \Im[r_p(u)]$ for different cutoff $u_F$} \label{fig:u2imrpVsCutoff}
 	\end{figure}
-	The integrand, $\u^2 Im[r_p(u)]$, is plotted in \fref{fig:u2imrpVsCutoff}.
+	The integrand, $u^2 \Im[r_p(u)]$, is plotted in \fref{fig:u2imrpVsCutoff}.
 	Unfortunately, it's clear that the value of the integral is strongly dependent on the specific value of the cutoff $u_F$, which makes it hard to find a natural value using heuristic arguments.
+
+	As mentioned above, the specific form of the cutoff turns out to be unimportant, as the shape of $\Im r_p(u)$ is largely governed by the parameter $c$.
+	For example, using
+	\begin{equation}
+		\epsilon_f(u) =
+		\begin{cases}
+			-a + i b & u < u_c \\
+			1 + \frac{-c + i d}{u} &  u_F \geq u \geq u_c \\
+			1                      &  u \geq u_F
+		\end{cases} \label{eq:epsForcedOne}
+	\end{equation}
+	instead of~\eqref{eq:epsForced} produces the plot shown in \fref{fig:u2imrpVsCutoffNoResponseAbove}, which is effectively the same as \fref{fig:u2imrpVsCutoff}.
+	Similarly, using \fref{eq:epsSmoothJoin} produces \fref{fig:u2imrpVsCutoffSmoothJoin}, which is again the same, justifying the assertion that the specific form above our cutoff is irrelevant as long as the imaginary part is zero.
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=14cm]{imrpU2NoResponseAboveCutoff}
+		\caption{$u^2 \Im[r_p(u)]$ for different cutoff $u_F$, using~\eqref{eq:epsForcedOne}.} \label{fig:u2imrpVsCutoffNoResponseAbove}
+	\end{figure}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=14cm]{imrpU2SmoothJoin}
+		\caption{$u^2 \Im[r_p(u)]$ for different cutoff $u_F$, using~\eqref{eq:epsSmoothJoin}.} \label{fig:u2imrpVsCutoffSmoothJoin}
+	\end{figure}
 
 
 	\newpage
