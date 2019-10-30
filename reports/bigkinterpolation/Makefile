@@ -28,6 +28,9 @@ figures/imrp2.jpg: scripts/imrp2.wls | figures
 figures/imrp3.jpg: scripts/imrp3.wls | figures
 	$(WS) scripts/imrp3.wls
 
+figures/imrpU2NoResponseAboveCutoff.jpg: scripts/imrpU2NoResponseAboveCutoff.wls | figures
+	$(WS) scripts/imrpU2NoResponseAboveCutoff.wls
+
 
 bigkinterpolation.pdf: bigkinterpolation.tex $(USED_FIGS)
 	$(LATEXMK) bigkinterpolation.tex
