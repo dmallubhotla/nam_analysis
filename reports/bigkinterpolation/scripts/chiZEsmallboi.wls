@@ -40,5 +40,5 @@ label = AxesLabel -> {"z", "chiZE(z)"};
 
 data = ParallelTable[{10^i, Quiet[chiZZEUnitLess[10^i, 10^j]]}, {j, 12, 27, 3}, {i, -30, -10, 1}];
 
-plot1 = ListLogLogPlot[data, ImageSize->Large, PlotLegends -> Table[j, {j, 12, 27, 3}], label];
+plot1 = ListLogLogPlot[data, ImageSize->Large, PlotLegends -> PointLegend[Automatic, Table[Superscript[10, j], {j, 12, 27, 3}], LegendLabel -> "uF"], label];
 Export[figure["chizEsmallboi.jpg"], plot1, ImageResolution -> 1200];
