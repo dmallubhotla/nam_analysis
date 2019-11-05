@@ -15,7 +15,7 @@ figuresDirectory = FileNameJoin[{
 figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
 
 (* Manually calculated sigma from 0 to 10, pretty constant in that range *)
-eps[u_?NumericQ] := 1 + I * 4 * Pi * 10*^7 * \[CapitalSigma]alk[.0073, u * .0000487161, 730, 0.58];
+eps[u_?NumericQ] := 1 + I * 4 * Pi * 10^7 * \[CapitalSigma]alk[.0073, u * .0000487161, 730, 0.58];
 
 (* Only plugging in constants so we can do that one term analytically*)
 zp[u_?NumericQ] := (Pi * I * u / eps[u]) + (2 * I * NIntegrate[

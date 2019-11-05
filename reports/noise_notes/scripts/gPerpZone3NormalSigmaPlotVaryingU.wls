@@ -14,8 +14,8 @@ figuresDirectory = FileNameJoin[{
 
 figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
 
-eps1 = 1 + I * 4 * Pi * 10*^7 * (2.5815805439630966 + 303.36948179845047*I);
-eps2[u_?NumericQ] := 1 + I * 4 * Pi * 10*^7 * \[CapitalSigma][.0073, u * .0000487161, 730, 0.58];
+eps1 = 1 + I * 4 * Pi * 10^7 * (2.5815805439630966 + 303.36948179845047*I);
+eps2[u_?NumericQ] := 1 + I * 4 * Pi * 10^7 * \[CapitalSigma][.0073, u * .0000487161, 730, 0.58];
 
 eps[u_?NumericQ] = Piecewise[{{eps1, u < 10^4}}, eps2[u]];
 

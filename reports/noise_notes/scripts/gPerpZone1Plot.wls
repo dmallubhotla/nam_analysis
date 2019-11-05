@@ -11,7 +11,7 @@ figuresDirectory = FileNameJoin[{
 
 figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
 
-eps = -3.81245193475268*^11+3.244109788820867*^9*I;
+eps = -3.81245193475268*^10+3.244109788820867*^8*I;
 
 v[u_] = Sqrt[1 - u^2];
 

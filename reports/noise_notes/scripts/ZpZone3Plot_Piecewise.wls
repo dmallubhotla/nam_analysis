@@ -15,9 +15,9 @@ calculatedDirectory = FileNameJoin[{
 
 calc[filename_] := FileNameJoin[{calculatedDirectory, filename}];
 
-eps1[u_?NumericQ] := 1 + I*4*Pi*10*^7*\[CapitalSigma]alk[.0073, u*.0000487161, 730, 0.58];
-eps2[u_?NumericQ] := 1 + I*4*Pi*10*^7*\[CapitalSigma][.0073, u*.0000487161, 730, 0.58];
-eps3[u_?NumericQ] := 1 + (-2.66909*10^19 + 2.29079*10^17 * I) / u;
+eps1[u_?NumericQ] := 1 + I*4*Pi*10^7*\[CapitalSigma]alk[.0073, u*.0000487161, 730, 0.58];
+eps2[u_?NumericQ] := 1 + I*4*Pi*10^7*\[CapitalSigma][.0073, u*.0000487161, 730, 0.58];
+eps3[u_?NumericQ] := 1 + (-2.66909*10^18 + 2.29079*10^16 * I) / u;
 eps[u_?NumericQ] = Piecewise[{{eps1[u], u < 10^6}, {eps3[u], u >= 10^16}}, eps2[u]];
 
 

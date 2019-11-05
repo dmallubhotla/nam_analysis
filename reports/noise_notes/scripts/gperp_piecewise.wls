@@ -14,7 +14,7 @@ figuresDirectory = FileNameJoin[{
 
 figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
 
-epsSimple[u_] = Piecewise[{{1 + (-2.66909*10^19 + 2.29079*10^17*I)/u, u >= 7*^7}}, -3.812449252701156`*^11 + 3.244107501348158`*^9 I];
+epsSimple[u_] = Piecewise[{{1 + (-2.66909*10^18 + 2.29079*10^16*I)/u, u >= 7*^7}}, -3.812449252701156`*^10 + 3.244107501348158`*^8 I];
 zpSimple[u_?NumericQ] := 2 * I * NIntegrate[
 	(1/(u^2 + y^2)) * ((y^2 / (epsSimple[Sqrt[u^2 + y^2]] - y^2 - u^2)) + (u^2 / (epsSimple[Sqrt[u^2 + y^2]])))
 	, {y, 0, Infinity},
