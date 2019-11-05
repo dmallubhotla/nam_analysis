@@ -1,4 +1,4 @@
-all: dist/wl_installed dist/alowk_installed dist/ahighk_installed reports
+all: dist/wl_installed dist/alowk_installed dist/ahighk_installed dist/coefficient_installed reports
 	@echo "Done."
 
 # Convenience targets
@@ -27,3 +27,9 @@ dist/ahighk_installed: src/wl/namAsymptoticHighKConductivity.wl | dist
 	mkdir -p $(MATHEMATICA_INSTALL_LOCATION)
 	cp src/wl/namAsymptoticHighKConductivity.wl $(MATHEMATICA_INSTALL_LOCATION)
 	touch dist/ahighk_installed
+
+dist/coefficient_installed: src/wl/namDielectricFunctionCoefficientApproximator.wl | dist
+	@$(eval MATHEMATICA_INSTALL_LOCATION=$(shell wolframscript -c 'FileNameJoin[{StringReplace[$$UserBaseDirectory, "\\" -> "/"], "Applications", "namDielectricFunctionCoefficientApproximator"}, OperatingSystem -> "Unix"]'))
+	mkdir -p $(MATHEMATICA_INSTALL_LOCATION)
+	cp src/wl/namDielectricFunctionCoefficientApproximator.wl $(MATHEMATICA_INSTALL_LOCATION)
+	touch dist/coefficient_installed
