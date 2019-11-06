@@ -50,4 +50,4 @@ label = AxesLabel -> {"z", "chiZE(z, T)"};
 data = ParallelTable[{10^i, Quiet[chiZZEUnitLess[10^i, 10^10, namDielectricFunctionCoefficients[omega, sigmaN, tau, vf, j * Tc, Tc] ]]}, {j, .65, .9, .05}, {i, -10, -2, .5}, DistributedContexts -> All];
 
 plot1 = ListLogLogPlot[data, ImageSize->Large, PlotLegends -> PointLegend[Automatic, Table[ToString[j] <> " T_c", {j, .65, .9, .05}], LegendLabel -> "T"], label];
-Export[figure["chiZEarounduFVaryingT3.jpg"], plot1, ImageResolution -> 1200];
+Export[figure["chiZEarounduFVaryingTemp.jpg"], plot1, ImageResolution -> 1200];
