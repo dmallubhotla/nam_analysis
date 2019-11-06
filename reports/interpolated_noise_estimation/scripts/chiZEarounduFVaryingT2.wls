@@ -41,7 +41,7 @@ e[T_] := piecewiseEps[namDielectricFunctionCoefficients[omega, sigmaN, tau, vf, 
 
 label = AxesLabel -> {"z", "chiZE(z, T)"};
 
-data = ParallelTable[{10^i, Quiet[chiZZEUnitLess[10^i, 10^10, e[j * Tc]]]}, {j, .65, .9, .05}, {i, -10, -2, .5}, DistributedContexts -> All];
+data = ParallelTable[{10^i, Quiet[chiZZEUnitLess[10^i, 10^8, e[j * Tc]]]}, {j, .65, .9, .05}, {i, -10, -2, .5}, DistributedContexts -> All];
 
 plot1 = ListLogLogPlot[data, ImageSize->Large, PlotLegends -> PointLegend[Automatic, Table[ToString[j] <> " T_c", {j, .65, .9, .05}], LegendLabel -> "T"], label];
-Export[figure["chiZEarounduFVaryingT.jpg"], plot1, ImageResolution -> 1200];
+Export[figure["chiZEarounduFVaryingT2.jpg"], plot1, ImageResolution -> 1200];
