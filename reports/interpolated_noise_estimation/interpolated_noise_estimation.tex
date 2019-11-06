@@ -65,13 +65,35 @@
 				-a + ib &= 1 + \frac{-c + id}{u_c} \\
 				u_c &= \frac{-c + id}{-(a + 1) + ib}.
 			\end{align}
-			This is allowed to be complex, but in practice $u_c$ has a much larger real part, so we can simplify our code by simply defining $u_c$ with a real part as well.
-			This is around where~\eqref{eq:eps} is its worst approximation, and presumably we could make this more accurate in the future.
+			This is allowed to be complex, but in practice this value has a much larger real part than imaginary part, so we can simplify our code by simply defining $u_c$ as the real part of that quantity.
+			This is around where~\eqref{eq:eps} is its poorest as an approximation, and adding a potential discontinuity here should hopefully not make the noise integration significantly worse.
+			If we wanted to improve this, we could just use the full numerical integral in this region.
 	\end{enumerate}
 
 	This procedure lets us use the packages already developed to determine $\epsilon$ as a simple piecewise form.
 	There doesn't seem to be a clear way to determine $u_{uc}$ at this stage, and as we saw in the earlier notes, small variations in that cutoff parameter make a large difference in the final noise calculations.
 
+	\section{Noise plots} \label{sec:plots}
+
+	The following are plotted for a cutoff of $u_{uc} = 10^{10}$.
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{chiZEarounduFVaryingTemp}
+		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different $T$} \label{fig:temp}
+	\end{figure}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{chiZEarounduFVaryingFrequency}
+		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different frequency} \label{fig:frequency}
+	\end{figure}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{chiZEarounduFVaryingTau}
+		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different $\tau$} \label{fig:tau}
+	\end{figure}
 
 	\newpage
 	\listoftodos

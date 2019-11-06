@@ -17,7 +17,7 @@ clean:
 figures:
 	mkdir -p figures
 
-USED_FIG_NAMES =
+USED_FIG_NAMES = chiZEarounduFVaryingFrequency.jpg chiZEarounduFVaryingTemp.jpg chiZEarounduFVaryingTau.jpg
 USED_FIGS = $(addprefix figures/, $(USED_FIG_NAMES))
 figures/%.jpg: scripts/%.wls | figures
 	$(WS) $<
