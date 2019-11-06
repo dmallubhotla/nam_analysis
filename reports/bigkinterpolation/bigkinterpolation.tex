@@ -118,21 +118,6 @@
 	\end{figure}
 
 	\section{Noise calculations} \label{sec:noise}
-	\begin{figure}[htp]
-		\centering
-		\includegraphics[width=12cm]{chiZEsmallboi}
-		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different cutoffs} \label{fig:chiZRange}
-	\end{figure}
-	\begin{figure}[htp]
-		\centering
-		\includegraphics[width=12cm]{chiZEmediumboi}
-		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different cutoffs} \label{fig:chiZMedium}
-	\end{figure}
-	As we might expect from the shape of $\Im r_p$, this naive approach ends up with the noise strongly depending on the cutoff value.
-	We do see in \fref{fig:chiZRange} that the $\flatfrac{1}{z^3}$ dependence goes to a constant value for $z \lesssim \frac{1}{u_{uc}}$.
-	This is unsurprising, because we engineered the form of $\epsilon$ to specifically manufacture that convergence.
-
-	As seen in \fref{fig:chiZMedium}, over more physical values of $z$, the calculated noise varies even for physically relevant $z$, over the range of plausible values of $u_{uc}$, which suggests that a better approach is needed.
 
 	\begin{figure}[htp]
 		\centering
@@ -140,7 +125,12 @@
 		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different cutoffs} \label{fig:chiZEarounduF}
 	\end{figure}
 
-	If we correct our math mistakes we see that \fref{fig:chiZEarounduF} is the one that's actually correct.\todo{remove pointless bad plots}
+	As we might expect from the shape of $\Im r_p$, this naive approach ends up with the noise strongly depending on the cutoff value.
+	We do see in \fref{fig:chiZEarounduF} that the $\flatfrac{1}{z^3}$ dependence goes to a constant value for $z \lesssim \frac{1}{u_{uc}}$.
+	This is unsurprising, because we engineered the form of $\epsilon$ to specifically manufacture that convergence.
+
+	This isn't entirely satisfying yet as a way to predict noise outside the half-space, as the range of values for physical values for x spans many orders of magnitude, which means that this isn't predictive.
+	If we have a measurement to fix $u_{uc}$, however, then we might be able to use that to make predictions for the rest of the range.
 
 	\newpage
 	\listoftodos
