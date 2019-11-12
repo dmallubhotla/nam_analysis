@@ -5,7 +5,7 @@ all: dist/wl_installed dist/alowk_installed dist/ahighk_installed dist/coefficie
 .PHONY: all reports
 
 reports:
-	$(MAKE) -C $@
+	$(MAKE) --no-print-directory -C $@
 
 dist:
 	mkdir -p dist
