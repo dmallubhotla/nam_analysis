@@ -47,7 +47,7 @@ chiZZEUnitLess[z_?NumericQ, ufCutoff_?NumericQ, coeffs_] := NIntegrate[
 
 label = AxesLabel -> {"z", "chiZE(z, vF)"};
 
-data = ParallelTable[{10^i, Quiet[chiZZEUnitLess[10^i, 10^10, namDielectricFunctionCoefficients[10^9, sigmaN, tau, 10^j, .8 * Tc, Tc] ]]}, {j, 5, 8, .5}, {i, -10, -2, .5}, DistributedContexts -> All];
+data = ParallelTable[{10^i, Quiet[chiZZEUnitLess[10^i, 10^10, namDielectricFunctionCoefficients[omega, sigmaN, tau, 10^j, .8 * Tc, Tc] ]]}, {j, 5, 8, .5}, {i, -10, -2, .5}, DistributedContexts -> All];
 
 plot1 = ListLogLogPlot[data, ImageSize->Large, PlotLegends -> PointLegend[Automatic, Table[Superscript[10, j], {j, 5, 8, .5}], LegendLabel -> "vF"], label];
 Export[figure["chiZEarounduFVaryingVf.jpg"], plot1, ImageResolution -> 1200];
