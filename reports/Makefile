@@ -1,4 +1,4 @@
-REPORTS = initial_notes noise_notes convergence imrpasymptotic bigkinterpolation interpolated_noise_estimation
+REPORTS = initial_notes noise_notes convergence imrpasymptotic bigkinterpolation interpolated_noise_estimation magnetic_noise
 
 all: $(REPORTS) output
 
