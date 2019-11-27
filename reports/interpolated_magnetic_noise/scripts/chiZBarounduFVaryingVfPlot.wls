@@ -29,7 +29,7 @@ figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
 label = AxesLabel -> {"z", "chiZE(z, vF)"};
 
 data = ToExpression[Import[calc["chiZBarounduFVaryingVf.csv"]]];
-Print[data];
+
 plot1 = ListLogLogPlot[data, ImageSize->Large, PlotLegends -> PointLegend[Automatic, Table[Superscript[10, j], {j, 5, 8, .5}], LegendLabel -> "vF"], label];
 Export[figure["chiZBarounduFVaryingVf.jpg"], plot1, ImageResolution -> 1200];
 

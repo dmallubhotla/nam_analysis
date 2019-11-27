@@ -30,9 +30,7 @@ eps[u_?NumericQ, ufCutoff_?NumericQ, a_?NumericQ,
 
 zeta[u_?NumericQ, ufCutoff_?NumericQ, coeffs_] := 2 * I *
 		NIntegrate[
-			(1/(u^2 + y^2)) * (((y^2) / (eps[Sqrt[u^2 + y^2], ufCutoff, coeffs["a"], coeffs["b"], coeffs["c"],
-				coeffs["d"], coeffs["uL"]] - u^2 - y^2)) + ((u^2) / (eps[Sqrt[u^2 + y^2], ufCutoff, coeffs["a"], coeffs["b"], coeffs["c"],
-				coeffs["d"], coeffs["uL"]]))), {y, 0, Infinity}
+			((1) / (eps[Sqrt[u^2 + y^2], ufCutoff, coeffs["a"], coeffs["b"], coeffs["c"], coeffs["d"], coeffs["uL"]] - u^2 - y^2)), {y, 0, Infinity}
 		];
 
 imrs[u_?NumericQ, ufCutoff_?NumericQ, coeffs_] := With[
@@ -47,5 +45,5 @@ chiZZBUnitLess[z_?NumericQ, ufCutoff_?NumericQ, coeffs_] := NIntegrate[
 
 
 data = ParallelTable[{10^i, Quiet[chiZZBUnitLess[10^i, 10^10, namDielectricFunctionCoefficients[10^j, sigmaN, tau, vf, .8 * Tc, Tc] ]]}, {j, 6, 11, .5}, {i, -10, -2, .5}, DistributedContexts -> All];
-Print[data];
+
 Export[calc["chiZBarounduFVaryingFrequency.csv"], data];
