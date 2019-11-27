@@ -1,0 +1,68 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx}
+\usepackage{physics}
+\usepackage{todonotes}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[plain]{fancyref}
+\usepackage[
+	style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pageranges=false, url=true
+]{biblatex}
+\addbibresource{interpolated_magnetic_noise.bib}
+
+% Document
+% !TeX spellcheck = en_GB
+\begin{document}
+
+	\graphicspath{{figures/}}
+
+	\section{Interpolated dielectric constant} \label{sec:intro}
+	Very similar to the electric noise, except trying to plot magnetic noise, again using interpolated Nam form\supercite{Nam1967}.
+	Let's see what happens!
+	In \fref{fig:cutoff} we can see how the cutoff parameter affects the magnetic noise.
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{chiZBarounduFVaryingCutoff}
+		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different $u_{uc}$} \label{fig:cutoff}
+	\end{figure}
+
+
+	\section{Noise plots} \label{sec:plots}
+
+	The following are plotted for a cutoff of $u_{uc} = 10^{10}$.
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{chiZBarounduFVaryingTemp}
+		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different $T$} \label{fig:temp}
+	\end{figure}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{chiZBarounduFVaryingFrequency}
+		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different frequency} \label{fig:frequency}
+	\end{figure}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{chiZBarounduFVaryingTau}
+		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different $\tau$} \label{fig:tau}
+	\end{figure}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{chiZBarounduFVaryingVf}
+		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different $v_F$} \label{fig:vf}
+	\end{figure}
+
+	\newpage
+	\listoftodos
+	\newpage
+	\printbibliography
+
+\end{document}
