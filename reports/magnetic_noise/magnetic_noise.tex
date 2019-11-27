@@ -1,0 +1,33 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx}
+\usepackage{physics}
+\usepackage{todonotes}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[plain]{fancyref}
+\usepackage[
+	style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pageranges=false, url=true
+]{biblatex}
+\addbibresource{magnetic_noise.bib}
+
+% Document
+% !TeX spellcheck = en_GB
+\begin{document}
+
+	\graphicspath{{figures/}}
+
+	\section{Magnetic Noise} \label{sec:intro}
+
+	Let's calculate magnetic noise using~\cite{Nam1967}.
+
+	\newpage
+	\listoftodos
+	\newpage
+	\printbibliography
+
+\end{document}
