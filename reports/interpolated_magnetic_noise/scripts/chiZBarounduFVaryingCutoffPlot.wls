@@ -26,7 +26,7 @@ figuresDirectory = FileNameJoin[{
 
 figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
 
-label = AxesLabel -> {"z", "chiZE(z, \[Omega], T = .8 Tc)"};
+label = AxesLabel -> {"z", "chiZB(z, \[Omega], T = .8 Tc)"};
 data = ToExpression[Import[calc["chiZBarounduFVaryingCutoff.csv"]]];
 plot1 = ListLogLogPlot[data, ImageSize->Large, PlotLegends -> PointLegend[Automatic, Table[Superscript[10, j], {j, 8, 12, .5}], LegendLabel -> Subscript["u", "uc"]], label];
 Export[figure["chiZBarounduFVaryingCutoff.jpg"], plot1, ImageResolution -> 1200];

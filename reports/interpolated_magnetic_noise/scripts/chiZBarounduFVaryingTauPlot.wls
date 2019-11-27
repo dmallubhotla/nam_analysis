@@ -26,7 +26,7 @@ figuresDirectory = FileNameJoin[{
 
 figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
 
-label = AxesLabel -> {"z", "chiZE(z, \[Tau], T = .8 Tc)"};
+label = AxesLabel -> {"z", "chiZB(z, \[Tau], T = .8 Tc)"};
 
 data = ToExpression[Import[calc["chiZBarounduFVaryingTau.csv"]]];
 
