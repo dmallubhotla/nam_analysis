@@ -1,6 +1,6 @@
 Needs["namDielectricFunctionCoefficientApproximator`"];
 
-figuresDirectory = FileNameJoin[{
+calcDirectory = FileNameJoin[{
 	ParentDirectory[
 		DirectoryName[
 			FileNameJoin[{
@@ -8,10 +8,10 @@ figuresDirectory = FileNameJoin[{
 				$ScriptCommandLine[[1]]
 			}]
 		]
-	], "figures"
+	], "calc"
 }];
 
-figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
+calc[filename_] := FileNameJoin[{calcDirectory, filename}];
 
 omega = 10^9;
 sigmaN = 10^16;
@@ -29,11 +29,11 @@ eps[u_?NumericQ, ufCutoff_?NumericQ, a_?NumericQ,
 ];
 
 zeta[u_?NumericQ, ufCutoff_?NumericQ, coeffs_] := 2 * I *
-	NIntegrate[
-		(1/(u^2 + y^2)) * (((y^2) / (eps[Sqrt[u^2 + y^2], ufCutoff, coeffs["a"], coeffs["b"], coeffs["c"],
-			coeffs["d"], coeffs["uL"]] - u^2 - y^2)) + ((u^2) / (eps[Sqrt[u^2 + y^2], ufCutoff, coeffs["a"], coeffs["b"], coeffs["c"],
-			coeffs["d"], coeffs["uL"]]))), {y, 0, Infinity}
-	];
+		NIntegrate[
+			(1/(u^2 + y^2)) * (((y^2) / (eps[Sqrt[u^2 + y^2], ufCutoff, coeffs["a"], coeffs["b"], coeffs["c"],
+				coeffs["d"], coeffs["uL"]] - u^2 - y^2)) + ((u^2) / (eps[Sqrt[u^2 + y^2], ufCutoff, coeffs["a"], coeffs["b"], coeffs["c"],
+				coeffs["d"], coeffs["uL"]]))), {y, 0, Infinity}
+		];
 
 imrs[u_?NumericQ, ufCutoff_?NumericQ, coeffs_] := With[
 	{zs = zeta[u, ufCutoff, coeffs]},
@@ -45,9 +45,7 @@ chiZZBUnitLess[z_?NumericQ, ufCutoff_?NumericQ, coeffs_] := NIntegrate[
 	, {u, 10, Infinity}
 ];
 
-label = AxesLabel -> {"z", "chiZE(z, \[Tau], T = .8 Tc)"};
 
 data = ParallelTable[{10^i, Quiet[chiZZBUnitLess[10^i, 10^10, namDielectricFunctionCoefficients[10^9, sigmaN, 10^j, vf, .8 * Tc, Tc] ]]}, {j, -16, -12, .5}, {i, -10, -2, .5}, DistributedContexts -> All];
 Print[data];
-plot1 = ListLogLogPlot[data, ImageSize->Large, PlotLegends -> PointLegend[Automatic, Table[Superscript[10, j], {j, -16, -12, .5}], LegendLabel -> "\[Tau]"], label];
-Export[figure["chiZBarounduFVaryingTau.jpg"], plot1, ImageResolution -> 1200];
+Export[calc["chiZBarounduFVaryingTau.csv"], data];

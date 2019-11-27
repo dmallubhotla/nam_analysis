@@ -1,6 +1,6 @@
 Needs["namDielectricFunctionCoefficientApproximator`"];
 
-figuresDirectory = FileNameJoin[{
+calcDirectory = FileNameJoin[{
 	ParentDirectory[
 		DirectoryName[
 			FileNameJoin[{
@@ -8,10 +8,10 @@ figuresDirectory = FileNameJoin[{
 				$ScriptCommandLine[[1]]
 			}]
 		]
-	], "figures"
+	], "calc"
 }];
 
-figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
+calc[filename_] := FileNameJoin[{calcDirectory, filename}];
 
 omega = 10^9;
 sigmaN = 10^16;
@@ -45,10 +45,9 @@ chiZZBUnitLess[z_?NumericQ, ufCutoff_?NumericQ, coeffs_] := NIntegrate[
 	, {u, 10, Infinity}
 ];
 
-label = AxesLabel -> {"z", "chiZE(z, \[Omega], T = .8 Tc)"};
+
 coeffs = namDielectricFunctionCoefficients[omega, sigmaN, tau, vf, .8 * Tc, Tc];
 
 data = ParallelTable[{10^i, Quiet[chiZZBUnitLess[10^i, 10^j, coeffs ]]}, {j, 8, 12, .5}, {i, -10, -2, .5}, DistributedContexts -> All];
-
-plot1 = ListLogLogPlot[data, ImageSize->Large, PlotLegends -> PointLegend[Automatic, Table[Superscript[10, j], {j, 8, 12, .5}], LegendLabel -> Subscript["u", "uc"]], label];
-Export[figure["chiZBarounduFVaryingCutoff.jpg"], plot1, ImageResolution -> 1200];
+Print[data];
+Export[calc["chiZBarounduFVaryingCutoff.csv"], data];
