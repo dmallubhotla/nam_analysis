@@ -22,9 +22,20 @@
 	\graphicspath{{figures/}}
 
 	\section{Magnetic noise} \label{sec:intro}
-	Very similar to the electric noise, except trying to plot magnetic noise, again using interpolated Nam form\supercite{Nam1967}.
+
+	Calculating $\chi_{BB}(z)$, via
+	\begin{align}
+		\chi_{BB} \propto \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i z v} r_s(u),
+	\end{align}
+	where
+	\begin{align}
+		r_s(u) &= \frac{\zeta_s(u) - \frac{\pi}{v}}{\zeta_s(u) + \frac{\pi}{v}} \\
+		\zeta_s(u) &= 2i \int_0^\infty \dd{y} \frac{1}{\epsilon_t(\frac{\omega}{c}\kappa, \omega) - \kappa^2} \\
+		\kappa^2 &= u^2 + y^2
+	\end{align}
+	Again, here using interpolated Nam form approximating the expression in Nam\supercite{Nam1967}.
 	In \fref{fig:cutoff} we can see how the cutoff parameter affects the magnetic noise.
-	We see that unlike the electric case, the cutoff only matters at distances far smaller than the relevant distance scale.
+	We see that unlike the electric case, the cutoff only matters at distances far smaller than the relevant distance scale, which squares with the idea that the magnetic noise expressions converge better.
 	\begin{figure}[htp]
 		\centering
 		\includegraphics[width=12cm]{chiZBarounduFVaryingCutoff}
@@ -54,7 +65,7 @@
 		r_s(u) &= \frac{(A - \pi) u + i B}{(A + \pi)u + i B } \frac{{(A + \pi)u - i B }}{{(A + \pi)u - i B }} \\
 		r_s(u) &= \frac{(A^2 - \pi^2) u^2 + B^2  + i B u(A + \pi - A + \pi)}{(A + \pi)^2 u^2 + B^2 }
 	\end{align}
-	So the imaginary part of $r_s$ still goes at $\frac{1}{u}$.\todo{Verify this, this seems off}
+	So the imaginary part of $r_s$ still goes at $\frac{1}{u}$.\todo{Verify this, this seems off.}
 
 
 	\section{Noise plots} \label{sec:plots}
