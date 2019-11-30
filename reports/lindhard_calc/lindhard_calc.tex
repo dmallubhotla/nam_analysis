@@ -1,0 +1,47 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx}
+\usepackage{physics}
+\usepackage{todonotes}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[plain]{fancyref}
+\usepackage[
+	style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pageranges=false, url=true
+]{biblatex}
+\addbibresource{lindhard_calc.bib}
+
+% Document
+% !TeX spellcheck = en_GB
+\begin{document}
+
+	\graphicspath{{figures/}}
+
+	\section{Noise calculation using Lindhard function} \label{sec:intro}
+
+	Let's calculate the noise using the Lindhard function described in~\cite{SolyomV3}.
+	For later, we have $q_{TF}^2 = 4 \pi e^2 \rho(e_F)$, where $e$ is the renormalised charge.
+	With $\omega_p^2 = \flatfrac{4 \pi n e^2}{m}$ and $q_{TF}^2 = \flatfrac{3 \omega_p^2}{v_F^2}$, we can write
+	\begin{align}
+		q_{TF}^2 &= 4 \pi e^2 \rho(e_F) \\
+		\frac{3 \omega_p^2}{v_F^2} &= 4 \pi e^2 \rho(e_F) \\
+		\frac{3 \flatfrac{4 \pi n e^2}{m}}{v_F^2} &= 4 \pi e^2 \rho(e_F) \\
+		\frac{3n}{v_F^2 m} &= \rho(e_F) \\
+	\end{align}
+
+	Solyom has the Lindhard function for finite scattering times as
+	\begin{equation}
+		% explicit \displaystyle here for fraction
+		\epsilon(\vec{q}, \omega) = 1 + \frac{q_{TF}^2}{q^2}\frac{\displaystyle 1 + \frac{\omega + \flatfrac{i}{\tau}}{2 v_F q} \ln(\frac{\omega - v_F q + \flatfrac{i}{\tau}}{\omega + v_F q + \flatfrac{i}{\tau}})}{\displaystyle 1 + \frac{\flatfrac{i}{\tau}}{2 v_F q} \ln(\frac{\omega - v_F q + \flatfrac{i}{\tau}}{\omega + v_F q + \flatfrac{i}{\tau}})}
+	\end{equation}
+
+	\newpage
+	\listoftodos
+	\newpage
+	\printbibliography
+
+\end{document}

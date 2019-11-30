@@ -1,12 +1,12 @@
 LATEXMK = latexmk -g -lualatex
 WS = wolframscript -f
 
-all: ../output/magnetic_noise.pdf
+all: ../output/lindhard_calc.pdf
 
 .PHONY: all clean
 
-../output/magnetic_noise.pdf: magnetic_noise.pdf | ../output
-	cp magnetic_noise.pdf ../output/
+../output/lindhard_calc.pdf: lindhard_calc.pdf | ../output
+	cp lindhard_calc.pdf ../output/
 
 clean:
 	latexmk -C
@@ -22,6 +22,6 @@ USED_FIGS = $(addprefix figures/, $(USED_FIG_NAMES))
 figures/%.jpg: scripts/%.wls | figures
 	$(WS) $<
 
-magnetic_noise.pdf: magnetic_noise.tex $(USED_FIGS)
-	$(LATEXMK) magnetic_noise.tex
+lindhard_calc.pdf: lindhard_calc.tex $(USED_FIGS)
+	$(LATEXMK) lindhard_calc.tex
 
