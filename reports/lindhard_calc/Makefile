@@ -17,9 +17,20 @@ clean:
 figures:
 	mkdir -p figures
 
-USED_FIG_NAMES =
+calc:
+	mkdir -p calc
+
+USED_FIG_NAMES = chiZELindhard.jpg
 USED_FIGS = $(addprefix figures/, $(USED_FIG_NAMES))
-figures/%.jpg: scripts/%.wls | figures
+USED_CALC_NAMES = $(USED_FIG_NAMES:.jpg=.csv)
+USED_CALC = $(addprefix calc/, $(USED_CALC_NAMES))
+
+.SECONDARY: $(USED_CALC)
+
+calc/%.csv: scripts/%Calc.wls | calc
+	$(WS) $<
+
+figures/%.jpg: scripts/%Plot.wls calc/%.csv | figures
 	$(WS) $<
 
 lindhard_calc.pdf: lindhard_calc.tex $(USED_FIGS)

@@ -11,7 +11,7 @@
 \usepackage{url}
 \usepackage[plain]{fancyref}
 \usepackage[
-	style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pageranges=false, url=true
+style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pageranges=false, url=true
 ]{biblatex}
 \addbibresource{lindhard_calc.bib}
 
@@ -23,7 +23,13 @@
 
 	\section{Noise calculation using Lindhard function} \label{sec:intro}
 
-	Let's calculate the noise using the Lindhard function described in~\cite{SolyomV3}.
+	Let's calculate the noise using the Lindhard dielectric function.
+	Solyom\supercite{SolyomV3} has, for finite scattering times, the dielectric function as
+	\begin{equation}
+		% explicit \displaystyle here for fraction
+		\epsilon(\vec{q}, \omega) = 1 + \frac{q_{TF}^2}{q^2}\frac{\displaystyle 1 + \frac{\omega + \flatfrac{i}{\tau}}{2 v_F q} \ln(\frac{\omega - v_F q + \flatfrac{i}{\tau}}{\omega + v_F q + \flatfrac{i}{\tau}})}{\displaystyle 1 + \frac{\flatfrac{i}{\tau}}{2 v_F q} \ln(\frac{\omega - v_F q + \flatfrac{i}{\tau}}{\omega + v_F q + \flatfrac{i}{\tau}})} \label{eq:lindhardsolyom}
+	\end{equation}
+
 	For later, we have $q_{TF}^2 = 4 \pi e^2 \rho(e_F)$, where $e$ is the renormalised charge.
 	With $\omega_p^2 = \flatfrac{4 \pi n e^2}{m}$ and $q_{TF}^2 = \flatfrac{3 \omega_p^2}{v_F^2}$, we can write
 	\begin{align}
@@ -32,12 +38,35 @@
 		\frac{3 \flatfrac{4 \pi n e^2}{m}}{v_F^2} &= 4 \pi e^2 \rho(e_F) \\
 		\frac{3n}{v_F^2 m} &= \rho(e_F) \\
 	\end{align}
-
-	Solyom has the Lindhard function for finite scattering times as
-	\begin{equation}
-		% explicit \displaystyle here for fraction
-		\epsilon(\vec{q}, \omega) = 1 + \frac{q_{TF}^2}{q^2}\frac{\displaystyle 1 + \frac{\omega + \flatfrac{i}{\tau}}{2 v_F q} \ln(\frac{\omega - v_F q + \flatfrac{i}{\tau}}{\omega + v_F q + \flatfrac{i}{\tau}})}{\displaystyle 1 + \frac{\flatfrac{i}{\tau}}{2 v_F q} \ln(\frac{\omega - v_F q + \flatfrac{i}{\tau}}{\omega + v_F q + \flatfrac{i}{\tau}})}
-	\end{equation}
+	To synchronise constants:
+	\begin{align}
+		\sigma_{DC} &= \frac{n e^2 \tau}{m} \\
+		&= \frac{1}{4\pi}\frac{4 \pi n e^2}{m} \tau \\
+		&= \frac{n e^2 \tau}{m} \\
+		&= \frac{\omega_p^2}{4\pi}\tau
+	\end{align}
+	In the noise notes we had $\sigma_{DC} = \SI{10e16}{\per\second}$ and $\tau = \SI{10e-14}{\per\second}$
+	\begin{align}
+		10^{16} &= \frac{\omega_p^2}{4\pi} 10^{-14}\\
+		\omega_p^2 &= 4 \pi \times 10^{30} \\
+		\omega_p &\approx \SI{3.5e15}{\per\second}
+	\end{align}
+	This is a reasonable value for $\omega_p$, which reassures us that our previous constants were reasonable as well.
+	With $v_F = \SI{2e6}{\m \per \s}$, we can write
+	\begin{align}
+		q_{TF}^2 &= \frac{3 \omega_p^2}{v_F^2} \\
+		&= \frac{12\pi \times 10^{30}}{\left( 2 \times 10^6 \right)^2} \\
+		q_{TF} &\approx \SI{3e9}{\per\m}
+	\end{align}
+	Along with $\omega = \SI{10e9}{\per\second}$, this sets all the constants we would use for calculation in~\eqref{eq:lindhardsolyom}.
+	\section{Electric noise} \label{sec:ElectricNoise}
+	In \fref{fig:electriccutoffs} we can see what happens as we vary the cutoff frequency while calculating the cutoffs.
+	The cutoff has no effect on the noise.
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{chiZELindhard}
+		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different integration cutoffs} \label{fig:electriccutoffs}
+	\end{figure}
 
 	\newpage
 	\listoftodos
