@@ -44,22 +44,22 @@ epsEf[q_?NumericQ] := Piecewise[
 
 getq[u_?NumericQ] := u * omega / c;
 
-zetaP[u_?NumericQ, ufCutoff_?NumericQ, coeffs_] := 2 * I *
+zetaP[u_?NumericQ, coeffs_] := 2 * I *
 		NIntegrate[
 			(1/(u^2 + y^2)) * (((y^2) / (epsEf[getq[u]] - u^2 - y^2)) + ((u^2) / (epsEf[getq[u]]))), {y, 0, Infinity}
 		];
 
-imrp[u_?NumericQ, ufCutoff_?NumericQ, coeffs_] := With[
-	{zp = zetaP[u, ufCutoff, coeffs]},
+imrp[u_?NumericQ, coeffs_] := With[
+	{zp = zetaP[u, coeffs]},
 	Im[(Pi * I * u - zp) / (Pi * I * u + zp)]
 ];
 
-chiZZEUnitLess[z_?NumericQ, ufCutoff_?NumericQ, coeffs_] := NIntegrate[
-	u^2 * imrp[u, ufCutoff, coeffs] * E^(-2 * u * z)
+chiZZEUnitLess[z_?NumericQ, coeffs_] := NIntegrate[
+	u^2 * imrp[u, coeffs] * E^(-2 * u * z)
 	, {u, 10, Infinity}
 ];
 
 
-data = ParallelTable[{10^i, Quiet[chiZZEUnitLess[10^i, 10^j, coeffs ]]}, {j, 7, 10, 1}, {i, -10, -2, .5}, DistributedContexts -> All];
+data = ParallelTable[{10^i, Quiet[chiZZEUnitLess[10^i, coeffs ]]}, {j, 7, 10, 1}, {i, -10, -2, .5}, DistributedContexts -> All];
 
 Export[calc["chiZELindhard2.csv"], data];

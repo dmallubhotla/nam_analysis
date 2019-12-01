@@ -60,13 +60,16 @@ style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pagerange
 	\end{align}
 	Along with $\omega = \SI{10e9}{\per\second}$, this sets all the constants we would use for calculation in~\eqref{eq:lindhardsolyom}.
 	\section{Electric noise} \label{sec:ElectricNoise}
-	In \fref{fig:electriccutoffs} we can see what happens as we vary the cutoff frequency while calculating the cutoffs.
-	The cutoff has no effect on the noise.
+	In \fref{fig:electriccutoffs} we can see the electric noise, without units.
 	\begin{figure}[htp]
 		\centering
 		\includegraphics[width=12cm]{chiZELindhard}
-		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different integration cutoffs} \label{fig:electriccutoffs}
+		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$} \label{fig:electriccutoffs}
 	\end{figure}
+	We multiply our noise by
+	\begin{align}
+		\chi = \frac{\hbar}{\epsilon_0} I
+	\end{align}
 
 	\newpage
 	\listoftodos

@@ -16,6 +16,11 @@ tau = 10^-14;
 vf = 2 * 10^6;
 omegap = 3.5 * 10^15;
 c = 3 * 10^8;
+hbar = 1.05^-34;
+e0 = 8.84^-12;
+(*T in Hz*)
+temp = 10^11;
+dipoleMoment = 8.4 * 10^-30;
 
 epsL[qP_?NumericQ, omegaP_?NumericQ, vfP_?NumericQ, omegapP_?NumericQ, tauP_?NumericQ] := With[
 	{
@@ -55,11 +60,12 @@ imrp[u_?NumericQ, coeffs_] := With[
 ];
 
 chiZZEUnitLess[z_?NumericQ, coeffs_] := NIntegrate[
-	u^2 * imrp[u, coeffs] * E^(-2 * u * z)
+	(omega^3/ (c^3)) * (hbar/e0) * u^2 * imrp[u, coeffs] * E^(-2 * u * z)
 	, {u, 10, Infinity}
 ];
 
+T1[c_?NumericQ] := 1/((dipoleMoment^2 / (hbar^2)) * c * Coth[omega/(2* temp)]);
 
-data = ParallelTable[{10^i, Quiet[chiZZEUnitLess[10^i, coeffs ]]}, {i, -11, -2, .5}, DistributedContexts -> All];
+data = ParallelTable[{10^i, Quiet[T1[chiZZEUnitLess[10^i, coeffs ]]]	}, {i, -11, -2, .5}, DistributedContexts -> All];
 
-Export[calc["chiZELindhard.csv"], data];
+Export[calc["T1ZELindhard.csv"], data];
