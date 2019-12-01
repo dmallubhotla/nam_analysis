@@ -20,7 +20,7 @@ figures:
 calc:
 	mkdir -p calc
 
-USED_FIG_NAMES = chiZELindhard.jpg
+USED_FIG_NAMES = chiZELindhard.jpg T1ZELindhard.jpg
 USED_FIGS = $(addprefix figures/, $(USED_FIG_NAMES))
 USED_CALC_NAMES = $(USED_FIG_NAMES:.jpg=.csv)
 USED_CALC = $(addprefix calc/, $(USED_CALC_NAMES))
