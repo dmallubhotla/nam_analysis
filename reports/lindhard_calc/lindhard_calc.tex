@@ -64,18 +64,39 @@ style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pagerange
 	\begin{figure}[htp]
 		\centering
 		\includegraphics[width=12cm]{chiZELindhard}
-		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$} \label{fig:chizee}
+		\caption{$g_{\perp}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$} \label{fig:chizee}
 	\end{figure}
-	We multiply our noise by
-	\begin{align}
-		\chi = \frac{\hbar}{\epsilon_0} I
-	\end{align}
 
 	The results of $T_1^{(E)}(z)$ are plotted in \fref{fig:t1ez}, although the units seem off.
-	This is calculated via
-	\begin{equation}
-		\frac{1}{T_1^{(E)}}
-	\end{equation}
+	Specifically, from Henkel\supercite{Henkel1999}, we had
+	\begin{align}
+		S^{(nf)ij}_E(z, \omega) &= S^{(bb)}_E(\omega) g_{\perp}(z) \\
+		S^{(bb)}_E(\omega) &= \frac{\hbar \omega^3}{3 \pi \epsilon_0 c^3 (1 - e^{-\flatfrac{\hbar \omega}{T}})} \\
+		g_\perp &= \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i z v} r_p(u) \\
+		\frac{1}{T_1} &= \frac{d^2}{\hbar^2} S^{(nf)ij}_E(z, \omega)
+	\end{align}
+	Thus
+	\begin{align}
+		\frac{1}{T_1} &= \frac{d^2}{\hbar^2} S^{(nf)ij}_E(z, \omega) \\
+		\frac{1}{T_1} &= \frac{d^2}{\hbar^2} \frac{\hbar \omega^3}{3 \pi \epsilon_0 c^3 (1 - e^{-\flatfrac{\hbar \omega}{T}})} \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i z v} r_p(u) \\
+		\frac{1}{T_1} &= \frac{d^2}{\hbar} \frac{\omega^3}{3 \pi \epsilon_0 c^3 (1 - e^{-\flatfrac{\hbar \omega}{T}})} \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i z v} r_p(u) \\
+		\frac{1}{T_1} &= \frac{d^2 \omega^3}{2 \pi \hbar \epsilon_0 c^3} \frac{1}{(1 - e^{-\flatfrac{\hbar \omega}{T}})} I
+	\end{align}
+	Here, $I$ is the dimensionless integral calculated numerically in the code.
+	This nearly matches up exactly with the coefficient we had used in~\cite{QubitRelax}, except for a factor of $2\pi$ (I believe from differences in definitions of $r_p$\todo{check this}).
+	The function of temperature is also different, in effect we had
+	\begin{align}
+		\frac{1}{T} &= \frac{d^2 \omega^3}{\hbar \epsilon_0 c^3} \coth(\frac{\hbar \omega}{2 T}) I, \label{eq:actualTime}
+	\end{align}
+	which seems more correct of a result.
+
+	The plot in \fref{fig:t1ez} is based on~\eqref{eq:actualTime}, with
+	\begin{align}
+		d &= \SI{8.4e-30}{\coulomb \meter} \\
+		\hbar &= \SI{1.05e-34}{\J \s} \\
+		\epsilon_0 &= \SI{8.854e-12}{\farad\per\meter} \\
+		\omega &= \SI{10e9}{\Hz}
+	\end{align}
 	\begin{figure}[htp]
 		\centering
 		\includegraphics[width=12cm]{T1ZELindhard}

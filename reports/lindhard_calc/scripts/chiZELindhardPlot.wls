@@ -26,7 +26,7 @@ figuresDirectory = FileNameJoin[{
 
 figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
 
-label = AxesLabel -> {"z", "chiZE(z, \[Omega])"};
+label = AxesLabel -> {"z", "gPerp(z, \[Omega])"};
 data = ToExpression[Import[calc["chiZELindhard.csv"]]];
 plot1 = ListLogLogPlot[data, ImageSize->Large, label];
 Export[figure["chiZELindhard.jpg"], plot1, ImageResolution -> 1200];
