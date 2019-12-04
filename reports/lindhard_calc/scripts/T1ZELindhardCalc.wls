@@ -16,11 +16,12 @@ tau = 10^-14;
 vf = 2 * 10^6;
 omegap = 3.5 * 10^15;
 cLight = 3 * 10^8;
-hbar = 1.05^-34;
+hbar = 1.05 * 10^-34;
 e0 = 8.854^-12;
 (*T in Hz*)
 temp = 10^11;
 dipoleMoment = 8.4 * 10^-30;
+eps1 = 1 + (1.25 * 10^8 * I);
 
 epsL[qP_?NumericQ, omegaP_?NumericQ, vfP_?NumericQ, omegapP_?NumericQ, tauP_?NumericQ] := With[
 	{
@@ -64,8 +65,24 @@ chiZZEUnitLess[z_?NumericQ] := NIntegrate[
 	, {u, 10, Infinity}
 ];
 
+zetaPLocal[u_?NumericQ] := 2 * I *
+		NIntegrate[
+			(1/(u^2 + y^2)) * (((y^2) / (eps1 - u^2 - y^2)) + ((u^2) / (eps1))), {y, 0, Infinity}
+		];
+imrpLocal[u_?NumericQ] := With[
+	{zp = zetaPLocal[u]},
+	Im[(Pi * I * u - zp) / (Pi * I * u + zp)]
+];
+chiZZEUnitLessLocal[z_?NumericQ] := NIntegrate[
+	u^2 * imrpLocal[u] * E^(-2 * u * z)
+	, {u, 10, Infinity}
+];
+
+
 T1[c_?NumericQ] := (( hbar * e0 * cLight^3) / (dipoleMoment^2 * omega^3)) * (1/( c * Coth[omega/(2* temp)]));
 
-data = ParallelTable[{10^i, Quiet[T1[chiZZEUnitLess[10^i]]]	}, {i, -11, -2, .25}, DistributedContexts -> All];
+dataLocal = ParallelTable[{10^i, Quiet[T1[chiZZEUnitLessLocal[10^i]]]}, {i, -11, -2, .25}, DistributedContexts -> All];
+dataLindhard = ParallelTable[{10^i, Quiet[T1[chiZZEUnitLess[10^i]]]}, {i, -11, -2, .25}, DistributedContexts -> All];
+data = {dataLocal, dataLindhard};
 
 Export[calc["T1ZELindhard.csv"], data];
