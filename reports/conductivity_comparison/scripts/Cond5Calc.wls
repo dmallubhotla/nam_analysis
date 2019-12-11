@@ -14,7 +14,7 @@ calcDirectory = FileNameJoin[{
 
 calc[filename_] := FileNameJoin[{calcDirectory, filename}];
 
-omega = 10^6;
+omega = 10^12;
 tau = 10^-14;
 vf = 2 * 10^6;
 omegap = 3.5 * 10^15;
@@ -83,7 +83,6 @@ makeParams[\[Omega]_, \[Sigma]n_, \[Tau]_, vfp_, T_, Tc_] := With[
 		B -> \[Sigma]n / \[Omega]
 	|>
 ];
-
 epsNam[q_?NumericQ] := With[
 	{params = makeParams[omega, sigmaN, tau, vf, temp, tempC]},
 	1 + 4 * Pi * I * params[B] * \[CapitalSigma][params[\[Xi]], q * params[kc], params[\[Nu]], params[t]]
@@ -93,9 +92,9 @@ epsNamSmallK[q_?NumericQ] := With[
 	1 + 4 * Pi * I * params[B] * \[CapitalSigma]alk[params[\[Xi]], q * params[kc], params[\[Nu]], params[t]]
 ];
 
-dataLindhard = ParallelTable[{10^i, Im[epsEf[10^i]]}, {i, 2, 12, .5}, DistributedContexts -> All];
-dataNam = ParallelTable[{10^i, Im[epsNam[10^i]]}, {i, 2, 12, .5}, DistributedContexts -> All];
-dataNamSmallK = ParallelTable[{10^i, Im[epsNamSmallK[10^i]]}, {i, 2, 12, .5}, DistributedContexts -> All];
+dataLindhard = ParallelTable[{10^i, Re[epsEf[10^i]]}, {i, 2, 12, .5}, DistributedContexts -> All];
+dataNam = ParallelTable[{10^i, Re[epsNam[10^i]]}, {i, 2, 12, .5}, DistributedContexts -> All];
+dataNamSmallK = ParallelTable[{10^i, Re[epsNamSmallK[10^i]]}, {i, 2, 12, .5}, DistributedContexts -> All];
 
 data = {dataLindhard, dataNam, dataNamSmallK};
-Export[calc["Cond3.csv"], data];
+Export[calc["Cond5.csv"], data];
