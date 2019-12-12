@@ -1,5 +1,6 @@
 Needs["namConductivity`"];
-Needs["namAsymptoticLowKConductivity`"];
+(*Needs["namAsymptoticLowKConductivity`"];*)
+Needs["namDielectricFunctionCoefficientApproximator`"];
 
 calcDirectory = FileNameJoin[{
 	ParentDirectory[
@@ -54,24 +55,20 @@ epsEf[q_?NumericQ] := Piecewise[
 ];
 
 
-(*coefficients = namDielectricFunctionCoefficients[omega, sigmaN, tau, vf, temp, Tc];*)
-(*Print[coefficients];*)
-(*eps[u_?NumericQ, ufCutoff_?NumericQ] := With[*)
-(*{*)
-(*a = coefficients["a"],*)
-(*b = coefficients["b"],*)
-(*c = coefficients["c"],*)
-(*d = coefficients["d"],*)
-(*uL = coefficients["uL"]*)
-(*},*)
-(*Piecewise[*)
-(*{*)
-(*{-a + b *I, u < uL},*)
-(*{1 + ((-c) + (d)*I)/u, u >= uL && u < ufCutoff}*)
-(*},*)
-(*1*)
-(*]*)
-(*];*)
+getu[q_?NumericQ] := q * cLight / omega;
+coefficients = namDielectricFunctionCoefficients[omega, sigmaN, tau, vf, temp, tempC];
+epsInterpolated[q_?NumericQ, ufCutoff_?NumericQ] := With[{
+	a = coefficients["a"],
+	b = coefficients["b"],
+	c = coefficients["c"],
+	d = coefficients["d"],
+	uL = coefficients["uL"],
+	u = getu[q]
+}, Piecewise[{
+	{-a + b *I, u < uL},
+	{1 + ((-c) + (d)*I)/u, u >= uL && u < ufCutoff}
+}, 1]
+];
 
 makeParams[\[Omega]_, \[Sigma]n_, \[Tau]_, vfp_, T_, Tc_] := With[
 	{\[CapitalDelta] = 3.06 * Sqrt[Tc * (Tc - T)]},
@@ -93,8 +90,9 @@ epsNamSmallK[q_?NumericQ] := With[
 ];
 
 dataLindhard = ParallelTable[{10^i, Re[epsEf[10^i]]}, {i, 2, 12, .5}, DistributedContexts -> All];
+dataNamInterp = ParallelTable[{10^i, Re[epsInterpolated[10^i, 10^15]]}, {i, 2, 12, .5}, DistributedContexts -> All];
 dataNam = ParallelTable[{10^i, Re[epsNam[10^i]]}, {i, 2, 12, .5}, DistributedContexts -> All];
-dataNamSmallK = ParallelTable[{10^i, Re[epsNamSmallK[10^i]]}, {i, 2, 12, .5}, DistributedContexts -> All];
+(*dataNamSmallK = ParallelTable[{10^i, Re[epsNamSmallK[10^i]]}, {i, 2, 12, .5}, DistributedContexts -> All];*)
 
-data = {dataLindhard, dataNam, dataNamSmallK};
+data = {dataLindhard, dataNamInterp, dataNam};
 Export[calc["Cond4.csv"], data];

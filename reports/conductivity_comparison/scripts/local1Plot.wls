@@ -26,8 +26,7 @@ figuresDirectory = FileNameJoin[{
 
 figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
 
-label = AxesLabel -> {"q", StringForm["Im[\[Epsilon](q, \[Omega] = ``)]", Superscript[10, 6]]};
-data = ToExpression[Import[calc["Cond3.csv"]]];
-plot1 = ListLogLogPlot[data, ImageSize->Large, label, PlotLegends -> {"Lindhard", "Nam", "Nam Small k"}, ImagePadding -> {{50, Automatic}, {Automatic, Automatic}}];
-
-Export[figure["Cond3.jpg"], plot1, ImageResolution -> 1200];
+label = AxesLabel -> {"\[Omega]", "Im[\[Epsilon](q = 0, \[Omega])]"};
+data = ToExpression[Import[calc["local1.csv"]]];
+plot1 = ListLogLogPlot[data, ImageSize->Large, label, PlotLegends -> {"Lindhard", "Nam Interpolated"}, ImagePadding -> {{50, Automatic}, {Automatic, Automatic}}];
+Export[figure["local1.jpg"], plot1, ImageResolution -> 1200];
