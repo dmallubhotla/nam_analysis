@@ -26,7 +26,7 @@ e0 = 8.854^-12;
 tau = 10^-14;
 tempC = 10^11;
 (*T in Hz*)
-temp = .8 * tempC;
+temp = .1 * tempC;
 
 sigmaN = omegap^2 * tau	 / (4 * Pi);
 
