@@ -26,7 +26,7 @@ Tc = 10^11;
 temp = .8 * Tc;
 dipoleMoment = 8.4 * 10^-30;
 
-sigmaN = omegap^2 * tau	 / (4 * Pi);
+sigmaN = omegap^2 * tau / (4 * Pi);
 
 getq[u_?NumericQ, omega_?NumericQ] := u * omega / cLight;
 (* NORMAL METAL *)

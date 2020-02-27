@@ -26,7 +26,7 @@ Tc = 10^11;
 temp = .8 * Tc;
 dipoleMoment = 8.4 * 10^-30;
 
-sigmaN = omegap^2 * tau	 / (4 * Pi);
+sigmaN = omegap^2 * tau / (4 * Pi);
 
 eps[u_?NumericQ, ufCutoff_?NumericQ, a_?NumericQ,
 	b_?NumericQ, c_?NumericQ, d_?NumericQ, uL_?NumericQ] := Piecewise[
