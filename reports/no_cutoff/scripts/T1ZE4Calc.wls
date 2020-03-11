@@ -26,7 +26,7 @@ Tc = 10^11;
 temp = .8 * Tc;
 dipoleMoment = 8.4 * 10^-30;
 
-sigmaN = omegap^2 * tau / (4 * Pi);
+sigmaN[tauP_?NumericQ] := omegap^2 * tauP / (4 * Pi);
 
 getq[u_?NumericQ] := u * omega / cLight;
 (* NORMAL METAL *)
@@ -91,9 +91,9 @@ chiZZEUnitLess[z_?NumericQ, ufCutoff_?NumericQ, coeffs_] := NIntegrate[
 
 T1[c_?NumericQ] := (( hbar * e0 * cLight^3) / (dipoleMoment^2 * omega^3)) * (1/( c * Coth[omega/(2* temp)]));
 
-dataNam1 = ParallelTable[{10^i, Quiet[T1[chiZZEUnitLess[10^i, 10^25, namDielectricFunctionCoefficients[omega, sigmaN, 10^(-18), vf, temp, Tc]]]]}, {i, -9, -5, .2}, DistributedContexts -> All];
-dataNam2 = ParallelTable[{10^i, Quiet[T1[chiZZEUnitLess[10^i, 10^25, namDielectricFunctionCoefficients[omega, sigmaN, 10^(-16), vf, temp, Tc]]]]}, {i, -9, -5, .2}, DistributedContexts -> All];
-dataNam3 = ParallelTable[{10^i, Quiet[T1[chiZZEUnitLess[10^i, 10^25, namDielectricFunctionCoefficients[omega, sigmaN, 10^(-14), vf, temp, Tc]]]]}, {i, -9, -5, .2}, DistributedContexts -> All];
-dataNam4 = ParallelTable[{10^i, Quiet[T1[chiZZEUnitLess[10^i, 10^25, namDielectricFunctionCoefficients[omega, sigmaN, 10^(-12), vf, temp, Tc]]]]}, {i, -9, -5, .2}, DistributedContexts -> All];
+dataNam1 = ParallelTable[{10^i, Quiet[T1[chiZZEUnitLess[10^i, 10^25, namDielectricFunctionCoefficients[omega, sigmaN[10^(-18)], 10^(-18), vf, temp, Tc]]]]}, {i, -9, -5, .2}, DistributedContexts -> All];
+dataNam2 = ParallelTable[{10^i, Quiet[T1[chiZZEUnitLess[10^i, 10^25, namDielectricFunctionCoefficients[omega, sigmaN[10^(-16)], 10^(-16), vf, temp, Tc]]]]}, {i, -9, -5, .2}, DistributedContexts -> All];
+dataNam3 = ParallelTable[{10^i, Quiet[T1[chiZZEUnitLess[10^i, 10^25, namDielectricFunctionCoefficients[omega, sigmaN[10^(-14)], 10^(-14), vf, temp, Tc]]]]}, {i, -9, -5, .2}, DistributedContexts -> All];
+dataNam4 = ParallelTable[{10^i, Quiet[T1[chiZZEUnitLess[10^i, 10^25, namDielectricFunctionCoefficients[omega, sigmaN[10^(-12)], 10^(-12), vf, temp, Tc]]]]}, {i, -9, -5, .2}, DistributedContexts -> All];
 data = {dataNam1, dataNam2, dataNam3, dataNam4};
 Export[calc["T1ZE4.csv"], data];
