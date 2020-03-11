@@ -1,0 +1,95 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx}
+\usepackage{physics}
+\usepackage{todonotes}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[plain]{fancyref}
+\usepackage[
+style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pageranges=false, url=true
+]{biblatex}
+\addbibresource{no_cutoff.bib}
+
+% Document
+% !TeX spellcheck = en_GB
+\begin{document}
+
+	\graphicspath{{figures/}}
+
+	\section{Very large cutoff} \label{sec:intro}
+
+	All these values calculated using the interpolated Nam form obtained earlier (and ultimately deriving from~\cite{Nam1967}).
+	The Lindhard forms are essentially from~\cite{SolyomV3}, although they are again simplified in the appropriate ranges.
+
+	Here we look at the case where we get rid of the cutoff's effects and push them outside our range of values.
+	In \fref{fig:t1ez}, we have a very large range of cutoffs to show that the precise value doesn't really affect $T_1$ for this range of $z$.
+	This is probably unphysically large;
+	however from previous discussions that might not matter.
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{T1ZE1}
+		\caption{$T_{1}^{(E)}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$ and $T_1$ in seconds.
+		Three different cutoff values shown, from $10^{15}$ through $10^{25}$, to show that in this distance range the cutoff is stable}\label{fig:t1ez}
+	\end{figure}
+
+	In \fref{fig:t2ez} we have the value with different temperatures.
+	This has the expected form;
+	as temperature gets closer to $T_c$, $T_1$ approaches the normal metal value.
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{T1ZE2}
+		\caption{$T_{1}^{(E)}(z)$, for different temperatures.
+			In the legend $T$ is given in units of $T_c$.
+			For the Lindhard case, temperature matters less than the three superconducting cases.
+		} \label{fig:t2ez}
+	\end{figure}
+
+	In \fref{fig:t3ez} we vary the frequency.
+	Again, this seems to operate as expected, with higher frequencies better able to excite quasiparticles in the SC and decreasing $T_1$.
+	The graph in \fref{fig:t5ez} is similar.
+	There, we have two separate values of $\omega$, and for each both the Lindhard and Nam forms are plotted.
+	This helps us see how much of the variation with $\omega$ comes from superconducting specific effects.
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{T1ZE3}
+		\caption{
+			$T_{1}^{(E)}(z)$, for different frequencies.
+			All are Nam calculations.
+		} \label{fig:t3ez}
+	\end{figure}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{T1ZE5}
+		\caption{
+			Comparing Nam and Lindhard each at two frequencies.
+		} \label{fig:t5ez}
+	\end{figure}
+
+	\Fref{fig:t4ez} varies $\tau$.
+	The shape of the dependence is different from the $\omega$ dependence, which is interesting.\todo{Add Lindhard comparison curves}
+	It seems that $\tau$ matters less for the noise at further distances.\todo{Why might that be?}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{T1ZE4}
+		\caption{
+			$T_{1}^{(E)}(z)$, for different $\tau$.
+			All are Nam forms.
+		} \label{fig:t4ez}
+	\end{figure}
+
+	\newpage
+	\listoftodos
+	\newpage
+	\printbibliography
+
+\end{document}

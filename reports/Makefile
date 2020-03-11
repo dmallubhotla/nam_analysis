@@ -1,4 +1,4 @@
-REPORTS = initial_notes noise_notes convergence imrpasymptotic bigkinterpolation interpolated_noise_estimation interpolated_magnetic_noise lindhard_calc sc_normal_compare conductivity_comparison
+REPORTS = initial_notes noise_notes convergence imrpasymptotic bigkinterpolation interpolated_noise_estimation interpolated_magnetic_noise lindhard_calc sc_normal_compare conductivity_comparison no_cutoff
 
 all: $(REPORTS) output
 
