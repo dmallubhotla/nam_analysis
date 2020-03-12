@@ -1,0 +1,157 @@
+\providecommand{\main}{..}
+\documentclass[../main.tex]{subfiles}
+
+\title{Conductivity Notes}
+\author{\begin{telugu}హృదయ్ దీపక్ మల్లుభొట్ల\end{telugu}}
+% want empty date
+\predate{}
+\date{}
+\postdate{}
+
+% Document
+% !TeX spellcheck = en_GB
+\begin{document}
+
+\graphicspath{{\main/figures/}}
+
+\onlyinsubfile{\maketitle}
+\section{Nam form of conductivity} \label{sec:NamForm}
+
+Notes on the Nam conductivity function.\supercite{Nam1967}
+We'll want to do the calculations dimensionlessly.
+To remove units, we'll want to represent all the various quantities in terms of $\Delta$:
+\begin{align}
+	\xi &= \frac{\omega}{\Delta} \\
+	\xi' &= \frac{\omega'}{\Delta} \\
+	\nu &= \frac{1}{\tau \Delta} \\
+	\kappa &= \frac{q v_0}{\Delta} \\
+	t &= \frac{T}{\Delta} \\
+	\sigma_0 &= \frac{n e^2}{m \Delta}
+\end{align}
+
+From Nam, we have
+\begin{equation}
+	\sigma(\kappa, \xi) = -i \frac{3 \sigma_0}{4} \frac{1}{\xi}\left[\int_{1 - \xi}^{1}\dd{\xi} \tanh(\frac{\xi + \xi'}{2 t}) I_1 + \int_{1}^{\infty} \dd{\xi'} \left( \tanh(\frac{\xi + \xi'}{2t}) I_1  - \tanh(\frac{\xi'}{2t})I_2 \right) \right]
+\end{equation}
+with
+\begin{align}
+	I_1 &= F(\kappa, \Re[\sqrt{(\xi + \xi')^2 - 1} - \sqrt{\xi'^2 - 1}]) (g + 1) \nonumber\\
+	&\quad + F(\kappa, \Re[-\sqrt{(\xi + \xi')^2 - 1} - \sqrt{\xi'^2 - 1}]) (g - 1) \\
+	I_2 &= F(\kappa, \Re[\sqrt{(\xi + \xi')^2 - 1} - \sqrt{\xi'^2 - 1}]) (g + 1) \nonumber\\
+	&\quad + F(\kappa, \Re[\sqrt{(\xi + \xi')^2 - 1} + \sqrt{\xi'^2 - 1}]) (g - 1) \\
+	F(\kappa, E) &= \frac{1}{\kappa} \left[2 S(E) + (1 - S(E)^2)\ln(\frac{S(E) + 1}{S(E) - 1})\right]  \\
+	S(\kappa, E) &= \frac{1}{\kappa} \left(E - i \left(\Im[\sqrt{(\xi + \xi')^2 - 1} + \sqrt{\xi'^2 - 1}] + 2 \nu \right) \right) \\
+	g  &= \frac{\xi' \left( \xi + \xi'\right) + 1}{\sqrt{\xi'^2 - 1}\sqrt{(\xi + \xi')^2 - 1}}
+\end{align}
+
+\subsection{Comparing to normal conductivity} \label{subsec:NamForm.NormalConductivity}
+We can also compare this to the normal DC conductivity: $\sigma_N = \frac{n e^2 \tau}{m}$:\todo{$\sigma_N \sim 10^{16}$? Check.}
+\begin{align}
+	\sigma_N &= \frac{n e^2 \tau}{m} \\
+	&= \frac{n e^2}{m \Delta} \tau \Delta \\
+	&= \sigma_0 \frac{1}{\nu}
+\end{align}
+
+This, we can find the ratio $\Sigma = \frac{\sigma}{\sigma_N} = \frac{\sigma \nu}{\sigma_0}$,
+\begin{equation}
+	\Sigma(\kappa, \xi) = -i \frac{3}{4} \frac{\nu}{\xi}\left[\int_{1 - \xi}^{1}\dd{\xi} \tanh(\frac{\xi + \xi'}{2 t}) I_1 + \int_{1}^{\infty} \dd{\xi'} \left( \tanh(\frac{\xi + \xi'}{2t}) I_1  - \tanh(\frac{\xi'}{2t})I_2 \right) \right]
+\end{equation}
+
+
+\subsection{Verifying small $\kappa$ dependence} \label{subsec:NamForm.SmallK}
+We should expect that the conductivity reaches a finite value as $\kappa \rightarrow 0$.
+To verify this, we'll want to actually take that limit.
+All of the dependence on momentum comes in through the function $F$ and $S$, so we can begin by writing $S$ as $S = \frac{\eta}{\kappa}$, which means that
+\begin{align}
+	F &= \frac{1}{\kappa} \left[2 S(E) + (1 - S(E)^2)\ln(\frac{S(E) + 1}{S(E) - 1})\right] \\
+	F &= \frac{1}{\kappa} \left[2 \frac{\eta}{\kappa} + (1 - \frac{\eta^2}{\kappa^2})\ln(\frac{\frac{\eta}{\kappa} + 1}{\frac{\eta}{\kappa} - 1})\right] \label{eq:NamForm:FPreLnExpand}
+\end{align}
+
+We can then expand out the log term:
+\begin{align}
+	\ln(\frac{\frac{\eta}{\kappa} + 1}{\frac{\eta}{\kappa} - 1}) &= \ln(\frac{\eta + \kappa}{\eta - \kappa}) \\
+	&= 2 \frac{\kappa}{\eta} + \frac23 \left(\frac{\kappa}{\eta}\right)^3 + \frac25 \left(\frac{\kappa}{\eta}\right)^5 + \mathcal{O}\left(\left(\frac{\kappa}{\eta}\right)^7\right)
+\end{align}
+
+Plugging the first three terms into~\eqref{eq:NamForm:FPreLnExpand} gives us
+\begin{align}
+	F &= \frac{1}{\kappa} \left[2 \frac{\eta}{\kappa} + (1 - \frac{\eta^2}{\kappa^2})\ln(\frac{\frac{\eta}{\kappa} + 1}{\frac{\eta}{\kappa} - 1})\right] \\
+	&= \frac{1}{\kappa} \left[2 \frac{\eta}{\kappa} + (1 - \frac{\eta^2}{\kappa^2})\left(2 \frac{\kappa}{\eta} + \frac23 \left(\frac{\kappa}{\eta}\right)^3 + \frac25 \left(\frac{\kappa}{\eta}\right)^5 \right)\right] \\
+	&= \frac{1}{\kappa} \left[2 \frac{\eta}{\kappa} + 2\frac{\kappa}{\eta} - 2 \frac{\eta}{\kappa} + \frac23 \frac{\kappa^3}{\eta^3} - \frac23 \frac{\kappa}{\eta} -  \frac25 \frac{\kappa^3}{\eta^3}\right] \\
+	&= \frac{1}{\kappa} \left[\frac43\frac{\kappa}{\eta} + \frac{4}{15} \frac{\kappa^3}{\eta^3}\right] \\
+	&= \frac43 \frac{1}{\eta} + \frac{4}{15} \frac{1}{\eta^3} \kappa^2
+\end{align}
+Here we dropped the second leading term in $\kappa^3$ before simplifying, to find that $F$ does indeed approximate a constant value as $\kappa \rightarrow 0$.
+
+\section{Graphing the conductivity} \label{sec:NamForm.Graph}
+
+One way we can verify that our code behaves as desired is to check that graphs of the conductivity show features that we would expect.
+For all of our graphs, the easiest to visualise is the impurity parameter.
+For a longer mean free path, we can see a higher conductivity, as expected.
+As mentioned above, because both the superconducting and the normal conductivity depend on scattering time, graphs of $\Sigma$ will reflect both dependencies.
+This can be seen in \fref{fig:ReT0K1vsWmultV}, which shows for instance that the large frequency dependence of $\Sigma$ appears proportional to $\nu$, which reflects a $\nu^{-1}$ dependence in the normal conductivity.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ReT0K1vsWmultV}
+	\caption{$\Re[\Sigma(\xi, \kappa =1)],$ at $t = 0$, showing the gap for $\xi < 2$.} \label{fig:ReT0K1vsWmultV}
+\end{figure}
+All other figures are at $\nu = 1$.
+
+\subsection{$\xi$ dependence} \label{subsec:NamForm.Graph.OmegaDep}
+To begin with, we can look at the simplest case for $\kappa = 0$ and $t = 0$, as graphed in \fref{fig:ReT0V1vsWmultK} and \fref{fig:ImT0V1vsWmultK}.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ReT0V1vsWmultK}
+	\caption{$\Re[\Sigma(\xi, \kappa)],$ at $t = 0$} \label{fig:ReT0V1vsWmultK}
+\end{figure}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ImT0V1vsWmultK}
+	\caption{$\Im[\Sigma(\xi, \kappa)],$ at $t = 0$} \label{fig:ImT0V1vsWmultK}
+\end{figure}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ReT1V1vsWmultK}
+	\caption{$\Re[\Sigma(\xi, \kappa)],$ at $t = 1$, showing conductivity in forbidden zone} \label{fig:ReT1V1vsWmultK}
+\end{figure}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ImT1V1vsWmultK}
+	\caption{$\Im[\Sigma(\xi, \kappa)],$ at $t = 1$} \label{fig:ImT1V1vsWmultK}
+\end{figure}
+As expected, we see that for $\xi < 2$ that there is no real conductivity.
+This makes sense;
+there are no available states in the gap for conductivity to occur. \todo{maybe explicitly show where this comes from in the Nam equation?}
+For non-zero temperatures, we see in \fref{fig:ReT1V1vsWmultK} that there are low energy excitations, leading to a cusp in the graph and a non-zero real part in the gap.
+
+Also, for $\kappa \rightarrow 0$ we expect that we should be in the local limit.
+This was explored in the Zimmermann paper\supercite{Zimmermann1991}, and we can compare that our graphs here for $\kappa = 0$ have the right form. \todo{Include ref to zimmermann paper and make sure graphs match}
+
+\subsection{$\kappa$ dependence} \label{subsec:NamForm.Graph.KDep}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ReT0V1vsKmultW}
+	\caption{$\Re[\Sigma(\xi, \kappa)],$ at $t = 0$} \label{fig:ReT0V1vsKmultW}
+\end{figure}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ImT0V1vsKmultW}
+	\caption{$\Im[\Sigma(\xi, \kappa)],$ at $t = 0$} \label{fig:ImT0V1vsKmultW}
+\end{figure}
+
+As expected, we can see that the behaviour as a function of $\kappa$ is as expected, with the conductivity becoming real as $\kappa \rightarrow 0$, but going as $\frac{1}{\kappa}$ for large $\kappa$.
+In \fref{fig:ReT0V1vsKmultW} we see the expected result that the conductivity is zero for $\xi < 2$.
+However, in \fref{fig:ReT1V1vsKmultW}, with a non-zero temperature there are now non-zero conductivities for all $\xi$.
+The Nam form has a peak depending on $\xi$, which is something not captured by the $\flatfrac{L_{imp}}{1 + \kappa L_{imp}}$ approximation.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ReT1V1vsKmultW}
+	\caption{$\Re[\Sigma(\xi, \kappa)],$ at $t = 1$} \label{fig:ReT1V1vsKmultW}
+\end{figure}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{ImT1V1vsKmultW}
+	\caption{$\Im[\Sigma(\xi, \kappa)],$ at $t = 1$} \label{fig:ImT1V1vsKmultW}
+\end{figure}
+
+\end{document}
