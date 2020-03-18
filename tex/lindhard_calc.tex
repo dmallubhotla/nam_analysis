@@ -1,27 +1,23 @@
-% Preamble
-\documentclass[11pt]{article}
+\providecommand{\main}{..}
+\documentclass[../main.tex]{subfiles}
 
-% Packages
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{siunitx}
-\usepackage{physics}
-\usepackage{todonotes}
-\usepackage{graphicx}
-\usepackage{url}
-\usepackage[plain]{fancyref}
-\usepackage[
-style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pageranges=false, url=true
-]{biblatex}
-\addbibresource{lindhard_calc.bib}
+\title{Lindhard noise calculation}
+\author{\begin{telugu}హృదయ్ దీపక్ మల్లుభొట్ల\end{telugu}}
+% want empty date
+\predate{}
+\date{}
+\postdate{}
 
 % Document
 % !TeX spellcheck = en_GB
 \begin{document}
 
-	\graphicspath{{figures/}}
+	\graphicspath{{\main/figures/}}
 
-	\section{Noise calculation using Lindhard function} \label{sec:intro}
+	\onlyinsubfile{\maketitle}
+
+
+	\section{Noise calculation using Lindhard function} \label{sec:lindc:intro}
 
 	Let's calculate the noise using the Lindhard dielectric function.
 	Solyom\supercite{SolyomV3} has, for finite scattering times, the dielectric function as
@@ -59,7 +55,7 @@ style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pagerange
 		q_{TF} &\approx \SI{3e9}{\per\m}
 	\end{align}
 	Along with $\omega = \SI{10e9}{\per\second}$, this sets all the constants we would use for calculation in~\eqref{eq:lindhardsolyom}.
-	\section{Electric noise} \label{sec:ElectricNoise}
+	\section{Lindhard electric noise} \label{sec:ElectricNoise}
 	In \fref{fig:chizee} we can see the electric noise, without units.
 	\begin{figure}[htp]
 		\centering
@@ -103,9 +99,5 @@ style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pagerange
 		\caption{$T_{1}^{(E)}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$ and $T_1$ in seconds.}\label{fig:t1ez}
 	\end{figure}
 
-	\newpage
-	\listoftodos
-	\newpage
-	\printbibliography
 
 \end{document}

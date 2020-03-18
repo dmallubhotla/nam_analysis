@@ -26,7 +26,7 @@ figuresDirectory = FileNameJoin[{
 
 figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
 
-label = AxesLabel -> {"z", "chiZB(z, \[Omega], T = .8 Tc)"};
-data = ToExpression[Import[calc["chiZBarounduFVaryingCutoff.csv"]]];
-plot1 = ListLogLogPlot[data, ImageSize->Large, PlotLegends -> PointLegend[Automatic, Table[Superscript[10, j], {j, 8, 12, .5}], LegendLabel -> Subscript["u", "uc"]], label];
-Export[figure["chiZBarounduFVaryingCutoff.jpg"], plot1, ImageResolution -> 1200];
+label = AxesLabel -> {"z", "T1(z, \[Omega])"};
+data = ToExpression[Import[calc["T1ZELindhard.csv"]]];
+plot1 = ListLogLogPlot[data, ImageSize->Large, label, PlotLegends -> {Local, Lindhard}];
+Export[figure["T1ZELindhard.jpg"], plot1, ImageResolution -> 1200];
