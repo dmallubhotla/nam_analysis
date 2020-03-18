@@ -19,9 +19,6 @@ OUTPUTS := $(patsubst tex/%.tex, pdfs/%.pdf,$(SOURCES))
 #
 .PHONY: all
 all: allpdfs mathematicainstall
-	@echo $(ALL_PDFS)
-	@echo "Done."
-
 
 ### How we do that
 #
