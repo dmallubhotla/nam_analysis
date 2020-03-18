@@ -1,25 +1,20 @@
-% Preamble
-\documentclass[11pt]{article}
+\providecommand{\main}{..}
+\documentclass[../main.tex]{subfiles}
 
-% Packages
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{siunitx}
-\usepackage{physics}
-%\usepackage{todonotes}
-\usepackage{graphicx}
-\usepackage{url}
-\usepackage[plain]{fancyref}
-\usepackage[
-style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pageranges=false, url=true
-]{biblatex}
-\addbibresource{sc_normal_compare.bib}
+\title{Comparing SC to normal noise}
+\author{\begin{telugu}హృదయ్ దీపక్ మల్లుభొట్ల\end{telugu}}
+% want empty date
+\predate{}
+\date{}
+\postdate{}
 
 % Document
 % !TeX spellcheck = en_GB
 \begin{document}
 
-	\graphicspath{{figures/}}
+	\graphicspath{{\main/figures/}}
+
+	\onlyinsubfile{\maketitle}
 
 	\section{Comparing SC noise to N noise} \label{sec:intro}
 
@@ -27,34 +22,29 @@ style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pagerange
 
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=12cm]{T1ZE1}
+		\includegraphics[width=12cm]{SCNCT1ZE1}
 		\caption{$T_{1}^{(E)}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$ and $T_1$ in seconds.
-		Temperature is $T = .8 T_c$}\label{fig:t1ez}
+		Temperature is $T = .8 T_c$}\label{fig:scnc:t1ez}
 	\end{figure}
 
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=12cm]{T1ZE3}
+		\includegraphics[width=12cm]{SCNCT1ZE3}
 		\caption{$T_{1}^{(E)}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$ and $T_1$ in seconds.
-		Temperature is $T = .95 T_c$}\label{fig:t1ezpart2}
+		Temperature is $T = .95 T_c$}\label{fig:scnc:t1ezpart2}
 	\end{figure}
 
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=12cm]{T1ZE4}
+		\includegraphics[width=12cm]{SCNCT1ZE4}
 		\caption{$T_{1}^{(E)}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$ and $T_1$ in seconds.
-		Temperature is $T = .995 T_c$}\label{fig:t1ezpart3}
+		Temperature is $T = .995 T_c$}\label{fig:scnc:t1ezpart3}
 	\end{figure}
 
 
-	The three different curves labelled ``Nam'' in \fref{fig:t1ez} represent three different values for the cutoff imposed to prevent divergence.
+	The three different curves labelled ``Nam'' in \fref{fig:scnc:t1ez} represent three different values for the cutoff imposed to prevent divergence.
 	Respectively, for curves $(1, 2, 3)$ they are $u_{uc} = 10^{(9, 10, 11)}$.
-	In \fref{fig:t1ezpart2} and \fref{fig:t1ezpart3}, we see the same functions plotted at higher temperatures.
+	In \fref{fig:scnc:t1ezpart2} and \fref{fig:scnc:t1ezpart3}, we see the same functions plotted at higher temperatures.
 	For the normal state, the only scale for temperature is $\flatfrac{\omega}{T}$, so the normal state does not change, whereas for the superconducting case we see that higher temperatures correspond with more fluctuations and a shorter $T_1$.
-
-%	\newpage
-%	\listoftodos
-	\newpage
-	\printbibliography
 
 \end{document}
