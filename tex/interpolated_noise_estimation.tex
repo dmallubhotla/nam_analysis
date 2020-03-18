@@ -1,0 +1,99 @@
+\providecommand{\main}{..}
+\documentclass[../main.tex]{subfiles}
+
+\title{Electric noise interpolation}
+\author{\begin{telugu}హృదయ్ దీపక్ మల్లుభొట్ల\end{telugu}}
+% want empty date
+\predate{}
+\date{}
+\postdate{}
+
+% Document
+% !TeX spellcheck = en_GB
+\begin{document}
+
+	\graphicspath{{\main/figures/}}
+
+	\onlyinsubfile{\maketitle}
+
+	\section{Interpolated dielectric constant} \label{sec:introine}
+
+	As discussed earlier, we can try to get a handle on some of the qualitative features of the noise integration by using a piecewise dielectric constant that closely approximates the value in~\cite{Nam1967}.
+	We incorporate a cutoff of the imaginary part above some $u_{uc}$ on the order of the $u_F$, which is $\sim 10^{10}$ for the materials we might consider.
+	\begin{equation}
+		\epsilon(u, u_{uc}) =
+		\begin{cases}
+			-a + i b & u < u_c \\
+			1 + \frac{-c + i d}{u} &  u_{uc} > u \geq u_c \\
+			1 & u > u_{uc}
+		\end{cases}, \label{eq:ine:eps}.
+	\end{equation}
+	where $a$, $b$, $c$ and $d$ are real and positive (and are determined by the frequency) and $u_c$ is a cutoff value on the order of the impurity spacing.
+	Approximating this is fairly straightforward, as the integrals are stable for small $u$ in the full conductivity expression, allowing $a$ and $b$ to be determined without issue.
+	We previously implemented Nam's expression numerically in a Mathematica package in terms of the expression $\Sigma(\xi, \kappa, \nu, t)$, which were dimensionless quantities related to the gap $\Delta$.
+	This $\Sigma$ is related to the dielectric constant via
+	\begin{equation}
+		\epsilon = 1 + 4 \pi i \frac{\sigma_N}{\omega} \Sigma.
+	\end{equation}
+	Here, $\sigma_N$ was related to the conductivity of the metal in the normal state, which could be calculated, but we took simply as an external parameter.
+
+	The recipe then is straightforward to derive the values of the constants in~\eqref{eq:ine:eps}:
+	\begin{enumerate}
+		\item Use $T$ and $T_c$ to find a value for $\Delta$, which I did using the expression $\Delta = 3.06 \sqrt{T_c(T_c - T)}$.
+		\item Find the values $\xi = \flatfrac{\omega}{\Delta}$, $\nu = \flatfrac{1}{(\tau \Delta)}$,  $t = \flatfrac{T}{\Delta}$ and $A = \flatfrac{\omega v_F}{(c \Delta)}$.
+		\item Generally, $\epsilon(u) = 1 + 4 \pi i \frac{\sigma_N}{\omega} \Sigma(\xi, A u, \tau, t)$.
+			Use the asymptotic expression for $\Sigma$ as $u \rightarrow 0$.
+			Then,
+			\begin{equation}
+				-a + ib = 4 \pi i \frac{\sigma_N}{\omega} \Sigma(A u \rightarrow 0),
+			\end{equation}
+			from which $a$ and $b$ can be extracted by taking the real and imaginary parts.
+		\item Similarly, for large $\kappa = A u$,
+			\begin{align}
+				\frac{-c + i d}{u} &= 4 \pi i \frac{\sigma_N}{\omega} \Sigma(\kappa > u_c) \\
+				- c + i d &= 4 \pi i \frac{\sigma_N}{\omega} \Sigma(\kappa > u_c) u \\
+				- c + i d &= 4 \pi i \frac{\sigma_N}{\omega} \Sigma(\kappa > u_c) \frac{\kappa}{A}
+			\end{align}
+			If we want to determine $c$ and $d$, we can simply increase $\kappa$ until this expression stops varying greatly, which in practice will be determined by $\tau$ and $v_F$ (as should be expected).
+		\item We can determine an interpolation constant by finding $u_c$ such that
+			\begin{align}
+				-a + ib &= 1 + \frac{-c + id}{u_c} \\
+				u_c &= \frac{-c + id}{-(a + 1) + ib}.
+			\end{align}
+			This is allowed to be complex, but in practice this value has a much larger real part than imaginary part, so we can simplify our code by simply defining $u_c$ as the real part of that quantity.
+			This is around where~\eqref{eq:ine:eps} is its poorest as an approximation, and adding a potential discontinuity here should hopefully not make the noise integration significantly worse.
+			If we wanted to improve this, we could just use the full numerical integral in this region.
+	\end{enumerate}
+
+	This procedure lets us use the packages already developed to determine $\epsilon$ as a simple piecewise form.
+	There doesn't seem to be a clear way to determine $u_{uc}$ at this stage, and as we saw in the earlier notes, small variations in that cutoff parameter make a large difference in the final noise calculations.
+
+	\section{Noise plots} \label{sec:plotsine}
+
+	The following are plotted for a cutoff of $u_{uc} = 10^{10}$.
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{chiZEarounduFVaryingTemp}
+		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different $T$} \label{fig:ine:temp}
+	\end{figure}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{chiZEarounduFVaryingFrequency}
+		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different frequency} \label{fig:ine:frequency}
+	\end{figure}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{chiZEarounduFVaryingTau}
+		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different $\tau$} \label{fig:ine:tau}
+	\end{figure}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{chiZEarounduFVaryingVf}
+		\caption{$\chi_{EE}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different $v_F$} \label{fig:ine:vf}
+	\end{figure}
+
+\end{document}

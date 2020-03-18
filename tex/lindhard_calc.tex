@@ -1,0 +1,103 @@
+\providecommand{\main}{..}
+\documentclass[../main.tex]{subfiles}
+
+\title{Lindhard noise calculation}
+\author{\begin{telugu}హృదయ్ దీపక్ మల్లుభొట్ల\end{telugu}}
+% want empty date
+\predate{}
+\date{}
+\postdate{}
+
+% Document
+% !TeX spellcheck = en_GB
+\begin{document}
+
+	\graphicspath{{\main/figures/}}
+
+	\onlyinsubfile{\maketitle}
+
+
+	\section{Noise calculation using Lindhard function} \label{sec:lindc:intro}
+
+	Let's calculate the noise using the Lindhard dielectric function.
+	Solyom\supercite{SolyomV3} has, for finite scattering times, the dielectric function as
+	\begin{equation}
+		% explicit \displaystyle here for fraction
+		\epsilon(\vec{q}, \omega) = 1 + \frac{q_{TF}^2}{q^2}\frac{\displaystyle 1 + \frac{\omega + \flatfrac{i}{\tau}}{2 v_F q} \ln(\frac{\omega - v_F q + \flatfrac{i}{\tau}}{\omega + v_F q + \flatfrac{i}{\tau}})}{\displaystyle 1 + \frac{\flatfrac{i}{\tau}}{2 v_F q} \ln(\frac{\omega - v_F q + \flatfrac{i}{\tau}}{\omega + v_F q + \flatfrac{i}{\tau}})} \label{eq:lindhardsolyom}
+	\end{equation}
+
+	For later, we have $q_{TF}^2 = 4 \pi e^2 \rho(e_F)$, where $e$ is the renormalised charge.
+	With $\omega_p^2 = \flatfrac{4 \pi n e^2}{m}$ and $q_{TF}^2 = \flatfrac{3 \omega_p^2}{v_F^2}$, we can write
+	\begin{align}
+		q_{TF}^2 &= 4 \pi e^2 \rho(e_F) \\
+		\frac{3 \omega_p^2}{v_F^2} &= 4 \pi e^2 \rho(e_F) \\
+		\frac{3 \flatfrac{4 \pi n e^2}{m}}{v_F^2} &= 4 \pi e^2 \rho(e_F) \\
+		\frac{3n}{v_F^2 m} &= \rho(e_F) \\
+	\end{align}
+	To synchronise constants:
+	\begin{align}
+		\sigma_{DC} &= \frac{n e^2 \tau}{m} \\
+		&= \frac{1}{4\pi}\frac{4 \pi n e^2}{m} \tau \\
+		&= \frac{n e^2 \tau}{m} \\
+		&= \frac{\omega_p^2}{4\pi}\tau
+	\end{align}
+	In the noise notes we had $\sigma_{DC} = \SI{10e16}{\per\second}$ and $\tau = \SI{10e-14}{\per\second}$
+	\begin{align}
+		10^{16} &= \frac{\omega_p^2}{4\pi} 10^{-14}\\
+		\omega_p^2 &= 4 \pi \times 10^{30} \\
+		\omega_p &\approx \SI{3.5e15}{\per\second}
+	\end{align}
+	This is a reasonable value for $\omega_p$, which reassures us that our previous constants were reasonable as well.
+	With $v_F = \SI{2e6}{\m \per \s}$, we can write
+	\begin{align}
+		q_{TF}^2 &= \frac{3 \omega_p^2}{v_F^2} \\
+		&= \frac{12\pi \times 10^{30}}{\left( 2 \times 10^6 \right)^2} \\
+		q_{TF} &\approx \SI{3e9}{\per\m}
+	\end{align}
+	Along with $\omega = \SI{10e9}{\per\second}$, this sets all the constants we would use for calculation in~\eqref{eq:lindhardsolyom}.
+	\section{Lindhard electric noise} \label{sec:ElectricNoise}
+	In \fref{fig:chizee} we can see the electric noise, without units.
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{chiZELindhard}
+		\caption{$g_{\perp}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$} \label{fig:chizee}
+	\end{figure}
+
+	The results of $T_1^{(E)}(z)$ are plotted in \fref{fig:lindhardcalc:t1ez}, with $T_1$ in seconds.
+	Specifically, from Henkel\supercite{Henkel1999}, we had
+	\begin{align}
+		S^{(nf)ij}_E(z, \omega) &= S^{(bb)}_E(\omega) g_{\perp}(z) \\
+		S^{(bb)}_E(\omega) &= \frac{\hbar \omega^3}{3 \pi \epsilon_0 c^3 (1 - e^{-\flatfrac{\hbar \omega}{T}})} \\
+		g_\perp &= \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i z v} r_p(u) \\
+		\frac{1}{T_1} &= \frac{d^2}{\hbar^2} S^{(nf)ij}_E(z, \omega)
+	\end{align}
+	Thus
+	\begin{align}
+		\frac{1}{T_1} &= \frac{d^2}{\hbar^2} S^{(nf)ij}_E(z, \omega) \\
+		\frac{1}{T_1} &= \frac{d^2}{\hbar^2} \frac{\hbar \omega^3}{3 \pi \epsilon_0 c^3 (1 - e^{-\flatfrac{\hbar \omega}{T}})} \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i z v} r_p(u) \\
+		\frac{1}{T_1} &= \frac{d^2}{\hbar} \frac{\omega^3}{3 \pi \epsilon_0 c^3 (1 - e^{-\flatfrac{\hbar \omega}{T}})} \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i z v} r_p(u) \\
+		\frac{1}{T_1} &= \frac{d^2 \omega^3}{2 \pi \hbar \epsilon_0 c^3} \frac{1}{(1 - e^{-\flatfrac{\hbar \omega}{T}})} I
+	\end{align}
+	Here, $I$ is the dimensionless integral calculated numerically in the code.
+	This nearly matches up exactly with the coefficient we had used in~\cite{QubitRelax}, except for a factor of $2\pi$ (I believe from differences in definitions of $r_p$\todo{check this}).
+	The function of temperature is also different, in effect we had
+	\begin{align}
+		\frac{1}{T} &= \frac{d^2 \omega^3}{\hbar \epsilon_0 c^3} \coth(\frac{\hbar \omega}{2 T}) I, \label{eq:actualTime}
+	\end{align}
+	which seems more correct of a result.
+
+	The plot in \fref{fig:lindhardcalc:t1ez} is based on~\eqref{eq:actualTime}, with
+	\begin{align}
+		d &= \SI{8.4e-30}{\coulomb \meter} \\
+		\hbar &= \SI{1.05e-34}{\J \s} \\
+		\epsilon_0 &= \SI{8.854e-12}{\farad\per\meter} \\
+		\omega &= \SI{10e9}{\Hz}
+	\end{align}
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{T1ZELindhard}
+		\caption{$T_{1}^{(E)}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$ and $T_1$ in seconds.}\label{fig:lindhardcalc:t1ez}
+	\end{figure}
+
+
+\end{document}

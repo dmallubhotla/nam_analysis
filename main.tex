@@ -1,0 +1,104 @@
+\documentclass{article}
+
+% set up telugu
+\usepackage{fontspec}
+\newfontfamily\telugufont{Potti Sreeramulu}[Script = Telugu,RawFeature={mode=harf}]
+\usepackage{polyglossia}
+\setdefaultlanguage{english}
+\setotherlanguage{telugu}
+
+%other packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{physics}
+\usepackage{todonotes}
+%\usepackage{luacode}
+\usepackage{titling}
+\usepackage[
+	style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pageranges=false, url=true
+]{biblatex}
+\usepackage{subfiles}
+\usepackage[symbol*]{footmisc}
+
+\usepackage{graphicx}
+
+\usepackage{siunitx}
+\usepackage{url}
+\usepackage[plain]{fancyref}
+
+\pagestyle{headings}
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+\makeatletter
+\g@addto@macro\bfseries{\boldmath}
+\makeatother
+
+\title{SC EWJN calculation}
+\author{\begin{telugu}హృదయ్ దీపక్ మల్లుభొట్ల\end{telugu}}
+% want empty date
+\predate{}
+\date{}
+\postdate{}
+
+\providecommand{\main}{.}
+\addbibresource{\main/bibliography.bib}
+
+
+%%% Default start and end for each subfile
+\AtBeginDocument{%
+}
+
+\AtEndDocument{%
+	\clearpage
+	\appendix
+	\printbibliography[heading=bibintoc]
+	\todototoc
+	\listoftodos
+}
+\graphicspath{{\main/figures/}}
+
+
+% Alter some LaTeX defaults for better treatment of figures:
+% See p.105 of "TeX Unbound" for suggested values.
+% See pp. 199-200 of Lamport's "LaTeX" book for details.
+%   General parameters, for ALL pages:
+\renewcommand{\topfraction}{0.9}	% max fraction of floats at top
+\renewcommand{\bottomfraction}{0.8}	% max fraction of floats at bottom
+%   Parameters for TEXT pages (not float pages):
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}     % 2 may work better
+\setcounter{dbltopnumber}{2}    % for 2-column pages
+\renewcommand{\dbltopfraction}{0.9}	% fit big float above 2-col. text
+\renewcommand{\textfraction}{0.07}	% allow minimal text w. figs
+%   Parameters for FLOAT pages (not text pages):
+\renewcommand{\floatpagefraction}{0.7}	% require fuller float pages
+% N.B.: floatpagefraction MUST be less than topfraction !!
+\renewcommand{\dblfloatpagefraction}{0.7}	% require fuller float pages
+
+% !TeX spellcheck = en_GB
+\newcommand{\onlyinsubfile}[1]{#1}
+\newcommand{\notinsubfile}[1]{}
+\begin{document}
+	\renewcommand{\onlyinsubfile}[1]{}
+\renewcommand{\notinsubfile}[1]{#1}
+\numberwithin{equation}{section}
+
+\maketitle
+
+\tableofcontents
+
+\subfile{tex/conductivity_notes}
+\subfile{tex/noise_notes}
+\subfile{tex/convergence}
+\subfile{tex/imrpasymptotic}
+\subfile{tex/lindhard_calc}
+\subfile{tex/interpolated_noise_estimation}
+\subfile{tex/interpolated_magnetic_noise}
+\subfile{tex/bigkinterpolation}
+\subfile{tex/conductivity_comparison}
+\subfile{tex/sc_normal_compare}
+\subfile{tex/no_cutoff}
+
+\end{document}
