@@ -28,20 +28,12 @@ figuresDirectory = FileNameJoin[{
 
 figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
 
-Print[TemplateApply["Will output figures to directory ``", figuresDirectory]];
-
 asymptoticPoints = ToExpression[Import[calc["ConductivityZone3AsymptoticForm.csv"]]];
 realPoints1 = Map[{#[[1]], Re[#[[2]]]} &, asymptoticPoints];
-imagPoints1 = Map[{#[[1]], Im[#[[2]]]} &, asymptoticPoints];
 normalPoints = ToExpression[Import[calc["ConductivityZone3Normal.csv"]]];
 realPoints2 = Map[{#[[1]], Re[#[[2]]]} &, normalPoints];
-imagPoints2 = Map[{#[[1]], Im[#[[2]]]} &, normalPoints];
 asymptoticHighPoints = ToExpression[Import[calc["ConductivityZone3AsymptoticHighForm.csv"]]];
 realPoints3 = Map[{#[[1]], Re[#[[2]]]} &, asymptoticHighPoints];
-imagPoints3 = Map[{#[[1]], Im[#[[2]]]} &, asymptoticHighPoints];
 
 realPlot = ListLogLogPlot[{realPoints1, realPoints2, realPoints3}, ImageSize->Large, AxesLabel -> {"u", "Re[\[CapitalSigma]]"}, PlotLabels -> {"small k approx", "Nam form", "high k approx"}];
 Export[figure["ConductivityZone3Real.jpg"], realPlot, ImageResolution -> 1200];
-
-imPlot = ListLogLogPlot[{imagPoints1, imagPoints2, imagPoints3}, ImageSize->Large, AxesLabel -> {"u", "Im[\[CapitalSigma]]"}, PlotLabels -> {"small k approx", "Nam form", "high k approx"}];
-Export[figure["ConductivityZone3Imag.jpg"], imPlot, ImageResolution -> 1200];

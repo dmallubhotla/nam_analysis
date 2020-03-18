@@ -1,26 +1,20 @@
-% Preamble
-\documentclass[11pt]{article}
+\providecommand{\main}{..}
+\documentclass[../main.tex]{subfiles}
 
-% Packages
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{siunitx}
-\usepackage{physics}
-\usepackage{todonotes}
-\usepackage{graphicx}
-\usepackage{url}
-\usepackage[plain]{fancyref}
-\usepackage[
-	style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pageranges=false, url=true
-]{biblatex}
-\addbibresource{noise_notes.bib}
+\title{Noise discussion}
+\author{\begin{telugu}హృదయ్ దీపక్ మల్లుభొట్ల\end{telugu}}
+% want empty date
+\predate{}
+\date{}
+\postdate{}
 
 % Document
 % !TeX spellcheck = en_GB
 \begin{document}
 
-	\graphicspath{{figures/}}
+	\graphicspath{{\main/figures/}}
 
+	\onlyinsubfile{\maketitle}
 	\section{Noise notes} \label{sec:NoiseCalc}
 	An excellent review of the calculation of relaxation rates is available in~\cite{Henkel1999}.
 	The theory behind the noise calculations comes in large part from~\cite{Agarwal1975}.
@@ -152,10 +146,5 @@
 		g_{\perp, u < 1} &= \frac32 \Re \int_0^{1} \dd{u} \frac{u^3}{\sqrt{1 - u^2}} e^{2 i z \sqrt{1 - u^2}} r_p(u) \\
 			&= \frac32 \Re \int_0^{1} \dd{u} \frac{u^3}{\sqrt{1 - u^2}} r_p(u)
 	\end{align}
-
-	\newpage
-	\listoftodos
-	\newpage
-	\printbibliography
 
 \end{document}
