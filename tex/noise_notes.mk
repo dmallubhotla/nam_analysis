@@ -22,5 +22,3 @@ $(PDF_DIR)/noise_notes.pdf: $(TEX_DIR)/noise_notes.tex $(USED_FIGS_NOISE_NOTES)
 
 MAIN_PDF_DEPS := $(MAIN_PDF_DEPS) $(TEX_DIR)/noise_notes.tex $(USED_FIGS_NOISE_NOTES)
 ALL_PDFS := $(ALL_PDFS) $(PDF_DIR)/noise_notes.pdf
-
-

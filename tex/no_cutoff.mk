@@ -5,10 +5,10 @@ USED_CALC_NO_CUT = $(addprefix $(CALC_DIR)/, $(USED_CALC_NAMES_NO_CUT))
 
 .SECONDARY: $(USED_CALC_NO_CUT)
 
-$(CALC_DIR)/%.csv: $(SCRIPT_DIR)/%Calc.wls $(MATHEMATICA_INSTALLS) | $(CALC_DIR)
+$(USED_CALC_NO_CUT): $(CALC_DIR)/%.csv: $(SCRIPT_DIR)/%Calc.wls $(MATHEMATICA_INSTALLS) | $(CALC_DIR)
 	$(WS) $<
 
-$(FIG_DIR)/%.jpg: $(SCRIPT_DIR)/%Plot.wls $(CALC_DIR)/%.csv $(MATHEMATICA_INSTALLS) | $(FIG_DIR)
+$(USED_FIGS_NO_CUT): $(FIG_DIR)/%.jpg: $(SCRIPT_DIR)/%Plot.wls $(CALC_DIR)/%.csv $(MATHEMATICA_INSTALLS) | $(FIG_DIR)
 	$(WS) $<
 
 $(PDF_DIR)/no_cutoff.pdf: $(TEX_DIR)/no_cutoff.tex $(USED_FIGS_NO_CUT)
