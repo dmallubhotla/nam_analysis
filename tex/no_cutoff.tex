@@ -1,27 +1,22 @@
-% Preamble
-\documentclass[11pt]{article}
+\providecommand{\main}{..}
+\documentclass[../main.tex]{subfiles}
 
-% Packages
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{siunitx}
-\usepackage{physics}
-\usepackage{todonotes}
-\usepackage{graphicx}
-\usepackage{url}
-\usepackage[plain]{fancyref}
-\usepackage[
-style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pageranges=false, url=true
-]{biblatex}
-\addbibresource{no_cutoff.bib}
+\title{Very large cutoff results}
+\author{\begin{telugu}హృదయ్ దీపక్ మల్లుభొట్ల\end{telugu}}
+% want empty date
+\predate{}
+\date{}
+\postdate{}
 
 % Document
 % !TeX spellcheck = en_GB
 \begin{document}
 
-	\graphicspath{{figures/}}
+	\graphicspath{{\main/figures/}}
 
-	\section{Very large cutoff} \label{sec:intro}
+	\onlyinsubfile{\maketitle}
+
+	\section{Very large cutoff} \label{sec:nocut:intro}
 
 	All these values calculated using the interpolated Nam form obtained earlier (and ultimately deriving from~\cite{Nam1967}).
 	The Lindhard forms are essentially from~\cite{SolyomV3}, although they are again simplified in the appropriate ranges.
@@ -33,7 +28,7 @@ style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pagerange
 
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=12cm]{T1ZE1}
+		\includegraphics[width=12cm]{NoCutT1ZE1}
 		\caption{$T_{1}^{(E)}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$ and $T_1$ in seconds.
 		Three different cutoff values shown, from $10^{15}$ through $10^{25}$, to show that in this distance range the cutoff is stable}\label{fig:t1ez}
 	\end{figure}
@@ -44,7 +39,7 @@ style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pagerange
 
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=12cm]{T1ZE2}
+		\includegraphics[width=12cm]{NoCutT1ZE2}
 		\caption{$T_{1}^{(E)}(z)$, for different temperatures.
 			In the legend $T$ is given in units of $T_c$.
 			For the Lindhard case, temperature matters less than the three superconducting cases.
@@ -59,7 +54,7 @@ style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pagerange
 
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=12cm]{T1ZE3}
+		\includegraphics[width=12cm]{NoCutT1ZE3}
 		\caption{
 			$T_{1}^{(E)}(z)$, for different frequencies.
 			All are Nam calculations.
@@ -68,7 +63,7 @@ style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pagerange
 
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=12cm]{T1ZE5}
+		\includegraphics[width=12cm]{NoCutT1ZE5}
 		\caption{
 			Comparing Nam and Lindhard each at two frequencies.
 		} \label{fig:t5ez}
@@ -80,16 +75,11 @@ style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pagerange
 
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=12cm]{T1ZE4}
+		\includegraphics[width=12cm]{NoCutT1ZE4}
 		\caption{
 			$T_{1}^{(E)}(z)$, for different $\tau$.
 			All are Nam forms.
 		} \label{fig:t4ez}
 	\end{figure}
-
-	\newpage
-	\listoftodos
-	\newpage
-	\printbibliography
 
 \end{document}

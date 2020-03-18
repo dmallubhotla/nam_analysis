@@ -26,12 +26,9 @@ figuresDirectory = FileNameJoin[{
 
 figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
 
-mkrl[lst_] := Map[{#[[1]], Re[#[[2]]]} &, lst];
-mkim[lst_] := Map[{#[[1]], Im[#[[2]]]} &, lst];
+label = AxesLabel -> {"z (micro-wavelengths)", "T1(z, \[Omega]) (ns)"};
+data = ToExpression[Import[calc["NoCutT1ZE1.csv"]]];
+scaledData = Map[{10^6 * #[[1]], 10^9 * #[[2]]} &, data, {2}];
 
-label = AxesLabel -> {"q", "eps(q)"};
-data = ToExpression[Import[calc["epstest1.csv"]]];
-realPoints = mkrl[data];
-(*Print[realPoints];*)
-plot1 = ListLogLinearPlot[realPoints, ImageSize->Large, label];
-Export[figure["epstest1.jpg"], plot1, ImageResolution -> 1200];
+plot1 = ListLogLogPlot[scaledData, ImageSize->Large, label, PlotLegends -> {"Lindhard", "Nam 1", "Nam 2", "Nam 3"}];
+Export[figure["NoCutT1ZE1.jpg"], plot1, ImageResolution -> 1200];
