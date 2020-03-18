@@ -1,7 +1,7 @@
 \providecommand{\main}{..}
 \documentclass[../main.tex]{subfiles}
 
-\title{Convergence Questions}
+\title{Asymptotic behaviour of reflection coefficient}
 \author{\begin{telugu}హృదయ్ దీపక్ మల్లుభొట్ల\end{telugu}}
 % want empty date
 \predate{}
@@ -111,7 +111,7 @@
 	The integral that we're interested in for the noise is
 	\begin{align}
 		g_\perp(z) &= \frac32 \int_{u_{min}}^{+\infty} \dd{u} u^2 e^{-2 z u} \Im r_p(u) \\
-		g_\perp(z = 0) &= \frac32 \int_{u_{min}}^{+\infty} \dd{u} u^2 \Im r_p(u) \label{eq:gperpsimplest}
+		g_\perp(z = 0) &= \frac32 \int_{u_{min}}^{+\infty} \dd{u} u^2 \Im r_p(u) \label{eq:asymptotic:gperpsimplest}
 	\end{align}
 	Here, we can show that $\Im r_p(u)$ for sufficiently large $u$ is $\flatfrac{2 b u}{(4u^2 + b^2)}$.
 	Unfortunately, this is a problem, because \fref{eq:imrp} only goes as $\frac{1}{u}$, which is insufficient to make \fref{eq:gperpsimplest} converge.

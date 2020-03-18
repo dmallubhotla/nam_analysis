@@ -1,27 +1,22 @@
-% Preamble
-\documentclass[11pt]{article}
+\providecommand{\main}{..}
+\documentclass[../main.tex]{subfiles}
 
-% Packages
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{siunitx}
-\usepackage{physics}
-\usepackage{todonotes}
-\usepackage{graphicx}
-\usepackage{url}
-\usepackage[plain]{fancyref}
-\usepackage[
-	style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pageranges=false, url=true
-]{biblatex}
-\addbibresource{interpolated_magnetic_noise.bib}
+\title{Magnetic noise interpolation}
+\author{\begin{telugu}హృదయ్ దీపక్ మల్లుభొట్ల\end{telugu}}
+% want empty date
+\predate{}
+\date{}
+\postdate{}
 
 % Document
 % !TeX spellcheck = en_GB
 \begin{document}
 
-	\graphicspath{{figures/}}
+	\graphicspath{{\main/figures/}}
 
-	\section{Magnetic noise} \label{sec:intro}
+	\onlyinsubfile{\maketitle}
+
+	\section{Magnetic noise} \label{sec:imnintro}
 
 	Calculating $\chi_{BB}(z)$, via
 	\begin{align}
@@ -96,9 +91,5 @@
 		\caption{$\chi_{BB}(z)$, with $z$ in units of $\flatfrac{\omega}{c}$, for different $v_F$} \label{fig:vf}
 	\end{figure}
 
-	\newpage
-	\listoftodos
-	\newpage
-	\printbibliography
 
 \end{document}
