@@ -1,23 +1,20 @@
-% Preamble
-\documentclass[11pt]{article}
+\providecommand{\main}{..}
+\documentclass[../main.tex]{subfiles}
 
-% Packages
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{siunitx}
-\usepackage{physics}
-\usepackage{todonotes}
-\usepackage{graphicx}
-\usepackage{url}
-\usepackage[plain]{fancyref}
-\usepackage[
-	style=phys, articletitle=false, biblabel=brackets, chaptertitle=false, pageranges=false, url=true
-]{biblatex}
-\addbibresource{imrpasymptotic.bib}
+\title{Convergence Questions}
+\author{\begin{telugu}హృదయ్ దీపక్ మల్లుభొట్ల\end{telugu}}
+% want empty date
+\predate{}
+\date{}
+\postdate{}
 
 % Document
 % !TeX spellcheck = en_GB
 \begin{document}
+
+	\graphicspath{{\main/figures/}}
+
+	\onlyinsubfile{\maketitle}
 
 	\section{$\Im r_p(u)$ large-$u$ description} \label{sec:imrpasymptotic}
 
@@ -119,10 +116,5 @@
 	Here, we can show that $\Im r_p(u)$ for sufficiently large $u$ is $\flatfrac{2 b u}{(4u^2 + b^2)}$.
 	Unfortunately, this is a problem, because \fref{eq:imrp} only goes as $\frac{1}{u}$, which is insufficient to make \fref{eq:gperpsimplest} converge.
 	This suggests that the next approach may be to both impose the lattice size cutoff and potentially revisit~\cite{Churchill2016} for other potential ways to incorporate the non-local behaviour (which I believe only helps if the problems here come from some boundary condition issue, but further analysis is probably required).
-
-	\newpage
-	\listoftodos
-	\newpage
-	\printbibliography
 
 \end{document}
