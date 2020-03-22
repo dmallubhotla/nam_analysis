@@ -15,5 +15,3 @@ $(PDF_DIR)/sc_normal_compare.pdf: $(TEX_DIR)/sc_normal_compare.tex $(USED_FIGS_S
 
 MAIN_PDF_DEPS := $(MAIN_PDF_DEPS) $(TEX_DIR)/sc_normal_compare.tex $(USED_FIGS_SC_NC)
 ALL_PDFS := $(ALL_PDFS) $(PDF_DIR)/sc_normal_compare.pdf
-
-
