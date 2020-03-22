@@ -14,5 +14,6 @@ dist
 *.blg
 *.run.xml
 *.csv
+*.out
 
 *.nb
