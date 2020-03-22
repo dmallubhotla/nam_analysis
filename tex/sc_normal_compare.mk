@@ -11,9 +11,6 @@ $(USED_CALC_SC_NC): $(CALC_DIR)/%.csv: $(SCRIPT_DIR)/%Calc.wls $(MATHEMATICA_INS
 $(USED_FIGS_SC_NC): $(FIG_DIR)/%.jpg: $(SCRIPT_DIR)/%Plot.wls $(CALC_DIR)/%.csv | $(FIG_DIR)
 	$(WS) $<
 
-sc_normal_compare.pdf: sc_normal_compare.tex $(USED_FIGS)
-	$(LATEXMK) sc_normal_compare.tex
-
 $(PDF_DIR)/sc_normal_compare.pdf: $(TEX_DIR)/sc_normal_compare.tex $(USED_FIGS_SC_NC)
 
 MAIN_PDF_DEPS := $(MAIN_PDF_DEPS) $(TEX_DIR)/sc_normal_compare.tex $(USED_FIGS_SC_NC)
