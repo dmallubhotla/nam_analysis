@@ -53,7 +53,7 @@
 		\end{equation}
 		\item Use this expression to find $r_p(u)$ via
 		\begin{equation}
-			r_p(u) = \frac{1 - z(u)}{1 + (u)},
+			r_p(u) = \frac{1 - z(u)}{1 + z(u)},
 		\end{equation}
 		with
 		\begin{equation}
@@ -81,6 +81,11 @@
 		\begin{equation}
 			T_1(z) = \frac{\hbar \epsilon_0 c^{3}}{d^2 \omega^3} \frac{1}{\coth(\frac{\omega}{2 T}) \int_0^\infty \dd{u} u^2 e^{-2 u z} \Im[r_p(u)]}
 		\end{equation}
+		\item Now, we can insert some of our simplifications maybe?
+		\begin{align}
+			T_1(z) &= \frac{\hbar \epsilon_0 c^{3}}{d^2 \omega^3} \frac{1}{\coth(\frac{\omega}{2 T}) \int_0^\infty \dd{u} u^2 e^{-2 u z} \Im[r_p(u)]} \\
+			T_1(z) &= \frac{\hbar \epsilon_0 c^{3}}{d^2 \omega^3} \frac{1}{\coth(\frac{\omega}{2 T}) \int_0^\infty \dd{u} u^2 e^{-2 u z} \frac{\pi d u}{u^2 \pi^2 + d^2}}
+		\end{align}
 	\end{enumerate}
 	This lets us check the scale of all the remaining dimensionful constants we have, and this should be effective as long as $z \leq 1$.
 	(In particular, that's important because we assume $u \geq 1$ in some simplifying steps, and $z u$ becomes the factor that determines the behaviour of the exponential.)
