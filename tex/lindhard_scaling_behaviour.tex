@@ -1,0 +1,39 @@
+\providecommand{\main}{..}
+\documentclass[../main.tex]{subfiles}
+
+\title{Scaling behaviour of Lindhard noise}
+\author{\begin{telugu}హృదయ్ దీపక్ మల్లుభొట్ల\end{telugu}}
+% want empty date
+\predate{}
+\date{}
+\postdate{}
+
+% Document
+% !TeX spellcheck = en_GB
+\begin{document}
+
+	\graphicspath{{\main/figures/}}
+
+	\onlyinsubfile{\maketitle}
+
+	\section{Scale-dependent behaviour of Lindhard noise} \label{sec:lsb:intro}
+
+	It's interesting to look at the scaling behaviour of the noise from a Lindhard metal, as shown in \fref{fig:lsb:scale1}.
+	Lindhard function comes from~\cite{SolyomV3}, from which noise is calculated.
+
+	There are a few things to note:
+	\begin{itemize}
+		\item The very low $z$ behaviour is reflective of the convergence of the Lindhard noise as $z \rightarrow 0$.
+		\item There's a pronounced region of $T_1 \propto z^3$ behaviour in \fref{fig:lsb:scale1}.
+			This is expected, and corresponds to the analytically simple $z^3$ behaviour for the local dielectric models.
+		\item At larger $z$, there's a region of $z^2$ behaviour.
+			For the superconducting case, we only see the quadratic scaling, so this is where the Nam case follows the Lindhard.\todo{Is there an obvious reason why this should be the case, perhaps the $k^{-2}$ vs $k^{-1}$ dependence in $\epsilon$}
+	\end{itemize}
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{LSB1}
+		\caption{$\frac{\ln{T_{1}^{(E)}(z)}}{\ln{z})}$, with $z$ in units of $\flatfrac{\omega}{c}$.}\label{fig:lsb:scale1}
+	\end{figure}
+
+\end{document}
