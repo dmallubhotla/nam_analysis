@@ -1,0 +1,96 @@
+\providecommand{\main}{..}
+\documentclass[../main.tex]{subfiles}
+
+\title{Summary of Nam calculation method}
+\author{\begin{telugu}హృదయ్ దీపక్ మల్లుభొట్ల\end{telugu}}
+% want empty date
+\predate{}
+\date{}
+\postdate{}
+
+% Document
+% !TeX spellcheck = en_GB
+\begin{document}
+
+	\graphicspath{{\main/figures/}}
+
+	\onlyinsubfile{\maketitle}
+
+	\section{Summary of the method we're using to calculate \texorpdfstring{$T_1$}{T1}} \label{sec:overallsummary:norm}
+
+	This serves as a checkpoint in these notes to summarise the method we've used in calculating $T_{1}$ for the case where we use the dielectric function in~\cite{Nam1967}.
+
+	\begin{enumerate}
+		\item Use $T$ and $T_c$ to find a value for $\Delta$, using the expression $\Delta = 3.06 \sqrt{T_c(T_c - T)}$.
+		\item Find the dimensionless values $\xi = \flatfrac{\omega}{\Delta}$, $\nu = \flatfrac{1}{(\tau \Delta)}$,  $t = \flatfrac{T}{\Delta}$ and $A = \flatfrac{\omega v_F}{(c \Delta)}$.
+		\item Generally, $\epsilon(u) = 1 + 4 \pi i \frac{\sigma_N}{\omega} \Sigma(\xi, A u, \tau, t)$.
+		Use the asymptotic expression for $\Sigma$ as $u \rightarrow 0$.
+		Then,
+		\begin{equation}
+			-a + ib = 4 \pi i \frac{\sigma_N}{\omega} \Sigma(A u \rightarrow 0),
+		\end{equation}
+		from which $a$ and $b$ can be extracted by taking the real and imaginary parts.
+		\item Similarly, for large $\kappa = A u$,
+		\begin{align}
+			\frac{-c + i d}{u} &= 4 \pi i \frac{\sigma_N}{\omega} \Sigma(\kappa > u_c) \\
+			- c + i d &= 4 \pi i \frac{\sigma_N}{\omega} \Sigma(\kappa > u_c) u \\
+			- c + i d &= 4 \pi i \frac{\sigma_N}{\omega} \Sigma(\kappa > u_c) \frac{\kappa}{A}
+		\end{align}
+		If we want to determine $c$ and $d$, we can simply increase $\kappa$ until this expression stops varying greatly, which in practice will be determined by $\tau$ and $v_F$ (as should be expected).
+		\item We can determine an interpolation constant by finding $u_c$ such that
+		\begin{align}
+			-a + ib &= 1 + \frac{-c + id}{u_c} \\
+			u_c &= \frac{-c + id}{-(a + 1) + ib}.
+		\end{align}
+		\item With $a$, $b$, $c$, $d$, and $u_c$, we now have enough to define our asymptotic expression
+		\begin{equation}
+			\epsilon(u, u_{uc}) =
+			\begin{cases}
+				-a + i b & u < u_c \\
+				1 + \frac{-c + i d}{u} &  u_{uc} > u \geq u_c \\
+				1 & u > u_{uc}
+			\end{cases}.
+		\end{equation}
+		\item Use this expression to find $r_p(u)$ via
+		\begin{equation}
+			r_p(u) = \frac{1 - z(u)}{1 + z(u)},
+		\end{equation}
+		with
+		\begin{equation}
+			z(u) = \frac{2}{\pi} \int_{y_l}^{\infty} \dd{y} \frac{u}{u^2 + y^2 + (c + i d)\sqrt{u^2 + y^2}},
+		\end{equation}
+		with $y_l$ essentially arbitrary around the order of $u_c$.
+		\item $z(u)$ will be on the order of
+		\begin{equation}
+			z \approx 1 - i \flatfrac{2 d}{\pi u}
+		\end{equation}
+		This means that 
+		\begin{align}
+			r_p(u) = \frac{-d^2 + i \pi d u}{u^2 \pi^2 + d^2},
+		\end{align}
+		if we ignore the upper cutoff $u_{uc}$.
+		\item This is a much more computationally friendly equation to calculate $\chi$ via
+		\begin{equation}
+			\chi_{EE}(z) \propto \int_0^\infty \dd{u} u^2 e^{-2 u z} \Im[r_p(u)]
+		\end{equation}
+		and
+		\begin{equation}
+			T_1(z) \propto \frac{1}{\chi}.
+		\end{equation}
+		Specifically,
+		\begin{equation}
+			T_1(z) = \frac{\hbar \epsilon_0 c^{3}}{d^2 \omega^3} \frac{1}{\coth(\frac{\omega}{2 T}) \int_0^\infty \dd{u} u^2 e^{-2 u z} \Im[r_p(u)]}
+		\end{equation}
+		\item Now, we can insert some of our simplifications maybe?
+		\begin{align}
+			T_1(z) &= \frac{\hbar \epsilon_0 c^{3}}{d^2 \omega^3} \frac{1}{\coth(\frac{\omega}{2 T}) \int_0^\infty \dd{u} u^2 e^{-2 u z} \Im[r_p(u)]} \\
+			T_1(z) &= \frac{\hbar \epsilon_0 c^{3}}{d^2 \omega^3} \frac{1}{\coth(\frac{\omega}{2 T}) \int_0^\infty \dd{u} u^2 e^{-2 u z} \frac{\pi d u}{u^2 \pi^2 + d^2}}
+		\end{align}
+	\end{enumerate}
+	This lets us check the scale of all the remaining dimensionful constants we have, and this should be effective as long as $z \leq 1$.
+	(In particular, that's important because we assume $u \geq 1$ in some simplifying steps, and $z u$ becomes the factor that determines the behaviour of the exponential.)
+	For these units, $z$ is measured in terms of $\lambda = \flatfrac{\omega}{c}$, which is a far longer length scale than anything we might be interested in, so having this expression for $z \leq 1$ should always be expected to be valid enough in the areas we care about.
+	This expression is also the case where we assume the cutoff momentum $u_{uc}$ is also greater than $\flatfrac{1}{z}$, so that we can effectively drop it.
+	It's perhaps a less justifiable assumption, in that a good assumption would be that $u_{uc}$ reflects something around the Fermi momentum, which might actually be around $\flatfrac{1}{z}$.
+
+\end{document}

@@ -18,4 +18,11 @@
 
 	\section{Verifying normalisation for low \texorpdfstring{$z$}{z}} \label{sec:lowz:norm}
 
+	The distance from the surface $z$ parameterises the maximum value of $u$ that affects the noise integral.
+	Essentially, the integrand of the noise integral is the $u^2 \Im r_p$ function which goes as $\flatfrac{1}{u}$ until $u_{uc}$, at which point it becomes zero.
+	Clearly, if $z < u_{uc}$, then there will be no further contributions to the integral and the noise will flatten off (as expected).
+	Conversely, changing $u_{uc}$ merely should allow more of the underlying integrand to be added to the total before cutting off the sum.
+	This means that there would then be more noise, which would flatten off for even smaller $z$, which is exactly what our figures show.
+	Thus, our curves behave as expected.\todo{Rewrite this more formally}
+
 \end{document}
