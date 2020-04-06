@@ -18,7 +18,6 @@ omegap = 3.5 * 10^15;
 cLight = 3 * 10^8;
 hbar = 1.05 * 10^-34;
 e0 = 8.854^-12;
-tau = 10^-14;
 Tc = 10^11;
 (*T in Hz*)
 temp = .8 * Tc;
@@ -64,6 +63,6 @@ chiZZEUnitLessL[z_?NumericQ] := NIntegrate[
 
 T1[c_?NumericQ] := (( hbar * e0 * cLight^3) / (dipoleMoment^2 * omega^3)) * (1/( c * Coth[omega/(2* temp)]));
 
-dataLindhard = ParallelTable[{10^i, Quiet[T1[chiZZEUnitLessL[10^i]]]}, {i, -11, 1, .1}, DistributedContexts -> All];
+dataLindhard = ParallelTable[{10^i * cLight / (omega * tau * vf), Quiet[T1[chiZZEUnitLessL[10^i]]]}, {i, -11, 1, .1}, DistributedContexts -> All];
 data = {dataLindhard};
 Export[calc["LSB1.csv"], data];
