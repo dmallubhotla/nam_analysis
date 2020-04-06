@@ -11,10 +11,17 @@ $(USED_CALC_LSB): $(CALC_DIR)/%.csv: $(SCRIPT_DIR)/%Calc.wls $(MATHEMATICA_INSTA
 $(USED_FIGS_LSB): $(FIG_DIR)/%.jpg: $(SCRIPT_DIR)/%Plot.wls $(CALC_DIR)/%.csv | $(FIG_DIR)
 	$(WS) $<
 
+# These three depend on LSB2.csv
 $(FIG_DIR)/LSB2_2.jpg: $(SCRIPT_DIR)/LSB2DataOnlyPlot.wls $(CALC_DIR)/LSB2.csv
 	$(WS) $<
+$(FIG_DIR)/LSB2Smaller.jpg: $(SCRIPT_DIR)/LSB2PlotSmaller.wls $(CALC_DIR)/LSB2.csv
+	$(WS) $<
+$(FIG_DIR)/LSB2CubicToQuadraticRegion.jpg: $(SCRIPT_DIR)/LSB2PlotCubicToQuadraticRegion.wls $(CALC_DIR)/LSB2.csv
+	$(WS) $<
 
-$(PDF_DIR)/lindhard_scaling_behaviour.pdf: $(TEX_DIR)/lindhard_scaling_behaviour.tex $(USED_FIGS_LSB) $(FIG_DIR)/LSB2_2.jpg
+ALL_LSB_FIGS = $(USED_FIGS_LSB) $(FIG_DIR)/LSB2Smaller.jpg $(FIG_DIR)/LSB2_2.jpg $(FIG_DIR)/LSB2CubicToQuadraticRegion.jpg
 
-MAIN_PDF_DEPS := $(MAIN_PDF_DEPS) $(TEX_DIR)/lindhard_scaling_behaviour.tex $(USED_FIGS_LSB) $(FIG_DIR)/LSB2_2.jpg
+$(PDF_DIR)/lindhard_scaling_behaviour.pdf: $(TEX_DIR)/lindhard_scaling_behaviour.tex $(ALL_LSB_FIGS)
+
+MAIN_PDF_DEPS := $(MAIN_PDF_DEPS) $(TEX_DIR)/lindhard_scaling_behaviour.tex $(ALL_LSB_FIGS)
 ALL_PDFS := $(ALL_PDFS) $(PDF_DIR)/lindhard_scaling_behaviour.pdf
