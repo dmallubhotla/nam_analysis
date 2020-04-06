@@ -43,5 +43,5 @@ getExps[pts_] := With[{},
 
 expData = Map[getExps, data];
 
-plot1 = ListLogLinearPlot[expData, ImageSize->Large, label, PlotLegends -> PointLegend[Automatic, Table[Superscript[10, j], {j, -15, -13, .5}], LegendLabel -> "\[Tau]"]];
+plot1 = ListLogLinearPlot[expData, ImageSize->Large, label, PlotLegends -> PointLegend[Automatic, Table[Superscript[10, j + 14], {j, -15, -13, .5}], LegendLabel -> HoldForm["\[Tau]"/Subscript["\[Tau]", 1]]]];
 Export[figure["LSB2.jpg"], plot1, ImageResolution -> 1200];

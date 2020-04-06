@@ -64,5 +64,5 @@ chiZZEUnitLessL[z_?NumericQ, tauIn_?NumericQ] := NIntegrate[
 
 T1[c_?NumericQ] := (( hbar * e0 * cLight^3) / (dipoleMoment^2 * omega^3)) * (1/( c * Coth[omega/(2* temp)]));
 
-data = ParallelTable[{10^i, Quiet[T1[chiZZEUnitLessL[10^i, 10^j]]]}, {j, -15, -13, .5}, {i, -11, 0, .07}, DistributedContexts -> All];
+data = ParallelTable[{10^i * cLight / (omega * (10^-14) * vf), Quiet[T1[chiZZEUnitLessL[10^i, 10^j]]]}, {j, -15, -13, .5}, {i, -11, 0, .07}, DistributedContexts -> All];
 Export[calc["LSB2.csv"], data];
