@@ -18,8 +18,13 @@ $(FIG_DIR)/LSB2Smaller.jpg: $(SCRIPT_DIR)/LSB2PlotSmaller.wls $(CALC_DIR)/LSB2.c
 	$(WS) $<
 $(FIG_DIR)/LSB2CubicToQuadraticRegion.jpg: $(SCRIPT_DIR)/LSB2PlotCubicToQuadraticRegion.wls $(CALC_DIR)/LSB2.csv
 	$(WS) $<
+# Nam and Lindhard together
+$(CALC_DIR)/NSB1.csv: $(SCRIPT_DIR)/NSB1Calc.wls
+	$(WS) $<
+$(FIG_DIR)/NSB1.jpg: $(SCRIPT_DIR)/NSB1Plot.wls $(CALC_DIR)/LSB1.csv $(CALC_DIR)/NSB1.csv
+	$(WS) $<
 
-ALL_LSB_FIGS = $(USED_FIGS_LSB) $(FIG_DIR)/LSB2Smaller.jpg $(FIG_DIR)/LSB2_2.jpg $(FIG_DIR)/LSB2CubicToQuadraticRegion.jpg
+ALL_LSB_FIGS = $(USED_FIGS_LSB) $(FIG_DIR)/LSB2Smaller.jpg $(FIG_DIR)/LSB2_2.jpg $(FIG_DIR)/LSB2CubicToQuadraticRegion.jpg $(FIG_DIR)/NSB1.jpg
 
 $(PDF_DIR)/lindhard_scaling_behaviour.pdf: $(TEX_DIR)/lindhard_scaling_behaviour.tex $(ALL_LSB_FIGS)
 
