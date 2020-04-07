@@ -102,16 +102,16 @@
 
 	For realistic values, we'll start by looking at the slightly simpler $g_\perp = \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i z v} r_p(u)$.
 
-	We can look at how this calculation can be done for constants where $\sigma_N = \SI{e16}{\per\second}$, $\omega = \SI{e9}{\per\second}$, $\tau = \SI{e-14}{\per\second}$, $T = \SI{.8e11}{\per\second}$, $T_C = \SI{1e11}{\per\second}$ and $v_F = \SI{2e6}{\m\per\s}$.
+	We can look at how this calculation can be done for constants where $\sigma_N = \SI{e16}{\per\second}$, $\omega = \SI{e9}{\per\second}$, $\tau = \SI{e-14}{\per\second}$, $T = \SI{.8e11}{\per\second}$, $T_C = \SI{1e11}{\per\second}$ and $\vf = \SI{2e6}{\m\per\s}$.
 	Using $\Delta \approx 3.06 \sqrt{Tc(Tc - T)}$, we get $\Delta \approx \SI{1.36e11}{\per\second}$.
 
 	In the reduced units we'll use to calculate (notes on conductivity have definitions) $\Sigma$, we get $\xi = .0073$, $\nu = 730$, and $t = 0.58$.
-	We will eventually be integrating over $u$, which involves a calculation like $\sigma\left(q = u \frac{\omega}{c}\right)$, which then involves $\Sigma\left(\kappa = q \frac{v_F}{\Delta}\right))$.
-	Effectively, we'll be finding $\Sigma\left(\frac{\omega v_F}{c \Delta} u\right)$, or $\Sigma\left(\left( 4.87 \times 10^{-5} \right) u \right)$.
+	We will eventually be integrating over $u$, which involves a calculation like $\sigma\left(q = u \frac{\omega}{c}\right)$, which then involves $\Sigma\left(\kappa = q \frac{\vf}{\Delta}\right))$.
+	Effectively, we'll be finding $\Sigma\left(\frac{\omega \vf}{c \Delta} u\right)$, or $\Sigma\left(\left( 4.87 \times 10^{-5} \right) u \right)$.
 	For distances of about a micron, we'll be looking at $10^{-7} < z < 10^{-4}$.
 	The $u$- and $z$-dependence will be important for letting us know what approximations we can take later.
 
-	This incidentally corresponds with $k_F = \frac{m_e v_F}{\hbar} \approx \SI{1.7e10}{\per\meter}$, or $\kappa_F = \frac{k_F v_F}{\Delta} \approx 2.5 \times 10^5$.
+	This incidentally corresponds with $k_F = \frac{m_e \vf}{\hbar} \approx \SI{1.7e10}{\per\meter}$, or $\kappa_F = \frac{k_F \vf}{\Delta} \approx 2.5 \times 10^5$.
 	We might expect this theory to break down as we approach that value, which is fortunately much larger than the typical scales for other quantities.
 	In terms of $u$, our theory will break down approaching $u_F \approx 10^{10}$.
 

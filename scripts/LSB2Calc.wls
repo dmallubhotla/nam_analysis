@@ -12,7 +12,6 @@ calcDirectory = FileNameJoin[{
 calc[filename_] := FileNameJoin[{calcDirectory, filename}];
 
 omega = 10^9;
-tau = 10^-14;
 vf = 2 * 10^6;
 omegap = 3.5 * 10^15;
 cLight = 3 * 10^8;
@@ -41,28 +40,27 @@ epsSeries[qP_?NumericQ, omegaP_?NumericQ, vfP_?NumericQ, omegapP_?NumericQ, tauP
 	},
 	1 + ((prefactor)) ((I / (3 * (s - I))) + u^2 * (-9 * I + 5 * s)/ (45 * (-I + s)^3))
 ];
-epsEf[q_?NumericQ] := Piecewise[
+epsEf[q_?NumericQ, tauIn_?NumericQ] := Piecewise[
 	{
-		{epsSeries[q, omega, vf, omegap, tau], q < 10^4},
-		{epsL[q, omega, vf, omegap, tau], q >= 10^4}
+		{epsSeries[q, omega, vf, omegap, tauIn], q < 10^4},
+		{epsL[q, omega, vf, omegap, tauIn], q >= 10^4}
 	}
 ];
 
-zetaPL[u_?NumericQ] := 2 * I *
+zetaPL[u_?NumericQ, tauIn_?NumericQ] := 2 * I *
 		NIntegrate[
-			(1/(u^2 + y^2)) * (((y^2) / (epsEf[getq[u]] - u^2 - y^2)) + ((u^2) / (epsEf[getq[u]]))), {y, 0, Infinity}
+			(1/(u^2 + y^2)) * (((y^2) / (epsEf[getq[u], tauIn] - u^2 - y^2)) + ((u^2) / (epsEf[getq[u], tauIn]))), {y, 0, Infinity}
 		];
-imrpL[u_?NumericQ] := With[
-	{zp = zetaPL[u]},
+imrpL[u_?NumericQ, tauIn_?NumericQ] := With[
+	{zp = zetaPL[u, tauIn]},
 	Im[(Pi * I * u - zp) / (Pi * I * u + zp)]
 ];
-chiZZEUnitLessL[z_?NumericQ] := NIntegrate[
-	u^2 * imrpL[u] * E^(-2 * u * z)
+chiZZEUnitLessL[z_?NumericQ, tauIn_?NumericQ] := NIntegrate[
+	u^2 * imrpL[u, tauIn] * E^(-2 * u * z)
 	, {u, 10, Infinity}
 ];
 
 T1[c_?NumericQ] := (( hbar * e0 * cLight^3) / (dipoleMoment^2 * omega^3)) * (1/( c * Coth[omega/(2* temp)]));
 
-dataLindhard = ParallelTable[{10^i * cLight / (omega * tau * vf), Quiet[T1[chiZZEUnitLessL[10^i]]]}, {i, -11, 1, .1}, DistributedContexts -> All];
-data = {dataLindhard};
-Export[calc["LSB1.csv"], data];
+data = ParallelTable[{10^i * cLight / (omega * (10^-14) * vf), Quiet[T1[chiZZEUnitLessL[10^i, 10^j]]]}, {j, -15, -13, .5}, {i, -11, 0, .07}, DistributedContexts -> All];
+Export[calc["LSB2.csv"], data];
