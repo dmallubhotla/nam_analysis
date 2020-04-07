@@ -12,13 +12,11 @@ calcDirectory = FileNameJoin[{
 calc[filename_] := FileNameJoin[{calcDirectory, filename}];
 
 omega = 10^9;
-(*tau = 10^-14;*)
 vf = 2 * 10^6;
 omegap = 3.5 * 10^15;
 cLight = 3 * 10^8;
 hbar = 1.05 * 10^-34;
 e0 = 8.854^-12;
-(*tau = 10^-14;*)
 Tc = 10^11;
 (*T in Hz*)
 temp = .8 * Tc;
