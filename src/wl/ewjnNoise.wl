@@ -5,15 +5,14 @@ T1EzzLin::usage = "T1EzzLin[z, parameters, constants] takes in SI units, returns
 
 Begin["`Private`"];
 
-requiredLinParams = {"omegaSI", "omegaPSI", "tauSI", "vFSI", "TSI", "dipoleMomentSI"};
-requiredNamParams = {"omegaSI", "omegaPSI", "tauSI", "vFSI", "TSI", "TcSI", "dipoleMomentSI"};
+requiredParams = {"omegaSI", "omegaPSI", "tauSI", "vFSI", "TRel", "TcSI", "dipoleMomentSI"};
 requiredConstants = {"epsilon0SI", "hbarSI", "cLightSI"};
 
 T1EzzLin[zSI_?NumericQ
-	, parameters_?AssociationQ /; AllTrue[requiredLinParams, KeyExistsQ[parameters, #] &]
+	, parameters_?AssociationQ /; AllTrue[requiredParams, KeyExistsQ[parameters, #] &]
 	, constants_?AssociationQ /; AllTrue[requiredConstants, KeyExistsQ[constants, #] &]
 ] := T1EzzLinINTERNAL[zSI
-	, parameters["omegaSI"], parameters["omegaPSI"], parameters["tauSI"], parameters["vFSI"], parameters["TSI"], parameters["dipoleMomentSI"]
+	, parameters["omegaSI"], parameters["omegaPSI"], parameters["tauSI"], parameters["vFSI"], parameters["TRel"], parameters["TcSI"], parameters["dipoleMomentSI"]
 	, constants["epsilon0SI"], constants["hbarSI"], constants["cLightSI"]
 ];
 
@@ -22,18 +21,19 @@ T1EzzLinINTERNAL[zSI_?NumericQ
 	, omegaPSI_?NumericQ
 	, tauSI_?NumericQ
 	, vFSI_?NumericQ
-	, TSI_?NumericQ
+	, TRel_?NumericQ
+	, TcSI_?NumericQ
 	, dipoleMomentSI_?NumericQ
 	, epsilon0SI_?NumericQ
 	, hbarSI_?NumericQ
 	, cLightSI_?NumericQ
-] := 3;
+] := 3; (* TODO Implement this *)
 
 T1EzzNam[zSI_?NumericQ
-	, parameters_?AssociationQ /; AllTrue[requiredNamParams, KeyExistsQ[parameters, #] &]
+	, parameters_?AssociationQ /; AllTrue[requiredParams, KeyExistsQ[parameters, #] &]
 	, constants_?AssociationQ /; AllTrue[requiredConstants, KeyExistsQ[constants, #] &]
 ] := T1EzzNamINTERNAL[zSI
-	, parameters["omegaSI"], parameters["omegaPSI"], parameters["tauSI"], parameters["vFSI"], parameters["TSI"], parameters["TcSI"], parameters["dipoleMomentSI"]
+	, parameters["omegaSI"], parameters["omegaPSI"], parameters["tauSI"], parameters["vFSI"], parameters["TRel"], parameters["TcSI"], parameters["dipoleMomentSI"]
 	, constants["epsilon0SI"], constants["hbarSI"], constants["cLightSI"]
 ];
 
@@ -42,14 +42,28 @@ T1EzzNamINTERNAL[zSI_?NumericQ
 	, omegaPSI_?NumericQ
 	, tauSI_?NumericQ
 	, vFSI_?NumericQ
-	, TSI_?NumericQ
+	, TRel_?NumericQ
 	, TcSI_?NumericQ
 	, dipoleMomentSI_?NumericQ
 	, epsilon0SI_?NumericQ
 	, hbarSI_?NumericQ
 	, cLightSI_?NumericQ
-] := 3;
+] := 3; (* TODO finish this *)
 
-(* TODO: Include default SI constants! Also include default Pb parameters *)
+(* Default parameters for typical usage *)
+namewjnPbParameters = <| "omegaSI" -> 10^9
+	, "omegaPSI" -> 3.5 * 10^15
+	, "tauSI" -> 10^-14
+	, "vFSI" -> 2 * 10^6
+	, "TRel" -> .8
+	, "TcSI" -> 10^11
+	, "dipoleMomentSI" -> 8.4 * 10^-30
+|>;
+
+namewjnConstants = <| "epsilon0SI" -> 8.854* 10^-12
+	, "hbarSI" -> 1.05 * 10^-34
+	, "cLightSI" -> 3 * 10^8
+|>;
+
 
 EndPackage[];
