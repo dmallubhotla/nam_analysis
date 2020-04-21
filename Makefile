@@ -107,3 +107,8 @@ listdeps:
 	@echo $(MAIN_PDF_DEPS)
 	@echo "All pdfs"
 	@echo $(ALL_PDFS)
+
+### Testing
+.PHONY: test
+test:
+	$(WS) src/wltest/RunTests.wls
