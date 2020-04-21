@@ -1,4 +1,4 @@
-BeginPackage["ewjnNoise`", {(*{"namConductivity`", "namAsymptoticLowKConductivity`"}*)}];
+BeginPackage["ewjnNoise`"(*, {(*{"namConductivity`", "namAsymptoticLowKConductivity`"}*)}*)];
 
 T1EzzNam::usage = "T1EzzNam[z, parameters, constants] takes in SI units, returns T1 in SI units. Uses Nam calculation with interpolation.";
 T1EzzLin::usage = "T1EzzLin[z, parameters, constants] takes in SI units, returns T1 in SI units. Uses Lindhard calculation.";
@@ -27,8 +27,13 @@ T1EzzLinINTERNAL[zSI_?NumericQ
 	, epsilon0SI_?NumericQ
 	, hbarSI_?NumericQ
 	, cLightSI_?NumericQ
-] := 3; (* TODO Implement this *)
+] := With[{
+	chiSI = 3  (* TODO Implement this *)
+},
+	((hbarSI * epsilon0SI * cLightSI^3) / (dipoleMomentSI^2 * omegaSI^3)) * (1/( chiSI * Coth[omegaSI/(2 * TRel * TcSI)]))
+];
 
+(* Nam Implementation *)
 T1EzzNam[zSI_?NumericQ
 	, parameters_?AssociationQ /; AllTrue[requiredParams, KeyExistsQ[parameters, #] &]
 	, constants_?AssociationQ /; AllTrue[requiredConstants, KeyExistsQ[constants, #] &]
@@ -65,5 +70,6 @@ namewjnConstants = <| "epsilon0SI" -> 8.854* 10^-12
 	, "cLightSI" -> 3 * 10^8
 |>;
 
+End[]; (* `Private` *)
 
 EndPackage[];
