@@ -31,10 +31,53 @@ T1EzzLinINTERNAL[zSI_?NumericQ
 	, hbarSI_?NumericQ
 	, cLightSI_?NumericQ
 ] := With[{
-	chiSI = 3  (* TODO Implement this *)
+	chiSI = chiZZEUnitLessL[zSI, omegaSI, vFSI, omegaPSI, tauSI, cLightSI]
 },
-	((hbarSI * epsilon0SI * cLightSI^3) / (dipoleMomentSI^2 * omegaSI^3)) * (1/( chiSI * Coth[omegaSI/(2 * TRel * TcSI)]))
+	((hbarSI * epsilon0SI * cLightSI^3) / (dipoleMomentSI^2 * omegaSI^3)) * (1/(chiSI * Coth[omegaSI/(2 * TRel * TcSI)]))
 ];
+
+
+(* Lindhard internal functions *)
+(* FIXME: later got stuff *)
+getq[u_?NumericQ, omega_?NumericQ, cLight_?NumericQ] := getq[u, omega, cLight] = u * omega / cLight;
+(* NORMAL METAL *)
+epsL[qP_?NumericQ, omegaP_?NumericQ, vfP_?NumericQ, omegapP_?NumericQ, tauP_?NumericQ] := With[
+	{
+		u = (vfP * qP) / omegaP,
+		s = 1/(tauP * omegaP),
+		prefactor = 3 * (omegapP^2) / (omegaP^2)
+	},
+	1 + ((prefactor) / (u^2)) * (1 + ((1 + I * s) / (2 * u)) * Log[(1 - u + I * s) / (1 + u + I * s)]) / (1 + ((I * s) / (2 * u)) * Log[(1 - u + I * s) / (1 + u + I * s)])
+];
+epsSeries[qP_?NumericQ, omegaP_?NumericQ, vfP_?NumericQ, omegapP_?NumericQ, tauP_?NumericQ] := With[
+	{
+		u = (vfP * qP) / omegaP,
+		s = 1/(tauP * omegaP),
+		prefactor = 3 * (omegapP^2) / (omegaP^2)
+	},
+	1 + ((prefactor)) ((I / (3 * (s - I))) + u^2 * (-9 * I + 5 * s)/ (45 * (-I + s)^3))
+];
+epsEf[q_?NumericQ, omega_?NumericQ, vf_?NumericQ, omegap_?NumericQ, tau_?NumericQ] := epsEf[q, omega, vf, omegap, tau] = Piecewise[
+	{
+		{epsSeries[q, omega, vf, omegap, tau], q < 10^4},
+		{epsL[q, omega, vf, omegap, tau], q >= 10^4}
+	}
+];
+
+zetaPL[u_?NumericQ, omega_?NumericQ, vf_?NumericQ, omegap_?NumericQ, tau_?NumericQ, cLight_?NumericQ] := zetaPL[u, omega, vf, omegap, tau, cLight] = With [{q = getq[u, omega, cLight]},
+	2 * I *
+		NIntegrate[
+			(1/(u^2 + y^2)) * (((y^2) / (epsEf[q, omega, vf, omegap, tau] - u^2 - y^2)) + ((u^2) / (epsEf[q, omega, vf, omegap, tau]))), {y, 0, Infinity}
+		]];
+imrpL[u_?NumericQ, omega_?NumericQ, vf_?NumericQ, omegap_?NumericQ, tau_?NumericQ, cLight_?NumericQ] := imrpL[u, omega, vf, omegap, tau, cLight] = With[
+	{zp = zetaPL[u, omega, vf, omegap, tau, cLight]},
+	Im[(Pi * I * u - zp) / (Pi * I * u + zp)]
+];
+chiZZEUnitLessL[z_?NumericQ, omega_?NumericQ, vf_?NumericQ, omegap_?NumericQ, tau_?NumericQ, cLight_?NumericQ] := NIntegrate[
+	u^2 * imrpL[u, omega, vf, omegap, tau, cLight] * E^(-2 * u * z)
+	, {u, 10, Infinity}
+];
+
 
 (* Nam Implementation *)
 T1EzzNam[zSI_?NumericQ
