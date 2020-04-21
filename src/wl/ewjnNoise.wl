@@ -3,6 +3,9 @@ BeginPackage["ewjnNoise`"(*, {(*{"namConductivity`", "namAsymptoticLowKConductiv
 T1EzzNam::usage = "T1EzzNam[z, parameters, constants] takes in SI units, returns T1 in SI units. Uses Nam calculation with interpolation.";
 T1EzzLin::usage = "T1EzzLin[z, parameters, constants] takes in SI units, returns T1 in SI units. Uses Lindhard calculation.";
 
+namEwjnConstants::usage = "Constants that represent common universal constants in SI units.";
+namEwjnPbBasicParameters::usage = "Values of some common realistic parameters that could change experiment to experiment.";
+
 Begin["`Private`"];
 
 requiredParams = {"omegaSI", "omegaPSI", "tauSI", "vFSI", "TRel", "TcSI", "dipoleMomentSI"};
@@ -56,7 +59,7 @@ T1EzzNamINTERNAL[zSI_?NumericQ
 ] := 3; (* TODO finish this *)
 
 (* Default parameters for typical usage *)
-namewjnPbParameters = <| "omegaSI" -> 10^9
+namEwjnPbBasicParameters = <| "omegaSI" -> 10^9
 	, "omegaPSI" -> 3.5 * 10^15
 	, "tauSI" -> 10^-14
 	, "vFSI" -> 2 * 10^6
@@ -65,7 +68,7 @@ namewjnPbParameters = <| "omegaSI" -> 10^9
 	, "dipoleMomentSI" -> 8.4 * 10^-30
 |>;
 
-namewjnConstants = <| "epsilon0SI" -> 8.854* 10^-12
+namEwjnConstants = <| "epsilon0SI" -> 8.854* 10^-12
 	, "hbarSI" -> 1.05 * 10^-34
 	, "cLightSI" -> 3 * 10^8
 |>;
