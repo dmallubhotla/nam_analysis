@@ -12,11 +12,9 @@ numTests          = numTestsSucceeded + numTestsFailed;
 
 If[0 < numTestsFailed,
 	failedReports = Select[reports, #["TestsFailedCount"] >0 &];
+	failedWrongTestText[wrongTest_] := ToString@StringForm["`` failed: Expected `` and got ``.", wrongTest["TestID"], ToString[wrongTest["ExpectedOutput"], InputForm], ToString[wrongTest["ActualOutput"], InputForm]];
 	failedReportText[report_] :=
-		StringTrim[report["Title"], "Test Report: "] <> " failures:\n---------------\n" <> StringRiffle[#["TestID"] & /@ Select[Values[report["TestResults"]], #["Outcome"] == "Failure" &], "\n"];
-	failedWrongText[report_] := With[{wrongResults = Values[report]},
-		#["TestID"] & /@ wrongResults
-	];
+     StringTrim[report["Title"], "Test Report: "] <> " failures:\n---------------\n" <> StringRiffle[failedWrongTestText /@ Select[Values[report["TestResults"]], #["Outcome"] == "Failure" &], "\n"];
 	Print[StringRiffle[failedReportText /@ failedReports, {"************************\n\n", "\n\n", "\n\n************************"}]];
 	Print[""];
 ];
