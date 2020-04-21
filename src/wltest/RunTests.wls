@@ -26,7 +26,6 @@ failedTestText[test_] := ToString@StringForm["``. Outcome: ``.", test["TestID"],
 	_,
 		"Can't report on this error type, for some reason."
 ];
-(*failedWrongTestText[wrongTest_] := ToString@StringForm["`` outcome: ``.", wrongTest["TestID"], wrongTest["Outcome"]] <> "\n" <> ToString@StringForm["Expected `` and got ``.", ToString[wrongTest["ExpectedOutput"], InputForm], ToString[wrongTest["ActualOutput"], InputForm]];*)
 failedReportText[report_] := StringTrim[report["Title"], "Test Report: "] <> " failures:\n---------------\n" <> StringRiffle[failedTestText /@ Select[Values[report["TestResults"]], #["Outcome"] != "Success" &], "\n"];
 
 If[0 < numTestsFailed,
