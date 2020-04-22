@@ -18,7 +18,7 @@ OUTPUTS := $(patsubst tex/%.tex, pdfs/%.pdf,$(SOURCES))
 ### Here we go
 #
 .PHONY: all
-all: allpdfs mathematicainstall ewjnnoiseInstall
+all: allpdfs mathematicainstall ewjnnoiseinstall
 
 ### How we do that
 #
@@ -53,9 +53,9 @@ $(OUTPUTS): $(PDF_DIR)/%.pdf: tex/%.tex main.tex bibliography.bib | $(PDF_DIR)
 ##
 # Mathematicas
 MATHEMATICA_INSTALLS := $(DIST_DIR)/wl_installed $(DIST_DIR)/alowk_installed $(DIST_DIR)/ahighk_installed $(DIST_DIR)/coefficient_installed
-.PHONY: mathematicainstall ewjnnoiseInstall
+.PHONY: mathematicainstall ewjnnoiseinstall
 mathematicainstall: $(MATHEMATICA_INSTALLS)
-ewjnnoiseInstall: $(DIST_DIR)/ewjnwl_installed
+ewjnnoiseinstall: $(DIST_DIR)/ewjnwl_installed
 
 $(DIST_DIR)/wl_installed: src/wl/namConductivity.wl | $(DIST_DIR)
 	@$(eval MATHEMATICA_INSTALL_LOCATION=$(shell wolframscript -c 'FileNameJoin[{StringReplace[$$UserBaseDirectory, "\\" -> "/"], "Applications", "namConductivity"}, OperatingSystem -> "Unix"]'))
