@@ -18,7 +18,7 @@ OUTPUTS := $(patsubst tex/%.tex, pdfs/%.pdf,$(SOURCES))
 ### Here we go
 #
 .PHONY: all
-all: allpdfs mathematicainstall
+all: allpdfs mathematicainstall ewjnnoiseInstall
 
 ### How we do that
 #
@@ -53,8 +53,9 @@ $(OUTPUTS): $(PDF_DIR)/%.pdf: tex/%.tex main.tex bibliography.bib | $(PDF_DIR)
 ##
 # Mathematicas
 MATHEMATICA_INSTALLS := $(DIST_DIR)/wl_installed $(DIST_DIR)/alowk_installed $(DIST_DIR)/ahighk_installed $(DIST_DIR)/coefficient_installed
-.PHONY: mathematicainstall
+.PHONY: mathematicainstall ewjnnoiseInstall
 mathematicainstall: $(MATHEMATICA_INSTALLS)
+ewjnnoiseInstall: $(DIST_DIR)/ewjnwl_installed
 
 $(DIST_DIR)/wl_installed: src/wl/namConductivity.wl | $(DIST_DIR)
 	@$(eval MATHEMATICA_INSTALL_LOCATION=$(shell wolframscript -c 'FileNameJoin[{StringReplace[$$UserBaseDirectory, "\\" -> "/"], "Applications", "namConductivity"}, OperatingSystem -> "Unix"]'))
@@ -74,12 +75,17 @@ $(DIST_DIR)/ahighk_installed: src/wl/namAsymptoticHighKConductivity.wl | $(DIST_
 	cp src/wl/namAsymptoticHighKConductivity.wl $(MATHEMATICA_INSTALL_LOCATION)
 	touch dist/ahighk_installed
 
-$(DIST_DIR)/coefficient_installed: src/wl/namDielectricFunctionCoefficientApproximator.wl | $(DIST_DIR)
+$(DIST_DIR)/coefficient_installed: src/wl/namDielectricFunctionCoefficientApproximator.wl $(DIST_DIR)/alowk_installed $(DIST_DIR)/wl_installed | $(DIST_DIR)
 	@$(eval MATHEMATICA_INSTALL_LOCATION=$(shell wolframscript -c 'FileNameJoin[{StringReplace[$$UserBaseDirectory, "\\" -> "/"], "Applications", "namDielectricFunctionCoefficientApproximator"}, OperatingSystem -> "Unix"]'))
 	mkdir -p $(MATHEMATICA_INSTALL_LOCATION)
 	cp src/wl/namDielectricFunctionCoefficientApproximator.wl $(MATHEMATICA_INSTALL_LOCATION)
 	touch dist/coefficient_installed
 
+$(DIST_DIR)/ewjnwl_installed: src/wl/ewjnNoise.wl $(DIST_DIR)/coefficient_installed | $(DIST_DIR)
+	@$(eval MATHEMATICA_INSTALL_LOCATION=$(shell wolframscript -c 'FileNameJoin[{StringReplace[$$UserBaseDirectory, "\\" -> "/"], "Applications", "ewjnNoise"}, OperatingSystem -> "Unix"]'))
+	mkdir -p $(MATHEMATICA_INSTALL_LOCATION)
+	cp src/wl/ewjnNoise.wl $(MATHEMATICA_INSTALL_LOCATION)
+	touch dist/ewjnwl_installed
 
 ### Convenience scripts for tidying tex
 .PHONY: declutter
