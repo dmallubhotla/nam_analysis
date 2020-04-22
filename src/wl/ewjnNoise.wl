@@ -1,6 +1,6 @@
 BeginPackage["ewjnNoise`", {"namDielectricFunctionCoefficientApproximator`"}];
 
-T1EzzNam::usage = "T1EzzNam[z, parameters, constants] takes in SI units, returns T1 in SI units. Uses Nam calculation with interpolation.";
+T1EzzNam::usage = "T1EzzNam[z, qCutoff, parameters, constants] takes in SI units, returns T1 in SI units. Uses Nam calculation with interpolation.";
 T1EzzLin::usage = "T1EzzLin[z, parameters, constants] takes in SI units, returns T1 in SI units. Uses Lindhard calculation.";
 
 namEwjnConstants::usage = "Constants that represent common universal constants in SI units.";
