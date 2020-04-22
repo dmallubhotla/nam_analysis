@@ -15,10 +15,14 @@ CALC_DIR := calc
 SOURCES := $(wildcard tex/*.tex)
 OUTPUTS := $(patsubst tex/%.tex, pdfs/%.pdf,$(SOURCES))
 
+### Installation flags
+MATHEMATICA_INSTALLS := $(DIST_DIR)/wl_installed $(DIST_DIR)/alowk_installed $(DIST_DIR)/ahighk_installed $(DIST_DIR)/coefficient_installed
+EWJN_INSTALL := $(DIST_DIR)/ewjnwl_installed
+
 ### Here we go
 #
 .PHONY: all
-all: allpdfs mathematicainstall ewjnnoiseinstall
+all: allpdfs $(MATHEMATICA_INSTALLS) $(EWJN_INSTALL)
 
 ### How we do that
 #
@@ -52,10 +56,6 @@ $(OUTPUTS): $(PDF_DIR)/%.pdf: tex/%.tex main.tex bibliography.bib | $(PDF_DIR)
 	@cp $(<D)/$(@F) $@
 ##
 # Mathematicas
-MATHEMATICA_INSTALLS := $(DIST_DIR)/wl_installed $(DIST_DIR)/alowk_installed $(DIST_DIR)/ahighk_installed $(DIST_DIR)/coefficient_installed
-.PHONY: mathematicainstall ewjnnoiseinstall
-mathematicainstall: $(MATHEMATICA_INSTALLS)
-ewjnnoiseinstall: $(DIST_DIR)/ewjnwl_installed
 
 $(DIST_DIR)/wl_installed: src/wl/namConductivity.wl | $(DIST_DIR)
 	@$(eval MATHEMATICA_INSTALL_LOCATION=$(shell wolframscript -c 'FileNameJoin[{StringReplace[$$UserBaseDirectory, "\\" -> "/"], "Applications", "namConductivity"}, OperatingSystem -> "Unix"]'))
