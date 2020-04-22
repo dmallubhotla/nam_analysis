@@ -17,11 +17,11 @@ numTestsSucceeded = Total[#["TestsSucceededCount"] & /@ reports];
 numTestsFailed    = Total[#["TestsFailedCount"]& /@ reports];
 numTests          = numTestsSucceeded + numTestsFailed;
 
-failedTestText[test_] := ToString@StringForm["``. Outcome: ``.", test["TestID"], test["Outcome"]] <> "\n" <> Switch[test["Outcome"],
+failedTestText[test_] := ToString@test["TestID"] <> "\nOutcome: " <> ToString@test["Outcome"] <> "\n" <> Switch[test["Outcome"],
 	"Failure",
 		"\tExpected:\n\t\t" <> ToString[test["ExpectedOutput"], InputForm] <> "\n\tActual:\n\t\t" <> ToString[test["ActualOutput"], InputForm],
 	"MessagesFailure",
-		"\tExpected Messages:\n\t\t" <> ToString[test["ExpectedMessages"], InputForm] <> "\n\tActual\n\t\t" <> ToString[test["ActualMessages"], InputForm],
+		"\tExpected Messages:\n\t\t" <> TextString[test["ExpectedMessages"]] <> "\n\tActual\n\t\t" <> TextString[test["ActualMessages"]],
 	"Success",
 		"All good champ",
 	"Error",
