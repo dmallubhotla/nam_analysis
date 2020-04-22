@@ -7,6 +7,7 @@ approxEqual[a_, b_] := Chop[N@(Abs[a - b]/Min[a, b]), approxTolerance] == 0;
 PrependTo[$Path, FileNameJoin[{FileNameDrop[ExpandFileName[First[$ScriptCommandLine]],-2], "wl"}]];
 testDir = FileNameDrop[ExpandFileName[First[$ScriptCommandLine]],-1];
 testFiles = FileNames["*.wlt", testDir];
+(*testFiles = FileNames["T1EzzNamTest.wlt", testDir];*)
 
 << "ewjnNoise`";
 
@@ -23,6 +24,8 @@ failedTestText[test_] := ToString@StringForm["``. Outcome: ``.", test["TestID"],
 		"Expected Messages: " <> ToString[test["ExpectedMessages"], InputForm] <> "\n" <> "Actual Messages: " <> ToString[test["ActualMessages"], InputForm],
 	"Success",
 		"All good champ",
+	"Error",
+			ToString@test,
 	_,
 		"Can't report on this error type, for some reason."
 ];

@@ -1,4 +1,4 @@
-BeginPackage["ewjnNoise`"(*, {(*{"namConductivity`", "namAsymptoticLowKConductivity`"}*)}*)];
+BeginPackage["ewjnNoise`", {"namDielectricFunctionCoefficientApproximator`"}];
 
 T1EzzNam::usage = "T1EzzNam[z, parameters, constants] takes in SI units, returns T1 in SI units. Uses Nam calculation with interpolation.";
 T1EzzLin::usage = "T1EzzLin[z, parameters, constants] takes in SI units, returns T1 in SI units. Uses Lindhard calculation.";
@@ -81,14 +81,17 @@ chiZZEUnitLessL[z_?NumericQ, omega_?NumericQ, vf_?NumericQ, omegap_?NumericQ, ta
 
 (* Nam Implementation *)
 T1EzzNam[zSI_?NumericQ
+	, qCutoffSI_?NumericQ
 	, parameters_?AssociationQ /; AllTrue[requiredParams, KeyExistsQ[parameters, #] &]
 	, constants_?AssociationQ /; AllTrue[requiredConstants, KeyExistsQ[constants, #] &]
 ] := T1EzzNamINTERNAL[zSI
+	, qCutoffSI
 	, parameters["omegaSI"], parameters["omegaPSI"], parameters["tauSI"], parameters["vFSI"], parameters["TRel"], parameters["TcSI"], parameters["dipoleMomentSI"]
 	, constants["epsilon0SI"], constants["hbarSI"], constants["cLightSI"]
 ];
 
 T1EzzNamINTERNAL[zSI_?NumericQ
+	, qCutoffSI_?NumericQ
 	, omegaSI_?NumericQ
 	, omegaPSI_?NumericQ
 	, tauSI_?NumericQ
@@ -99,7 +102,36 @@ T1EzzNamINTERNAL[zSI_?NumericQ
 	, epsilon0SI_?NumericQ
 	, hbarSI_?NumericQ
 	, cLightSI_?NumericQ
-] := 3; (* TODO finish this *)
+] := With[{
+	chiSI = chiZZEUnitLessNam[zSI, qCutoffSI * cLightSI / omegaSI, omegaSI, omegaPSI^2 * tauSI / (4 * Pi), tauSI, vFSI, TRel * TcSI, TcSI]
+},
+	((hbarSI * epsilon0SI * cLightSI^3) / (dipoleMomentSI^2 * omegaSI^3)) * (1/(chiSI * Coth[omegaSI/(2 * TRel * TcSI)]))
+];
+
+
+epsNam[u_?NumericQ, ufCutoff_?NumericQ, a_?NumericQ, b_?NumericQ, c_?NumericQ, d_?NumericQ, uL_?NumericQ] := Piecewise[
+	{
+		{-a + b *I, u < uL},
+		{1 + ((-c) + (d)*I)/u, u >= uL && u < ufCutoff}
+	},
+	1
+];
+zetaP[u_?NumericQ, ufCutoff_?NumericQ, coeffs_] := 2 * I *
+		NIntegrate[
+			(1/(u^2 + y^2)) * (((y^2) / (epsNam[Sqrt[u^2 + y^2], ufCutoff, coeffs["a"], coeffs["b"], coeffs["c"],
+				coeffs["d"], coeffs["uL"]] - u^2 - y^2)) + ((u^2) / (epsNam[Sqrt[u^2 + y^2], ufCutoff, coeffs["a"], coeffs["b"], coeffs["c"],
+				coeffs["d"], coeffs["uL"]]))), {y, 0, Infinity}
+		];
+imrpNam[u_?NumericQ, ufCutoff_?NumericQ, coeffs_] := With[
+	{zp = zetaP[u, ufCutoff, coeffs]},
+	Im[(Pi * I * u - zp) / (Pi * I * u + zp)]
+];
+chiZZEUnitLessNam[z_?NumericQ, ufCutoff_?NumericQ, omega_?NumericQ, sigmaN_?NumericQ, tau_?NumericQ, vf_?NumericQ, temp_?NumericQ, Tc_?NumericQ] := With[{coeffs = namDielectricFunctionCoefficients[omega, sigmaN, tau, vf, temp, Tc]},
+		NIntegrate[
+			u^2 * imrpNam[u, ufCutoff, coeffs] * E^(-2 * u * z)
+		, {u, 10, Infinity}
+	]
+];
 
 (* Default parameters for typical usage *)
 namEwjnPbBasicParameters = <| "omegaSI" -> 10^9
