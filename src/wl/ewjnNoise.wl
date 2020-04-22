@@ -38,7 +38,6 @@ T1EzzLinINTERNAL[zSI_?NumericQ
 
 
 (* Lindhard internal functions *)
-(* FIXME: later got stuff *)
 getq[u_?NumericQ, omega_?NumericQ, cLight_?NumericQ] := getq[u, omega, cLight] = u * omega / cLight;
 (* NORMAL METAL *)
 epsL[qP_?NumericQ, omegaP_?NumericQ, vfP_?NumericQ, omegapP_?NumericQ, tauP_?NumericQ] := With[
