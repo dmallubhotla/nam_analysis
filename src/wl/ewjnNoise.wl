@@ -6,6 +6,8 @@ T1EzzLin::usage = "T1EzzLin[z, parameters, constants] takes in SI units, returns
 namEwjnConstants::usage = "Constants that represent common universal constants in SI units.";
 namEwjnPbBasicParameters::usage = "Values of some common realistic parameters that could change experiment to experiment.";
 
+getFermiWavevector::usage = "getFermiWavevector[parameters, constants] returns the approximate fermi wavevector in inverse meters";
+
 Begin["`Private`"];
 
 requiredParams = {"omegaSI", "omegaPSI", "tauSI", "vFSI", "TRel", "TcSI", "dipoleMomentSI"};
@@ -132,6 +134,12 @@ chiZZEUnitLessNam[z_?NumericQ, ufCutoff_?NumericQ, omega_?NumericQ, sigmaN_?Nume
 	]
 ];
 
+(* Utility functions *)
+getFermiWavevector[parameters_?AssociationQ /; AllTrue[{"vFSI"}, KeyExistsQ[parameters, #] &]
+	, constants_?AssociationQ /; AllTrue[{"hbarSI", "electronMassSI"}, KeyExistsQ[constants, #] &]
+] := getFermiWavevector[parameters, constants] = constants["electronMassSI"] * parameters["vFSI"] / constants["hbarSI"];
+
+
 (* Default parameters for typical usage *)
 namEwjnPbBasicParameters = <| "omegaSI" -> 10^9
 	, "omegaPSI" -> 3.5 * 10^15
@@ -143,8 +151,9 @@ namEwjnPbBasicParameters = <| "omegaSI" -> 10^9
 |>;
 
 namEwjnConstants = <| "epsilon0SI" -> 8.854* 10^-12
-	, "hbarSI" -> 1.05 * 10^-34
+	, "hbarSI" -> 1.0546 * 10^-34
 	, "cLightSI" -> 3 * 10^8
+	, "electronMassSI" -> 9.10938356 * 10^-31
 |>;
 
 End[]; (* `Private` *)
