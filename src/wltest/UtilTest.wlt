@@ -8,12 +8,14 @@ VerificationTest[
 	, TestID -> "Fermi Wavevector check"
 ];
 
-VerificationTest[
-	findCutoff[namEwjnPbBasicParameters, namEwjnConstants]
-	,
-	5.7860963238968725`*^9;
-	, SameTest -> approxEqual
-	, TestID -> "Cutoff Numerical Solver"
-];
+(* For speed reasons slower *)
+(*VerificationTest[*)
+(*	findCutoff[namEwjnPbBasicParameters, namEwjnConstants, AccuracyGoal -> 1, PrecisionGoal -> 1, MaxIterations -> 5]*)
+(*	,*)
+(*	5.7860963238968725*^9*)
+(*	, {NIntegrate::ncvb, NIntegrate::slwcon}*)
+(*	, SameTest -> approxEqual*)
+(*	, TestID -> "Cutoff Numerical Solver"*)
+(*];*)
 
 EndTestSection[];
