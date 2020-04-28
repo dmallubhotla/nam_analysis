@@ -7,6 +7,7 @@ namEwjnConstants::usage = "Constants that represent common universal constants i
 namEwjnPbBasicParameters::usage = "Values of some common realistic parameters that could change experiment to experiment.";
 
 getFermiWavevector::usage = "getFermiWavevector[parameters, constants] returns the approximate fermi wavevector in inverse meters";
+findCutoff::usage = "findCutoff[parameters, constants] uses all parameters besides TRel";
 
 Begin["`Private`"];
 
@@ -159,26 +160,31 @@ namEwjnConstants = <| "epsilon0SI" -> 8.854* 10^-12
 |>;
 
 (* Todo: replace with internal expanded function so that we can better use memoisation *)
-(*findCutoff[parameters_?AssociationQ /; AllTrue[requiredParamsWithoutTRel, KeyExistsQ[parameters, #] &]*)
-(*	, constants_?AssociationQ /; AllTrue[requiredConstants, KeyExistsQ[constants, #] &]*)
-(*] := findCutoff[parameters, constants] = Module[{*)
-(*		highTempParams = Append[parameters, "TRel" -> .9995]*)
-(*		, fermiWavelength*)
-(*		, target*)
-(*		, lCutoff*)
-(*	},*)
-(*	fermiWavelength = 1/(2 * getFermiWavevector[highTempParams, constants]);*)
-(*	target = T1EzzLin[fermiWavelength, highTempParams, constants];*)
-(*	lCutoff = -Log[fermiWavelength];*)
-(*	E^x /. (Last[NMinimize[{Abs[*)
-(*			T1EzzNam[fermiWavelength, E^x, highTempParams, constants] - Log[target]*)
-(*		], (lCutoff - 4) < x < (lCutoff + 4)*)
-(*		}, x*)
-(*		, AccuracyGoal -> 2*)
-(*		, PrecisionGoal -> 2*)
-(*		, MaxIterations -> 2*)
-(*		]])*)
-(*];*)
+findCutoff[parameters_?AssociationQ /; AllTrue[requiredParamsWithoutTRel, KeyExistsQ[parameters, #] &]
+	,	constants_?AssociationQ /; AllTrue[requiredConstants, KeyExistsQ[constants, #] &]
+] := findCutoff[parameters, constants] = Module[{
+		highTempParams = Append[parameters, "TRel" -> .9995]
+	, fermiWavelength
+	, target
+	, lCutoff
+	, m
+},
+	fermiWavelength = 1/(2*getFermiWavevector[highTempParams, constants]);
+	target = T1EzzLin[fermiWavelength, highTempParams, constants];
+	lCutoff = -Log[fermiWavelength];
+	m = NMinimize[{
+		Abs[
+			Log[T1EzzNam[fermiWavelength, E^x, highTempParams, constants]] - Log[target]
+		],
+		(lCutoff - 4) < x < (lCutoff + 4)
+	}, x
+	, AccuracyGoal -> 5
+	, PrecisionGoal -> 5
+	, MaxIterations -> 20];
+	Print[m];
+	E^x /. (Last[m])
+];
+
 
 End[]; (* `Private` *)
 

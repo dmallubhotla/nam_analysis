@@ -11,7 +11,7 @@ VerificationTest[
 VerificationTest[
 	findCutoff[namEwjnPbBasicParameters, namEwjnConstants]
 	,
-	6.21952*10^9
+	5.7860963238968725`*^9;
 	, SameTest -> approxEqual
 	, TestID -> "Cutoff Numerical Solver"
 ];
