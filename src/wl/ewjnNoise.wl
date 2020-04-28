@@ -11,6 +11,7 @@ getFermiWavevector::usage = "getFermiWavevector[parameters, constants] returns t
 Begin["`Private`"];
 
 requiredParams = {"omegaSI", "omegaPSI", "tauSI", "vFSI", "TRel", "TcSI", "dipoleMomentSI"};
+requiredParamsWithoutTRel = {"omegaSI", "omegaPSI", "tauSI", "vFSI", "TcSI", "dipoleMomentSI"};
 requiredConstants = {"epsilon0SI", "hbarSI", "cLightSI"};
 
 T1EzzLin[zSI_?NumericQ
@@ -135,6 +136,7 @@ chiZZEUnitLessNam[z_?NumericQ, ufCutoff_?NumericQ, omega_?NumericQ, sigmaN_?Nume
 ];
 
 (* Utility functions *)
+(* Todo: replace with internal expanded function so that we can better use memoisation *)
 getFermiWavevector[parameters_?AssociationQ /; AllTrue[{"vFSI"}, KeyExistsQ[parameters, #] &]
 	, constants_?AssociationQ /; AllTrue[{"hbarSI", "electronMassSI"}, KeyExistsQ[constants, #] &]
 ] := getFermiWavevector[parameters, constants] = constants["electronMassSI"] * parameters["vFSI"] / constants["hbarSI"];
@@ -155,6 +157,28 @@ namEwjnConstants = <| "epsilon0SI" -> 8.854* 10^-12
 	, "cLightSI" -> 3 * 10^8
 	, "electronMassSI" -> 9.10938356 * 10^-31
 |>;
+
+(* Todo: replace with internal expanded function so that we can better use memoisation *)
+(*findCutoff[parameters_?AssociationQ /; AllTrue[requiredParamsWithoutTRel, KeyExistsQ[parameters, #] &]*)
+(*	, constants_?AssociationQ /; AllTrue[requiredConstants, KeyExistsQ[constants, #] &]*)
+(*] := findCutoff[parameters, constants] = Module[{*)
+(*		highTempParams = Append[parameters, "TRel" -> .9995]*)
+(*		, fermiWavelength*)
+(*		, target*)
+(*		, lCutoff*)
+(*	},*)
+(*	fermiWavelength = 1/(2 * getFermiWavevector[highTempParams, constants]);*)
+(*	target = T1EzzLin[fermiWavelength, highTempParams, constants];*)
+(*	lCutoff = -Log[fermiWavelength];*)
+(*	E^x /. (Last[NMinimize[{Abs[*)
+(*			T1EzzNam[fermiWavelength, E^x, highTempParams, constants] - Log[target]*)
+(*		], (lCutoff - 4) < x < (lCutoff + 4)*)
+(*		}, x*)
+(*		, AccuracyGoal -> 2*)
+(*		, PrecisionGoal -> 2*)
+(*		, MaxIterations -> 2*)
+(*		]])*)
+(*];*)
 
 End[]; (* `Private` *)
 

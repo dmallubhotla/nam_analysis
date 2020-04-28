@@ -8,4 +8,12 @@ VerificationTest[
 	, TestID -> "Fermi Wavevector check"
 ];
 
+VerificationTest[
+	findCutoff[namEwjnPbBasicParameters, namEwjnConstants]
+	,
+	6.21952*10^9
+	, SameTest -> approxEqual
+	, TestID -> "Cutoff Numerical Solver"
+];
+
 EndTestSection[];
