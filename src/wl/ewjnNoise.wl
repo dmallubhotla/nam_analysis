@@ -160,8 +160,10 @@ namEwjnConstants = <| "epsilon0SI" -> 8.854* 10^-12
 |>;
 
 (* Todo: replace with internal expanded function so that we can better use memoisation *)
+Options[findCutoff] =
 findCutoff[parameters_?AssociationQ /; AllTrue[requiredParamsWithoutTRel, KeyExistsQ[parameters, #] &]
 	,	constants_?AssociationQ /; AllTrue[requiredConstants, KeyExistsQ[constants, #] &]
+	, opts: OptionsPattern[{MaxIterations -> 20, PrecisionGoal -> 5, AccuracyGoal -> 5, NMinimize}]
 ] := findCutoff[parameters, constants] = Module[{
 		highTempParams = Append[parameters, "TRel" -> .9995]
 	, fermiWavelength
@@ -178,9 +180,8 @@ findCutoff[parameters_?AssociationQ /; AllTrue[requiredParamsWithoutTRel, KeyExi
 		],
 		(lCutoff - 4) < x < (lCutoff + 4)
 	}, x
-	, AccuracyGoal -> 5
-	, PrecisionGoal -> 5
-	, MaxIterations -> 20];
+		, FilterRules[{opts}, Options[NMinimize]]
+	];
 	Print[m];
 	E^x /. (Last[m])
 ];
