@@ -18,6 +18,75 @@
 
 	\section{High temperature Nam calculations} \label{sec:htn:intro}
 
-	So what happens for the noise when the temperature is close to $T_c$ using the values from~\cite{Nam1967}?
+	One potential avenue for fixing the cutoff momentum $q_{uc}$ is to try to relate the high temperature behaviour of the superconducting noise (again, calculated with~\cite{Nam1967})to the normal state (calculated with ~\cite{SolyomV3}).
+	We know that the Lindhard function noise has fairly temperature independent behaviour, and flattens in a predictable way.
+	For some value $q_{uc} \sim q_{\textrm{F}}$ where $q_{\textrm{F}}$ is the Fermi wavevector, the Nam function behaviour should behave similarly as $\frac{T}{T_c} \rightarrow 1$.
+	We can essentially then numerically estimate the specific parameter $q_{uc}$ that minimises the difference between the Nam and Lindhard noise functions.
+
+	The process is then:
+	\begin{enumerate}
+		\item Calculate $T_{1\textrm{,Lindhard}}^{E}(z)$ at some $z = z_{small}$, in the region where $T_1$ is effectively constant.
+			In the code that follows, $z_{small}$ is chosen arbitrarily to be $\lambda_{\textrm{F}} = \frac{\hbar}{2 m_e \vf}$.
+			For $\vf = \SI{2e6}{\m\per\s}$, this gives $\lambda_{\textrm{F}} \approx \SI{5.7e-11}{\m}$.
+		\item For $T = .9999 T_c$, calculate $T_{1\textrm{,Nam}}^{E}(z = z_{small}, q_{uc}, T=.9999 T_c)$.
+			Varying $q_{uc}$, numerically solve for the point $q_{minimised}$ where $T_{1\textrm{,Nam}} = T_{1\textrm{,Lindhard}}$.
+		\item This $q_{minimised}$ should be on the order of $q_{\textrm{F}}$, and is then used in calculations of other values of $T$ and $z$.
+	\end{enumerate}
+
+	In \fref{fig:htn:1} the results of this process are plotted for $\omega=\SI{1}{\giga\Hz}$, for a variety of different temperatures.
+	The temperature dependence of the Lindhard noise is very slight;
+	the three different temperatures are only shown to justify the assertion that it's valid to compare the Nam noise to it at different temperatures.
+	As the temperature increases, $T_1$ drops, as expected.
+	For the parameters in \fref{fig:htn:1}, the optimum cutoff $q_{minimised} = \SI{5.79e9}{\per\meter}$, or $q_{minimised}=0.33 q_{\textrm{F}}$, which is a heartening sign.
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{HighTempNam1}
+		\caption{Noise values, $T_1$ in $\si{\second}$ and $z$ is in units of the vacuum wavelength (on the order of a meter)} \label{fig:htn:1}
+	\end{figure}
+
+	The same exercise is repeated for \fref{fig:htn:2} and \fref{fig:htn:3}, with different values for $\omega$.
+	Here, because $T_c=\SI{100}{\giga\Hz}$ for these graphs, $\omega$ is closer to being on the same scale as $\Delta$, and we can see that the coherence time drops for relatively lower values of $T$.
+	This is as expected.
+	It is also perhaps a good sign that the curves follow each other quite closely, even though they're only being fixed at one value of $z$.
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{HighTempNam2}
+		\caption{\fref{fig:htn:1} again, but now with $\omega = \SI{10}{\giga\Hz}$} \label{fig:htn:2}
+	\end{figure}
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{HighTempNam3}
+		\caption{\fref{fig:htn:1} again, but now with $\omega = \SI{100}{\giga\Hz}$, so that $\omega \sim T_c$} \label{fig:htn:3}
+	\end{figure}
+
+	Somewhat worryingly, \fref{fig:htn:3} shows points where the superconducting coherence time dips below the Lindhard.\todo{investigate?}
+	There are a wide variety of reasons that a certain degree of numerical discrepancy should be expected, not the least of which being that there are multiple different approximations being used that may not guarantee that the superconducting $T_1$ stay lower than the normal state.
+
+	The other potentially concerning feature is that the length scales don't seem to be particularly easily defined.
+	For different temperatures, we see different length scales determining the flattening of the superconducting coherence time.
+	It corresponds to neither the coherence length $\xi = \frac{\vf}{\pi \Delta}$, nor to the penetration depth.\todo{investigate}
+
+	\subsection{Graphs within range} \label{subsec:htn:smallergraphs}
+
+	In \fref{fig:htn:1GHz}, \fref{fig:htn:10GHz} and \fref{fig:htn:100GHz} we repeat the earlier graphs, but narrow the x-axis to look only at the $z$ values of interest.
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{HighTempNam4}
+		\caption{Comparison for different temperatures, with $z$ in units of $\mu \lambda$, $T_1$ in $\si{\nano\second}$ and $\omega = \SI{1e9}{\Hz}$} \label{fig:htn:1GHz}
+	\end{figure}
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{HighTempNam5}
+		\caption{Comparison for different temperatures, with $z$ in units of $\mu \lambda$, $T_1$ in $\si{\nano\second}$ and $\omega = \SI{1e10}{\Hz}$} \label{fig:htn:10GHz}
+	\end{figure}
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{HighTempNam6}
+		\caption{Comparison for different temperatures, with $z$ in units of $\mu \lambda$, $T_1$ in $\si{\nano\second}$ and $\omega = \SI{1e11}{\Hz}$} \label{fig:htn:100GHz}
+	\end{figure}
+
 
 \end{document}

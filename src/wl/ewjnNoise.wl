@@ -6,9 +6,13 @@ T1EzzLin::usage = "T1EzzLin[z, parameters, constants] takes in SI units, returns
 namEwjnConstants::usage = "Constants that represent common universal constants in SI units.";
 namEwjnPbBasicParameters::usage = "Values of some common realistic parameters that could change experiment to experiment.";
 
+getFermiWavevector::usage = "getFermiWavevector[parameters, constants] returns the approximate fermi wavevector in inverse meters";
+findCutoff::usage = "findCutoff[parameters, constants] uses all parameters besides TRel";
+
 Begin["`Private`"];
 
 requiredParams = {"omegaSI", "omegaPSI", "tauSI", "vFSI", "TRel", "TcSI", "dipoleMomentSI"};
+requiredParamsWithoutTRel = {"omegaSI", "omegaPSI", "tauSI", "vFSI", "TcSI", "dipoleMomentSI"};
 requiredConstants = {"epsilon0SI", "hbarSI", "cLightSI"};
 
 T1EzzLin[zSI_?NumericQ
@@ -132,6 +136,13 @@ chiZZEUnitLessNam[z_?NumericQ, ufCutoff_?NumericQ, omega_?NumericQ, sigmaN_?Nume
 	]
 ];
 
+(* Utility functions *)
+(* Todo: replace with internal expanded function so that we can better use memoisation *)
+getFermiWavevector[parameters_?AssociationQ /; AllTrue[{"vFSI"}, KeyExistsQ[parameters, #] &]
+	, constants_?AssociationQ /; AllTrue[{"hbarSI", "electronMassSI"}, KeyExistsQ[constants, #] &]
+] := getFermiWavevector[parameters, constants] = constants["electronMassSI"] * parameters["vFSI"] / constants["hbarSI"];
+
+
 (* Default parameters for typical usage *)
 namEwjnPbBasicParameters = <| "omegaSI" -> 10^9
 	, "omegaPSI" -> 3.5 * 10^15
@@ -143,9 +154,38 @@ namEwjnPbBasicParameters = <| "omegaSI" -> 10^9
 |>;
 
 namEwjnConstants = <| "epsilon0SI" -> 8.854* 10^-12
-	, "hbarSI" -> 1.05 * 10^-34
+	, "hbarSI" -> 1.0546 * 10^-34
 	, "cLightSI" -> 3 * 10^8
+	, "electronMassSI" -> 9.10938356 * 10^-31
 |>;
+
+(* Todo: replace with internal expanded function so that we can better use memoisation *)
+Options[findCutoff] =
+findCutoff[parameters_?AssociationQ /; AllTrue[requiredParamsWithoutTRel, KeyExistsQ[parameters, #] &]
+	,	constants_?AssociationQ /; AllTrue[requiredConstants, KeyExistsQ[constants, #] &]
+	, opts: OptionsPattern[{MaxIterations -> 20, PrecisionGoal -> 5, AccuracyGoal -> 5, NMinimize}]
+] := findCutoff[parameters, constants] = Module[{
+		highTempParams = Append[parameters, "TRel" -> .9995]
+	, fermiWavelength
+	, target
+	, lCutoff
+	, m
+},
+	fermiWavelength = 1/(2*getFermiWavevector[highTempParams, constants]);
+	target = T1EzzLin[fermiWavelength, highTempParams, constants];
+	lCutoff = -Log[fermiWavelength];
+	m = NMinimize[{
+		Abs[
+			Log[T1EzzNam[fermiWavelength, E^x, highTempParams, constants]] - Log[target]
+		],
+		(lCutoff - 4) < x < (lCutoff + 4)
+	}, x
+		, FilterRules[{opts}, Options[NMinimize]]
+	];
+	Print[m];
+	E^x /. (Last[m])
+];
+
 
 End[]; (* `Private` *)
 
