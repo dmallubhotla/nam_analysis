@@ -6,10 +6,11 @@ approxEqual[a_, b_] := Chop[N@(Abs[a - b]/Min[a, b]), approxTolerance] == 0;
 
 PrependTo[$Path, FileNameJoin[{FileNameDrop[ExpandFileName[First[$ScriptCommandLine]],-2], "wl"}]];
 testDir = FileNameDrop[ExpandFileName[First[$ScriptCommandLine]],-1];
-testFiles = FileNames["*.wlt", testDir];
-(*testFiles = FileNames["T1EzzNamTest.wlt", testDir];*)
+(*testFiles = FileNames["*.wlt", testDir];*)
+testFiles = FileNames[{"T1BzzLindhardTest.wlt", "T1BzzNamTest.wlt"}, testDir];
 
 << "ewjnNoise`";
+<< "ewjnNoiseT1Bzz`";
 
 reports = TestReport /@ testFiles;
 

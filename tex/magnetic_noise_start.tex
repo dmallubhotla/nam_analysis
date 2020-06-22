@@ -1,0 +1,40 @@
+\providecommand{\main}{..}
+\documentclass[../main.tex]{subfiles}
+
+\title{Magnetic Noise}
+\author{\begin{telugu}హృదయ్ దీపక్ మల్లుభొట్ల\end{telugu}}
+% want empty date
+\predate{}
+\date{}
+\postdate{}
+
+% Document
+% !TeX spellcheck = en_GB
+\begin{document}
+
+	\graphicspath{{\main/figures/}}
+
+	\section{Magnetic Noise} \label{sec:mns}
+
+	In~\cite{Tenberg2019}, we can find an example of magnetic noise in Al, which can serve as a check for the code using the expressions in~\cite{Nam1967}.
+
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width=12cm]{T1BzzComparison}
+		\caption{Relaxation rate with same units and parameters as Fig 3 in~\cite{Tenberg2019}, using the Lindhard and Nam models} \label{fig:magn:1}
+	\end{figure}
+
+	The values in the paper are translated to the parameters we've used so far as follows:
+	\begin{gather}
+		\omega = \frac{2 \mu_B}{\hbar} B_0 \\
+		\omega_p = \SI{22e15}{\Hz} \\
+		\tau = \SI{3.15e-15}{\Hz} \\
+		\vf = \SI{2e6}{\m\per\s} \\
+		T_c = \SI{1.6e11}{\Hz} \\
+		T = 0.9999 T_c \\
+		\mu = \SI{9.27e-24}{\J\per\tesla}
+	\end{gather}
+
+	Note here that the value of $\vf$ that appears in~\cite{Tenberg2019} seems to be mistyped, and it is the corrected value used to generate \fref{fig:magn:1}.
+
+\end{document}

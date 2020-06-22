@@ -18,11 +18,12 @@ OUTPUTS := $(patsubst tex/%.tex, pdfs/%.pdf,$(SOURCES))
 ### Installation flags
 MATHEMATICA_INSTALLS := $(DIST_DIR)/wl_installed $(DIST_DIR)/alowk_installed $(DIST_DIR)/ahighk_installed $(DIST_DIR)/coefficient_installed
 EWJN_INSTALL := $(DIST_DIR)/ewjnwl_installed
+EWJNT1BZZ_INSTALL := $(DIST_DIR)/ewjnwlt1bzz_installed
 
 ### Here we go
 #
 .PHONY: all
-all: allpdfs $(MATHEMATICA_INSTALLS) $(EWJN_INSTALL)
+all: allpdfs $(MATHEMATICA_INSTALLS) $(EWJN_INSTALL) $(EWJNT1BZZ_INSTALL)
 
 ### How we do that
 #
@@ -86,6 +87,12 @@ $(DIST_DIR)/ewjnwl_installed: src/wl/ewjnNoise.wl $(DIST_DIR)/coefficient_instal
 	mkdir -p $(MATHEMATICA_INSTALL_LOCATION)
 	cp src/wl/ewjnNoise.wl $(MATHEMATICA_INSTALL_LOCATION)
 	touch dist/ewjnwl_installed
+
+$(DIST_DIR)/ewjnwlt1bzz_installed: src/wl/ewjnNoiseT1Bzz.wl $(DIST_DIR)/coefficient_installed | $(DIST_DIR)
+	@$(eval MATHEMATICA_INSTALL_LOCATION=$(shell wolframscript -c 'FileNameJoin[{StringReplace[$$UserBaseDirectory, "\\" -> "/"], "Applications", "ewjnNoiseT1Bzz"}, OperatingSystem -> "Unix"]'))
+	mkdir -p $(MATHEMATICA_INSTALL_LOCATION)
+	cp src/wl/ewjnNoiseT1Bzz.wl $(MATHEMATICA_INSTALL_LOCATION)
+	touch dist/ewjnwlt1bzz_installed
 
 ### Convenience scripts for tidying tex
 .PHONY: declutter
