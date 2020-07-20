@@ -1,3 +1,4 @@
+
 (* Populates the figures directory as ../calc *)
 calculatedDirectory = FileNameJoin[{
 	ParentDirectory[

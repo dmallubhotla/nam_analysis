@@ -23,13 +23,13 @@ VerificationTest[
 ];
 
 (* For speed reasons slower *)
-VerificationTest[
-	findCutoffB[ps, cs, AccuracyGoal -> 1, PrecisionGoal -> 1, MaxIterations -> 5]
-	,
-	5.7860963238968725*^9
-	, {NIntegrate::ncvb, NIntegrate::slwcon}
-	, SameTest -> approxEqual
-	, TestID -> "Cutoff Numerical Solver B"
-];
+(*VerificationTest[*)
+(*	findCutoffB[ps, cs, AccuracyGoal -> 1, PrecisionGoal -> 1, MaxIterations -> 5]*)
+(*	,*)
+(*	5.7860963238968725*^9*)
+(*	, {NIntegrate::ncvb, NIntegrate::slwcon}*)
+(*	, SameTest -> approxEqual*)
+(*	, TestID -> "Cutoff Numerical Solver B"*)
+(*];*)
 
 EndTestSection[];

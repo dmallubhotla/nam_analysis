@@ -1,13 +1,13 @@
 (* Quick hacky driver script to get tests to run. *)
 
 (* Stolen from: https://mathematica.stackexchange.com/questions/206278/how-to-set-a-tolerance-level-for-equality-constraints *)
-approxTolerance = .001;
+approxTolerance = .01;
 approxEqual[a_, b_] := Chop[N@(Abs[a - b]/Min[a, b]), approxTolerance] == 0;
 
 PrependTo[$Path, FileNameJoin[{FileNameDrop[ExpandFileName[First[$ScriptCommandLine]],-2], "wl"}]];
 testDir = FileNameDrop[ExpandFileName[First[$ScriptCommandLine]],-1];
-(*testFiles = FileNames["*.wlt", testDir];*)
-testFiles = FileNames[{"T1BzzLindhardTest.wlt", "T1BzzNamTest.wlt"}, testDir];
+testFiles = FileNames["*.wlt", testDir];
+(*testFiles = FileNames[{"T1BzzLindhardTest.wlt", "T1BzzNamTest.wlt"}, testDir];*)
 
 << "ewjnNoise`";
 << "ewjnNoiseT1Bzz`";
