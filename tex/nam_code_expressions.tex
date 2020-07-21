@@ -96,7 +96,9 @@
 	On its own, this is an expensive calculation.
 	However, we can estimate this using a piecewise description of $\epsilon_{nam}$ that approximates the full expression.
 
-	Quoting from an earlier document, the procedure to obtain this is as follows.
+	Quoting from an earlier document, the procedure to obtain this is as follows.\footnote{This is the procedure that made it possible to calculate the surface impedances in a reasonable amount of time.
+	It looks right graphically, and relies on the fact that all that matters is the correctness of $\epsilon$ in a narrow range.
+	I still don't have a great justification for why it should have a small error bound.}
 	\begin{enumerate}
 		\item Generally, $\epsilon(u) = 1 + 4 \pi i \frac{\sigma_N}{\omega} \Sigma(\xi, A u, \tau, t)$.
 		Use the asymptotic expression for $\Sigma$ as $u \rightarrow 0$.
@@ -126,6 +128,10 @@
 				1 & u > u_{uc}
 			\end{cases}.
 		\end{equation}
+		The parameter $u_{uc}$ is the upper cutoff, which is necessary for the asymptotic $\frac{1}{u}$ behaviour of the Nam dielectric function to not diverge later.\footnote{
+			This is where the ``cutoff'' gets inserted.
+			Based on our discussions, this should be the expected way to implement it.
+		}
 
 	\end{enumerate}
 
@@ -138,7 +144,7 @@
 	\subsubsection{$\zeta_p$}
 	We start with $\zeta_p$.
 	\begin{equation}
-		\zeta_p = 2i \int_0^\infty \dd{y} \frac{1}{u^2 + y^2} \left( \frac{y^2}{\epsilon(\sqrt{u^2 + y^2}, \omega) - u^2 - y^2} + \frac{u^2}{\epsilon(\sqrt{u^2 + y^2}, \omega)} \right)
+		\zeta_p(u) = 2i \int_0^\infty \dd{y} \frac{1}{u^2 + y^2} \left( \frac{y^2}{\epsilon(\sqrt{u^2 + y^2}, \omega) - u^2 - y^2} + \frac{u^2}{\epsilon(\sqrt{u^2 + y^2}, \omega)} \right)
 	\end{equation}
 
 	This isn't on its own inherently easy to calculate numerically, so we can try to mitigate that by rescaling $y$.
@@ -149,11 +155,88 @@
 		\zeta_p &= 2i u \int_0^\infty \dd{x} \frac{1}{1 + x^2} \left( \frac{x^2}{\epsilon(u \sqrt{1 + x^2}, \omega) - u^2 - u^2 x^2} + \frac{1}{\epsilon(u \sqrt{1 + x^2}, \omega)} \right)
 	\end{align}
 
+	The interesting features of this integral will be around $x \approx 1$, which is what we need for the computer to handle the integral to $\infty$.
+
 	\subsubsection{$\zeta_s$}
 
+	The $\zeta_s$ form is simpler.
+
+	\begin{align}
+		\zeta_s(u) &= 2i \int_0^\infty \dd{y} \frac{1}{\epsilon_t(\sqrt{u^2 + y^2}, \omega) - u^2 - y^2}
+	\end{align}
+
+	This can again be simplified to give an integral with a peak around one.
+
 	\subsection{Reflection Coefficients} \label{subsec:nce:reflectcoefs}
-	\subsubsection{Imaginary part of $r_p$}
-	The imaginary part can be calculated from $\zeta_p$.
-	\subsubsection{Imaginary part of $r_s$}
+	\subsubsection{Imaginary part of $r$}
+
+	The reflection coefficient is a simple function of the surface impedance, again from~\cite{Ford1984}.
+	These expressions will be integrated in an expression with peak where $u \gg 1$.
+	In Ford and Weber, as well as in the expressions for the noise, other authors use $v = \sqrt{1 - u^2}$, but it makes the expressions more amenable to analysis to write $v = i u$.
+	Writing it here also enforces the necessary branch of the square root function.
+	When we calculate the noise in a moment, in the same approximation we will only need the imaginary part of the reflection coefficient.
+
+	\begin{align}
+		\Im r_p(u) &= \Im \frac{i \pi u - \zeta_p(u)}{i \pi u + \zeta_p(u)} \\
+		\Im r_s(u) &= \Im \frac{\zeta_s(u) - \frac{\pi}{i u}}{\zeta_s(u) + \frac{\pi}{i u}}
+	\end{align}
+
+	\subsubsection{Interpolation}
+
+	As mentioned above, the Nam dielectric function has unrealistic behaviour at large momentum.
+	The $\frac{1}{u}$ behaviour makes the noise diverge, rather than showing the nonlocal flattening we want to see.
+	Using the cutoff parameter earlier is arbitrary, and in the range of values that make physical sense the result is strongly dependent on the value.
+
+	To combat this, an alternative method is to interpolate the Nam and Lindhard reflection coefficient expressions.
+	This has the advantage of ensuring that both have the same asymptotic behaviour as $T \rightarrow T_c$ (which is a good smoke test that this isn't obviously incorrect).
+
+	We then define
+	\begin{equation}
+		\Im r_{interpolated, (r, s)} = \min(\Im r_{lindhard, (r, s)}, \Im r_{nam, (r, s)})
+	\end{equation}
+
+	This in theory is a function of $u$ that gives a better approximation to the imaginary part of $r_p$ or $r_s$ for BCS-type metals, where the Lindhard form would fail.
+	This also does not fail for large $u$ in the same way as the Nam form.
+
+	It seems intuitively plausible that this expression works for small $u$ where the Nam form will be valid, as well as in the very large $u$ limit ($u \gg u_F$).
+	The risk comes in the region where $u \approx u_F$, where there is presumably a more intricate description required.
+	However, this function gets sampled by our noise integral around $u \sim \frac{1}{z}$, so for $z$ not around the inverse Fermi momentum, we might feel more confident.
+
+	The cutoff can still play a role, but this interpolation procedure takes away the very sensitive dependence on $u_{uc}$, so in the code we can simply pick $u_{uc} = u_F$.
+
+	\subsection{Noise calculation} \label{subsec:nce:noise}
+
+	Now, from~\cite{Henkel1999} or~\cite{QubitRelax}, we have the following expressions for the noise:
+
+	\begin{align}
+		S^{(nf)ij}_E(z, \omega) &= S^{(bb)}_E(\omega) g_{ij}(z) \\
+		S^{(bb)}_E(\omega) &= \frac{\hbar \omega^3}{3 \pi \epsilon_0 c^3 (1 - e^{-\flatfrac{\hbar \omega}{T}})}
+	\end{align}
+
+	where $z$ is in units of the vacuum wavelength $\frac{c}{\omega}$ and $g_{ij}$ is a dimensionless noise tensor with components in the directions parallel ($g_{xx}$ and $g_{yy}$) and perpendicular ($g_{zz}$) to the surface as follows:
+
+	\begin{gather}
+		g_\parallel = \frac34 \Re \int_0^{+\infty} \dd{u} \frac{u}{v} e^{2i z v} \left(r_s(u) + \left(u^2 - 1\right) r_p(u) \right) \\
+		g_\perp = \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i z v} r_p(u)
+	\end{gather}
+
+	The magnetic noise tensors $h_\parallel$ and $h_\perp$ are exactly the same, except swapping $r_s \leftrightarrow r_p$ and with an extra factor of $\frac{1}{c^2}$:
+
+	\begin{gather}
+		S^{(nf)ij}_B(z, \omega) = \frac{S^{(bb)}_E(\omega)}{c^2} h_{ij}(z) \\
+		h_\parallel = \frac34 \Re \int_0^{+\infty} \dd{u} \frac{u}{v} e^{2i z v} \left(r_p(u) + \left(u^2 - 1\right) r_s(u) \right) \\
+		h_\perp = \frac32 \Re \int_0^{+\infty} \dd{u} \frac{u^3}{v} e^{2 i z v} r_s(u)
+	\end{gather}
+
+	Now using the replacement $v \rightarrow iu$, we get
+
+	\begin{align}
+		g_\parallel &= \frac34 \int_0^{+\infty} \dd{u} e^{- 2 z u} \left(\Im r_s(u) + \left(u^2 - 1\right) \Im r_p(u) \right) \\
+		g_\perp &= \frac32 \int_0^{+\infty} \dd{u} u^2 e^{- 2 z u} \Im r_p(u) \\
+		h_\parallel &= \frac34 \int_0^{+\infty} \dd{u} e^{- 2 z u} \left(\Im r_p(u) + \left(u^2 - 1\right) \Im r_s(u) \right) \\
+		h_\perp &= \frac32 \int_0^{+\infty} \dd{u} u^2 e^{-2 z u} \Im r_s(u)
+	\end{align}
+
+	Obviously, the lower limit of this integral is in a region where $v \not\approx iu$, but we can rely on the fact that in the perpendicular expressions the $u^2$ factor damps out any inaccuracies.
 
 \end{document}
