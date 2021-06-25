@@ -11,6 +11,15 @@ findCutoff::usage = "findCutoff[parameters, constants] uses all parameters besid
 
 Begin["`Private`"];
 
+loginterpolation[lst_] := With[{
+	interp =
+			Interpolation[Cases[Map[Log, lst], {_?NumericQ, _?NumericQ}]]
+},
+	Function[x,
+		Exp[interp[Log[x]]]
+	]
+];
+
 requiredParams = {"omegaSI", "omegaPSI", "tauSI", "vFSI", "TRel", "TcSI", "dipoleMomentSI"};
 requiredParamsWithoutTRel = {"omegaSI", "omegaPSI", "tauSI", "vFSI", "TcSI", "dipoleMomentSI"};
 requiredConstants = {"epsilon0SI", "hbarSI", "cLightSI"};
@@ -76,9 +85,20 @@ imrpL[u_?NumericQ, omega_?NumericQ, vf_?NumericQ, omegap_?NumericQ, tau_?Numeric
 	{zp = zetaPL[u, omega, vf, omegap, tau, cLight]},
 	Im[(Pi * I * u - zp) / (Pi * I * u + zp)]
 ];
-chiZZEUnitLessL[z_?NumericQ, omega_?NumericQ, vf_?NumericQ, omegap_?NumericQ, tau_?NumericQ, cLight_?NumericQ] := NIntegrate[
-	u^2 * imrpL[u, omega, vf, omegap, tau, cLight] * E^(-2 * u * z)
-	, {u, 10, Infinity}
+
+getImrpLI[omega_?NumericQ, vf_?NumericQ, omegap_?NumericQ, tau_?NumericQ, cLight_?NumericQ] := getImrpLI[omega, vf, omegap, tau, cLight] = With[{
+	tb = Table[{10^ui, Quiet@imrpL[10^ui, omega, vf, omegap, tau, cLight]}, {ui, 1, 14, .05}]
+},
+	loginterpolation[tb]
+];
+
+chiZZEUnitLessL[z_?NumericQ, omega_?NumericQ, vf_?NumericQ, omegap_?NumericQ, tau_?NumericQ, cLight_?NumericQ] := With[{
+	imrpLInterp = getImrpLI[omega, vf, omegap, tau, cLight]
+},
+	NIntegrate[
+		u^2 * imrpLInterp[u] * E^(-2 * u * z)
+		, {u, 10, Infinity}
+	]
 ];
 
 
@@ -106,7 +126,7 @@ T1EzzNamINTERNAL[zSI_?NumericQ
 	, hbarSI_?NumericQ
 	, cLightSI_?NumericQ
 ] := With[{
-	chiSI = chiZZEUnitLessNam[zSI, qCutoffSI * cLightSI / omegaSI, omegaSI, omegaPSI^2 * tauSI / (4 * Pi), tauSI, vFSI, TRel * TcSI, TcSI]
+	chiSI = chiZZEUnitLessNam[zSI, qCutoffSI * cLightSI / omegaSI, omegaSI, omegaPSI^2 * tauSI / (4 * Pi), tauSI, vFSI, TRel * TcSI, TcSI, omegaPSI, cLightSI]
 },
 	((hbarSI * epsilon0SI * cLightSI^3) / (dipoleMomentSI^2 * omegaSI^3)) * (1/(chiSI * Coth[omegaSI/(2 * TRel * TcSI)]))
 ];
@@ -129,9 +149,20 @@ imrpNam[u_?NumericQ, ufCutoff_?NumericQ, coeffs_] := With[
 	{zp = zetaP[u, ufCutoff, coeffs]},
 	Im[(Pi * I * u - zp) / (Pi * I * u + zp)]
 ];
-chiZZEUnitLessNam[z_?NumericQ, ufCutoff_?NumericQ, omega_?NumericQ, sigmaN_?NumericQ, tau_?NumericQ, vf_?NumericQ, temp_?NumericQ, Tc_?NumericQ] := With[{coeffs = namDielectricFunctionCoefficients[omega, sigmaN, tau, vf, temp, Tc]},
+
+getImrpNI[ufCutoff_?NumericQ, coeffs_] := getImrpNI[ufCutoff, coeffs] = With[{
+	tb = Table[{10^ui, Quiet@imrpNam[10^ui, ufCutoff, coeffs]}, {ui, 1, 14, .05}]
+},
+	loginterpolation[tb]
+];
+
+chiZZEUnitLessNam[z_?NumericQ, ufCutoff_?NumericQ, omega_?NumericQ, sigmaN_?NumericQ, tau_?NumericQ, vf_?NumericQ, temp_?NumericQ, Tc_?NumericQ, omegap_?NumericQ, cLight_?NumericQ] := With[
+	{
+		imrpNInterp = getImrpNI[ufCutoff, namDielectricFunctionCoefficients[omega, sigmaN, tau, vf, temp, Tc]],
+		imrpLInterp = getImrpLI[omega, vf, omegap, tau, cLight]
+	},
 		NIntegrate[
-			u^2 * imrpNam[u, ufCutoff, coeffs] * E^(-2 * u * z)
+			u^2 * Min[imrpNInterp[u], imrpLInterp[u]] * E^(-2 * u * z)
 		, {u, 10, Infinity}
 	]
 ];

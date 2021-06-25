@@ -53,23 +53,8 @@ namDielectricFunctionCoefficients[\[Omega]_, \[Sigma]n_, \[Tau]_, vf_, T_, Tc_] 
 	|>
 ];
 
-piecewiseEps[coefficients_] := With[
-	{
-		a = coefficients["a"],
-		b = coefficients["b"],
-		c = coefficients["c"],
-		d = coefficients["d"],
-		uL = coefficients["uL"]
-	},
-	Function[{u, ufCutoff},
-		Piecewise[
-			{
-				{-a + b * I, u <  uL},
-				{1 + (- c  + d * I) / u, u >=  uL&& u < ufCutoff}
-			}, 1
-			]
-	]
-];
+
+
 
 End[];
 

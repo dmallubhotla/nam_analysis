@@ -1,4 +1,3 @@
-
 (* Populates the figures directory as ../calc *)
 calculatedDirectory = FileNameJoin[{
 	ParentDirectory[
@@ -27,8 +26,8 @@ figuresDirectory = FileNameJoin[{
 
 figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
 
-label = AxesLabel -> {"z", "T"};
-data = ToExpression[Import[calc["HighTempNam1.csv"]]];
+label = AxesLabel -> {"B0 (T)", "T1^-1 (Hz)"};
+data = ToExpression[Import[calc["T1BzzComparison.csv"]]];
 
-plot1 = ListLogLogPlot[data, ImageSize->Large, label, PlotLegends -> {"Nam .9", "Lindhard .9", "Nam .995", "Lindhard .995", "Nam .9995", "Lindhard .9995"}];
-Export[figure["HighTempNam1.jpg"], plot1, ImageResolution -> 1200];
+plot1 = ListLogLogPlot[Map[{#[[1]], 1/#[[2]]} &, data, {2}], ImageSize->Large, label, PlotLegends -> {"Lindhard", "Lindhard variant", "Nam", "Nam variant"}];
+Export[figure["T1BzzComparison.jpg"], plot1, ImageResolution -> 1200];
