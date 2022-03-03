@@ -16,7 +16,7 @@ SOURCES := $(wildcard tex/*.tex)
 OUTPUTS := $(patsubst tex/%.tex, pdfs/%.pdf,$(SOURCES))
 
 ### Installation flags
-MATHEMATICA_INSTALLS := $(DIST_DIR)/wl_installed $(DIST_DIR)/alowk_installed $(DIST_DIR)/ahighk_installed $(DIST_DIR)/coefficient_installed
+MATHEMATICA_INSTALLS := $(DIST_DIR)/wl_installed $(DIST_DIR)/wlkg_installed $(DIST_DIR)/alowk_installed $(DIST_DIR)/ahighk_installed $(DIST_DIR)/coefficient_installed $(DIST_DIR)/wllowkkg_installed
 EWJN_INSTALL := $(DIST_DIR)/ewjnwl_installed
 EWJNT1BZZ_INSTALL := $(DIST_DIR)/ewjnwlt1bzz_installed
 
@@ -27,6 +27,10 @@ all: allpdfs $(MATHEMATICA_INSTALLS) $(EWJN_INSTALL) $(EWJNT1BZZ_INSTALL)
 
 ### How we do that
 #
+
+## Mathematica Deps
+.PHONY: mdeps
+mdeps: $(MATHEMATICA_INSTALLS) $(EWJN_INSTALL)
 
 ## setup main pdf deps as variable that subdirs can add to
 MAIN_PDF_DEPS := bibliography.bib
@@ -63,6 +67,18 @@ $(DIST_DIR)/wl_installed: src/wl/namConductivity.wl | $(DIST_DIR)
 	mkdir -p $(MATHEMATICA_INSTALL_LOCATION)
 	cp src/wl/namConductivity.wl $(MATHEMATICA_INSTALL_LOCATION)
 	touch dist/wl_installed
+
+$(DIST_DIR)/wlkg_installed: src/wl/namConductivityKeepGap.wl | $(DIST_DIR)
+	@$(eval MATHEMATICA_INSTALL_LOCATION=$(shell wolframscript -c 'FileNameJoin[{StringReplace[$$UserBaseDirectory, "\\" -> "/"], "Applications", "namConductivityKeepGap"}, OperatingSystem -> "Unix"]'))
+	mkdir -p $(MATHEMATICA_INSTALL_LOCATION)
+	cp src/wl/namConductivityKeepGap.wl $(MATHEMATICA_INSTALL_LOCATION)
+	touch dist/wlkg_installed
+
+$(DIST_DIR)/wllowkkg_installed: src/wl/namAsymptoticLowKConductivityKeepGap.wl | $(DIST_DIR)
+	@$(eval MATHEMATICA_INSTALL_LOCATION=$(shell wolframscript -c 'FileNameJoin[{StringReplace[$$UserBaseDirectory, "\\" -> "/"], "Applications", "namAsymptoticLowKConductivityKeepGap"}, OperatingSystem -> "Unix"]'))
+	mkdir -p $(MATHEMATICA_INSTALL_LOCATION)
+	cp src/wl/namAsymptoticLowKConductivityKeepGap.wl $(MATHEMATICA_INSTALL_LOCATION)
+	touch dist/wllowkkg_installed
 
 $(DIST_DIR)/alowk_installed: src/wl/namAsymptoticLowKConductivity.wl | $(DIST_DIR)
 	@$(eval MATHEMATICA_INSTALL_LOCATION=$(shell wolframscript -c 'FileNameJoin[{StringReplace[$$UserBaseDirectory, "\\" -> "/"], "Applications", "namAsymptoticLowKConductivity"}, OperatingSystem -> "Unix"]'))

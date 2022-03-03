@@ -1,6 +1,7 @@
-BeginPackage["namDielectricFunctionCoefficientApproximator`", {"namConductivity`", "namAsymptoticLowKConductivity`"}];
+BeginPackage["namDielectricFunctionCoefficientApproximator`", {"namConductivity`", "namAsymptoticLowKConductivity`", "namConductivityKeepGap`", "namAsymptoticLowKConductivityKeepGap`"}];
 
 namDielectricFunctionCoefficients::usage = "function of (omega, sigma_n, tau, vf, T_, Tc_), in SI units (or in units compatible with de-dimensionalisation";
+namDielectricFunctionCoefficientsWrtTc::usage = "function of (omega, sigma_n, tau, vf, T_, Tc_), in SI units (or in units compatible with de-dimensionalisation";
 piecewiseEps::usage = "takes in coefficients, spits out epsilon";
 Begin["`Private`"];
 
@@ -12,6 +13,18 @@ makeParams[\[Omega]_, \[Sigma]n_, \[Tau]_, vf_, T_, Tc_] := With[
 		A -> \[Omega] * vf / (3*^8 * \[CapitalDelta]),
 		t -> T / \[CapitalDelta],
 		B -> \[Sigma]n / \[Omega]
+	|>
+];
+
+makeParamsWrtTc[\[Omega]_, \[Sigma]n_, \[Tau]_, vf_, T_, Tc_] := With[
+	{\[CapitalDelta] = 3.06 * Sqrt[Tc * (Tc - T)]},
+	<|
+		\[Xi] -> \[Omega] / Tc,
+		\[Nu] -> 1 / (Tc * \[Tau]),
+		A -> \[Omega] * vf / (3*^8 * Tc),
+		t -> T / Tc,
+		B -> \[Sigma]n / \[Omega],
+		d -> \[CapitalDelta] / Tc
 	|>
 ];
 
@@ -35,10 +48,48 @@ bigMomentumCoefficients[params_] := With[
 	|>
 ];
 
+smallMomentumCoefficientsWrtTc[params_] := With[
+	{},
+	s = \[CapitalSigma]alkKG[params[\[Xi]], 0, params[\[Nu]],
+		params[t], params[d]] * 4 * Pi * I * params[B];
+	<|
+		a -> -Re[s],
+		b -> Im[s]
+	|>
+];
+
+bigMomentumCoefficientsWrtTc[params_] := With[
+	{},
+	s = \[CapitalSigma]KG[params[\[Xi]], 10^8, params[\[Nu]],
+		params[t], params[d]] * 4 * Pi * I * params[B] * 10^8 / params[A];
+	<|
+		c -> -Re[s],
+		d -> Im[s]
+	|>
+];
+
 namDielectricFunctionCoefficients[\[Omega]_, \[Sigma]n_, \[Tau]_, vf_, T_, Tc_] := With[
 	{params = makeParams[\[Omega], \[Sigma]n, \[Tau], vf, T, Tc]},
 	smallC = smallMomentumCoefficients[params];
 	bigC = bigMomentumCoefficients[params];
+	pa = smallC[a];
+	pb = smallC[b];
+	pc = bigC[c];
+	pd = bigC[d];
+	cutoff = Re[((-pc + I * pd)/(-pa + I * pb) )];
+	<|
+		"a" -> pa,
+		"b" -> pb,
+		"c" -> pc,
+		"d" -> pd,
+		"uL" -> cutoff
+	|>
+];
+
+namDielectricFunctionCoefficientsWrtTc[\[Omega]_, \[Sigma]n_, \[Tau]_, vf_, T_, Tc_] := With[
+	{params = makeParamsWrtTc[\[Omega], \[Sigma]n, \[Tau], vf, T, Tc]},
+	smallC = smallMomentumCoefficientsWrtTc[params];
+	bigC = bigMomentumCoefficientsWrtTc[params];
 	pa = smallC[a];
 	pb = smallC[b];
 	pc = bigC[c];

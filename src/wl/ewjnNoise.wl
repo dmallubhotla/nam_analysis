@@ -1,6 +1,7 @@
 BeginPackage["ewjnNoise`", {"namDielectricFunctionCoefficientApproximator`"}];
 
 T1EzzNam::usage = "T1EzzNam[z, qCutoff, parameters, constants] takes in SI units, returns T1 in SI units. Uses Nam calculation with interpolation.";
+T1EzzNamKG::usage = "T1EzzNam[z, qCutoff, parameters, constants] takes in SI units, returns T1 in SI units. Uses Nam calculation with interpolation, and keeps gap.";
 T1EzzLin::usage = "T1EzzLin[z, parameters, constants] takes in SI units, returns T1 in SI units. Uses Lindhard calculation.";
 
 namEwjnConstants::usage = "Constants that represent common universal constants in SI units.";
@@ -159,6 +160,46 @@ getImrpNI[ufCutoff_?NumericQ, coeffs_] := getImrpNI[ufCutoff, coeffs] = With[{
 chiZZEUnitLessNam[z_?NumericQ, ufCutoff_?NumericQ, omega_?NumericQ, sigmaN_?NumericQ, tau_?NumericQ, vf_?NumericQ, temp_?NumericQ, Tc_?NumericQ, omegap_?NumericQ, cLight_?NumericQ] := With[
 	{
 		imrpNInterp = getImrpNI[ufCutoff, namDielectricFunctionCoefficients[omega, sigmaN, tau, vf, temp, Tc]],
+		imrpLInterp = getImrpLI[omega, vf, omegap, tau, cLight]
+	},
+		NIntegrate[
+			u^2 * Min[imrpNInterp[u], imrpLInterp[u]] * E^(-2 * u * z)
+		, {u, 10, Infinity}
+	]
+];
+
+(* NAM KG IMPLEMENTATION *)
+T1EzzNamKG[zSI_?NumericQ
+	, qCutoffSI_?NumericQ
+	, parameters_?AssociationQ /; AllTrue[requiredParams, KeyExistsQ[parameters, #] &]
+	, constants_?AssociationQ /; AllTrue[requiredConstants, KeyExistsQ[constants, #] &]
+] := T1EzzNamINTERNALKG[zSI
+	, qCutoffSI
+	, parameters["omegaSI"], parameters["omegaPSI"], parameters["tauSI"], parameters["vFSI"], parameters["TRel"], parameters["TcSI"], parameters["dipoleMomentSI"]
+	, constants["epsilon0SI"], constants["hbarSI"], constants["cLightSI"]
+];
+
+T1EzzNamINTERNALKG[zSI_?NumericQ
+	, qCutoffSI_?NumericQ
+	, omegaSI_?NumericQ
+	, omegaPSI_?NumericQ
+	, tauSI_?NumericQ
+	, vFSI_?NumericQ
+	, TRel_?NumericQ
+	, TcSI_?NumericQ
+	, dipoleMomentSI_?NumericQ
+	, epsilon0SI_?NumericQ
+	, hbarSI_?NumericQ
+	, cLightSI_?NumericQ
+] := With[{
+	chiSI = chiZZEUnitLessNamKG[zSI, qCutoffSI * cLightSI / omegaSI, omegaSI, omegaPSI^2 * tauSI / (4 * Pi), tauSI, vFSI, TRel * TcSI, TcSI, omegaPSI, cLightSI]
+},
+	((hbarSI * epsilon0SI * cLightSI^3) / (dipoleMomentSI^2 * omegaSI^3)) * (1/(chiSI * Coth[omegaSI/(2 * TRel * TcSI)]))
+];
+
+chiZZEUnitLessNamKG[z_?NumericQ, ufCutoff_?NumericQ, omega_?NumericQ, sigmaN_?NumericQ, tau_?NumericQ, vf_?NumericQ, temp_?NumericQ, Tc_?NumericQ, omegap_?NumericQ, cLight_?NumericQ] := With[
+	{
+		imrpNInterp = getImrpNI[ufCutoff, namDielectricFunctionCoefficientsWrtTc[omega, sigmaN, tau, vf, temp, Tc]],
 		imrpLInterp = getImrpLI[omega, vf, omegap, tau, cLight]
 	},
 		NIntegrate[
