@@ -16,7 +16,7 @@ SOURCES := $(wildcard tex/*.tex)
 OUTPUTS := $(patsubst tex/%.tex, pdfs/%.pdf,$(SOURCES))
 
 ### Installation flags
-MATHEMATICA_INSTALLS := $(DIST_DIR)/wl_installed $(DIST_DIR)/wlkg_installed $(DIST_DIR)/alowk_installed $(DIST_DIR)/ahighk_installed $(DIST_DIR)/coefficient_installed $(DIST_DIR)/wllowkkg_installed
+MATHEMATICA_INSTALLS := $(DIST_DIR)/wl_installed $(DIST_DIR)/NZZwl_installed $(DIST_DIR)/wlkg_installed $(DIST_DIR)/alowk_installed $(DIST_DIR)/ahighk_installed $(DIST_DIR)/coefficient_installed $(DIST_DIR)/wllowkkg_installed
 EWJN_INSTALL := $(DIST_DIR)/ewjnwl_installed
 EWJNT1BZZ_INSTALL := $(DIST_DIR)/ewjnwlt1bzz_installed
 
@@ -67,6 +67,12 @@ $(DIST_DIR)/wl_installed: src/wl/namConductivity.wl | $(DIST_DIR)
 	mkdir -p $(MATHEMATICA_INSTALL_LOCATION)
 	cp src/wl/namConductivity.wl $(MATHEMATICA_INSTALL_LOCATION)
 	touch dist/wl_installed
+
+$(DIST_DIR)/NZZwl_installed: src/wl/ewjnNoiseNoZigZag.wl | $(DIST_DIR)
+	@$(eval MATHEMATICA_INSTALL_LOCATION=$(shell wolframscript -c 'FileNameJoin[{StringReplace[$$UserBaseDirectory, "\\" -> "/"], "Applications", "ewjnNoiseNoZigZag"}, OperatingSystem -> "Unix"]'))
+	mkdir -p $(MATHEMATICA_INSTALL_LOCATION)
+	cp src/wl/ewjnNoiseNoZigZag.wl $(MATHEMATICA_INSTALL_LOCATION)
+	touch dist/NZZwl_installed
 
 $(DIST_DIR)/wlkg_installed: src/wl/namConductivityKeepGap.wl | $(DIST_DIR)
 	@$(eval MATHEMATICA_INSTALL_LOCATION=$(shell wolframscript -c 'FileNameJoin[{StringReplace[$$UserBaseDirectory, "\\" -> "/"], "Applications", "namConductivityKeepGap"}, OperatingSystem -> "Unix"]'))

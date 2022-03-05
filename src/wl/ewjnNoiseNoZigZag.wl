@@ -1,15 +1,15 @@
-BeginPackage["ewjnNoise`", {"namDielectricFunctionCoefficientApproximator`"}];
+BeginPackage["ewjnNoiseNoZigZag`", {"namDielectricFunctionCoefficientApproximator`"}];
 
-T1EzzNam::usage = "T1EzzNam[z, qCutoff, parameters, constants] takes in SI units, returns T1 in SI units. Uses Nam calculation with interpolation.";
-T1EzzNamKG::usage = "T1EzzNamKG[z, qCutoff, parameters, constants] takes in SI units, returns T1 in SI units. Uses Nam calculation with interpolation, and keeps gap.";
-T1EzzNamCustomScale::usage = "T1EzzNam[z, qCutoff, parameters, constants, scale] takes in SI units, returns T1 in SI units. Uses Nam calculation with interpolation, rescalincg with the custom scale instead of another energy parameter.";
-T1EzzLin::usage = "T1EzzLin[z, parameters, constants] takes in SI units, returns T1 in SI units. Uses Lindhard calculation.";
+T1EzzNamNZZ::usage = "T1EzzNam[z, qCutoff, parameters, constants] takes in SI units, returns T1 in SI units. Uses Nam calculation with interpolation.";
+T1EzzNamKGNZZ::usage = "T1EzzNamKG[z, qCutoff, parameters, constants] takes in SI units, returns T1 in SI units. Uses Nam calculation with interpolation, and keeps gap.";
+T1EzzNamCustomScaleNZZ::usage = "T1EzzNam[z, qCutoff, parameters, constants, scale] takes in SI units, returns T1 in SI units. Uses Nam calculation with interpolation, rescalincg with the custom scale instead of another energy parameter.";
+T1EzzLinNZZ::usage = "T1EzzLin[z, parameters, constants] takes in SI units, returns T1 in SI units. Uses Lindhard calculation.";
 
-namEwjnConstants::usage = "Constants that represent common universal constants in SI units.";
+(* namEwjnConstants::usage = "Constants that represent common universal constants in SI units.";
 namEwjnPbBasicParameters::usage = "Values of some common realistic parameters that could change experiment to experiment.";
 
 getFermiWavevector::usage = "getFermiWavevector[parameters, constants] returns the approximate fermi wavevector in inverse meters";
-findCutoff::usage = "findCutoff[parameters, constants] uses all parameters besides TRel";
+findCutoff::usage = "findCutoff[parameters, constants] uses all parameters besides TRel"; *)
 
 Begin["`Private`"];
 
@@ -26,7 +26,7 @@ requiredParams = {"omegaSI", "omegaPSI", "tauSI", "vFSI", "TRel", "TcSI", "dipol
 requiredParamsWithoutTRel = {"omegaSI", "omegaPSI", "tauSI", "vFSI", "TcSI", "dipoleMomentSI"};
 requiredConstants = {"epsilon0SI", "hbarSI", "cLightSI"};
 
-T1EzzLin[zSI_?NumericQ
+T1EzzLinNZZ[zSI_?NumericQ
 	, parameters_?AssociationQ /; AllTrue[requiredParams, KeyExistsQ[parameters, #] &]
 	, constants_?AssociationQ /; AllTrue[requiredConstants, KeyExistsQ[constants, #] &]
 ] := T1EzzLinINTERNAL[zSI
@@ -105,7 +105,7 @@ chiZZEUnitLessL[z_?NumericQ, omega_?NumericQ, vf_?NumericQ, omegap_?NumericQ, ta
 
 
 (* Nam Implementation *)
-T1EzzNam[zSI_?NumericQ
+T1EzzNamNZZ[zSI_?NumericQ
 	, qCutoffSI_?NumericQ
 	, parameters_?AssociationQ /; AllTrue[requiredParams, KeyExistsQ[parameters, #] &]
 	, constants_?AssociationQ /; AllTrue[requiredConstants, KeyExistsQ[constants, #] &]
@@ -153,7 +153,7 @@ imrpNam[u_?NumericQ, ufCutoff_?NumericQ, coeffs_] := With[
 ];
 
 getImrpNI[ufCutoff_?NumericQ, coeffs_] := getImrpNI[ufCutoff, coeffs] = With[{
-	tb = Table[{10^ui, Quiet@imrpNam[10^ui, ufCutoff, coeffs]}, {ui, 1, 14, .05}]
+	tb = Table[{10^ui, Quiet@imrpNam[10^ui, ufCutoff, coeffs]}, {ui, 1, 4.1, .05}]
 },
 	loginterpolation[tb]
 ];
@@ -170,7 +170,7 @@ chiZZEUnitLessNam[z_?NumericQ, ufCutoff_?NumericQ, omega_?NumericQ, sigmaN_?Nume
 ];
 
 (* NAM KG IMPLEMENTATION *)
-T1EzzNamKG[zSI_?NumericQ
+T1EzzNamKGNZZ[zSI_?NumericQ
 	, qCutoffSI_?NumericQ
 	, parameters_?AssociationQ /; AllTrue[requiredParams, KeyExistsQ[parameters, #] &]
 	, constants_?AssociationQ /; AllTrue[requiredConstants, KeyExistsQ[constants, #] &]
@@ -210,7 +210,7 @@ chiZZEUnitLessNamKG[z_?NumericQ, ufCutoff_?NumericQ, omega_?NumericQ, sigmaN_?Nu
 ];
 
 (* NAM Custom Scale IMPLEMENTATION *)
-T1EzzNamCustomScale[zSI_?NumericQ
+T1EzzNamCustomScaleNZZ[zSI_?NumericQ
 	, qCutoffSI_?NumericQ
 	, parameters_?AssociationQ /; AllTrue[requiredParams, KeyExistsQ[parameters, #] &]
 	, constants_?AssociationQ /; AllTrue[requiredConstants, KeyExistsQ[constants, #] &]

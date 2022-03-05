@@ -2,6 +2,7 @@ BeginPackage["namDielectricFunctionCoefficientApproximator`", {"namConductivity`
 
 namDielectricFunctionCoefficients::usage = "function of (omega, sigma_n, tau, vf, T_, Tc_), in SI units (or in units compatible with de-dimensionalisation";
 namDielectricFunctionCoefficientsWrtTc::usage = "function of (omega, sigma_n, tau, vf, T_, Tc_), in SI units (or in units compatible with de-dimensionalisation";
+namDielectricFunctionCoefficientsCustomScale::usage = "function of (omega, sigma_n, tau, vf, T_, Tc_), in SI units (or in units compatible with de-dimensionalisation";
 piecewiseEps::usage = "takes in coefficients, spits out epsilon";
 Begin["`Private`"];
 
@@ -25,6 +26,18 @@ makeParamsWrtTc[\[Omega]_, \[Sigma]n_, \[Tau]_, vf_, T_, Tc_] := With[
 		t -> T / Tc,
 		B -> \[Sigma]n / \[Omega],
 		d -> \[CapitalDelta] / Tc
+	|>
+];
+
+makeParamsCustomScale[\[Omega]_, \[Sigma]n_, \[Tau]_, vf_, T_, Tc_, scale_] := With[
+	{\[CapitalDelta] = 3.06 * Sqrt[Tc * (Tc - T)]},
+	<|
+		\[Xi] -> \[Omega] / scale,
+		\[Nu] -> 1 / (scale * \[Tau]),
+		A -> \[Omega] * vf / (3*^8 * scale),
+		t -> T / scale,
+		B -> \[Sigma]n / \[Omega],
+		d -> \[CapitalDelta] / scale
 	|>
 ];
 
@@ -88,6 +101,24 @@ namDielectricFunctionCoefficients[\[Omega]_, \[Sigma]n_, \[Tau]_, vf_, T_, Tc_] 
 
 namDielectricFunctionCoefficientsWrtTc[\[Omega]_, \[Sigma]n_, \[Tau]_, vf_, T_, Tc_] := With[
 	{params = makeParamsWrtTc[\[Omega], \[Sigma]n, \[Tau], vf, T, Tc]},
+	smallC = smallMomentumCoefficientsWrtTc[params];
+	bigC = bigMomentumCoefficientsWrtTc[params];
+	pa = smallC[a];
+	pb = smallC[b];
+	pc = bigC[c];
+	pd = bigC[d];
+	cutoff = Re[((-pc + I * pd)/(-pa + I * pb) )];
+	<|
+		"a" -> pa,
+		"b" -> pb,
+		"c" -> pc,
+		"d" -> pd,
+		"uL" -> cutoff
+	|>
+];
+
+namDielectricFunctionCoefficientsCustomScale[\[Omega]_, \[Sigma]n_, \[Tau]_, vf_, T_, Tc_, scale_] := With[
+	{params = makeParamsCustomScale[\[Omega], \[Sigma]n, \[Tau], vf, T, Tc, scale]},
 	smallC = smallMomentumCoefficientsWrtTc[params];
 	bigC = bigMomentumCoefficientsWrtTc[params];
 	pa = smallC[a];
