@@ -49,9 +49,12 @@ epsL[qP_?NumericQ, omegaP_?NumericQ, vfP_?NumericQ, omegapP_?NumericQ, tauP_?Num
 		u = (vfP * qP) / omegaP,
 		s = 1/(tauP * omegaP),
 		prefactor = 3 * (omegapP^2) / (omegaP^2)
+	}, With [
+	{
+			f = (1 + ((1 + I * s) / (2 * u)) * Log[(1 - u + I * s) / (1 + u + I * s)])
 	},
-	1 + ((prefactor) / (u^2)) * (1 + ((1 + I * s) / (2 * u)) * Log[(1 - u + I * s) / (1 + u + I * s)]) / (1 + ((I * s) / (2 * u)) * Log[(1 - u + I * s) / (1 + u + I * s)])
-];
+	1 + ((prefactor) / (u^2)) * ((1 + I * s) * f) / (1 + (I * s * f))
+]];
 epsSeries[qP_?NumericQ, omegaP_?NumericQ, vfP_?NumericQ, omegapP_?NumericQ, tauP_?NumericQ] := With[
 	{
 		u = (vfP * qP) / omegaP,
@@ -66,11 +69,41 @@ epsEf[q_?NumericQ, omega_?NumericQ, vf_?NumericQ, omegap_?NumericQ, tau_?Numeric
 		{epsL[q, omega, vf, omegap, tau], q >= 10^4}
 	}
 ];
+epsT[qP_?NumericQ, omegaP_?NumericQ, vfP_?NumericQ, omegapP_?NumericQ, tauP_?NumericQ] := With[
+	{
+		u = (vfP * qP) / omegaP,
+		s = 1/(tauP * omegaP),
+		prefactor = 3 * (omegapP^2) / (omegaP^2)
+	}, With [
+	{
+			ftr = ((1 + I * s) / u) + ((((1 + I * s) / u)^2 - 1) / 2) * Log[(1 - u + I * s) / (1 + u + I * s)]
+	},
+	1 + (1 / 2) * (prefactor / u) * Conjugate@ftr
+]];
+
+(* THIS IS WRONG DO NOT USE *)
+epsSeriesT[qP_?NumericQ, omegaP_?NumericQ, vfP_?NumericQ, omegapP_?NumericQ, tauP_?NumericQ] := With[
+	{
+		u = (vfP * qP) / omegaP,
+		s = 1/(tauP * omegaP),
+		prefactor = 3 * (omegapP^2) / (omegaP^2)
+	},
+	1 + ((prefactor)) ((I / (3 * (s - I))) + u^2 * (-9 * I + 5 * s)/ (45 * (-I + s)^3))
+];
+
+(* SKIPPING THE SERIES FOR NOW *)
+epsEfT[q_?NumericQ, omega_?NumericQ, vf_?NumericQ, omegap_?NumericQ, tau_?NumericQ] := epsEfT[q, omega, vf, omegap, tau] = Piecewise[
+	{
+		{epsSeries[q, omega, vf, omegap, tau], q < 0},
+		{epsT[q, omega, vf, omegap, tau], q >= 0}
+	}
+];
+
 
 zetaSL[u_?NumericQ, omega_?NumericQ, vf_?NumericQ, omegap_?NumericQ, tau_?NumericQ, cLight_?NumericQ] := zetaSL[u, omega, vf, omegap, tau, cLight] = With [{q = getq[u, omega, cLight]},
 	2 * I *
 		NIntegrate[
-			 (1 / (epsEf[q, omega, vf, omegap, tau] - u^2 - y^2)), {y, 0, Infinity}
+			 (1 / (epsEfT[q, omega, vf, omegap, tau] - u^2 - y^2)), {y, 0, Infinity}
 		]];
 imrsL[u_?NumericQ, omega_?NumericQ, vf_?NumericQ, omegap_?NumericQ, tau_?NumericQ, cLight_?NumericQ] := imrsL[u, omega, vf, omegap, tau, cLight] = With[
 	{zs = zetaSL[u, omega, vf, omegap, tau, cLight]},
